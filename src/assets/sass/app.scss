@@ -6,6 +6,10 @@ $color-grey: #707070;
 
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
+@font-face{
+    font-family: "digital-clock-font";
+    src: url('/digital-clock.ttf')
+}
 
 div,table,tr,td, th,h1,h2,h3, h4, h5, p,button, a, li, button:focus, .btn:focus, .btn.focus, .form-control:focus{
 	outline:none;
@@ -30,4 +34,7 @@ body {
     background-size:     cover;
     background-repeat:   no-repeat;
     background-position: center center;
+}
+.clock-font{
+    font-family: "digital-clock-font";
 }

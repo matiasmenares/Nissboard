@@ -8,12 +8,7 @@ import VueSocketIO from 'vue-socket.io'
 import VueSvgGauge from 'vue-svg-gauge'
 
 Vue.use(new VueSocketIO({
-  debug: true,
   connection: 'http://localhost:8090',
-  vuex: {
-      actionPrefix: 'SOCKET_',
-      mutationPrefix: 'SOCKET_'
-  },
 }))
 Vue.use(VueSvgGauge)
 Vue.use(BootstrapVue)
