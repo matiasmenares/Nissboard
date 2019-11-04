@@ -1,0 +1,431 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'big numbers';
+    src: url('../fonts/big-numbers.eot');
+    src: url('../fonts/big-numbers.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/big-numbers.woff') format('woff'),
+         url('../fonts/big-numbers.ttf') format('truetype'),
+         url('../fonts/big-numbers.svg#big-numbers') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'small numbers';
+    src: url('../fonts/small-numbers.eot');
+    src: url('../fonts/small-numbers.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/small-numbers.woff') format('woff'),
+         url('../fonts/small-numbers.ttf') format('truetype'),
+         url('../fonts/small-numbers.svg#big-numbers') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+.neon-dash-container{
+  display: flex;
+}
+[class*='big-']:after, .mph__number--default:before{
+	display: inline-block;
+   font-family: 'big numbers';
+   font-style: normal;
+   font-weight: normal;
+   line-height: 1;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   margin-left: -27px;
+}
+.mph__number--0:after{
+  content:'\0030';
+  position: relative;
+  left: -27px;
+}
+.mph__number--1:after{
+  content:'\0031';
+  font-size: 135px;
+  left: 6px;
+  position: relative;
+}
+.mph__number--2:after{
+  content:'\0032';
+  position: relative;
+  left: -27px;
+}
+.mph__number--3:after{
+  content:'\0033';
+  position: relative;
+  left: -25px;
+}
+.mph__number--4:after{
+  content:'\0034';
+  position: relative;
+  left: -23px;
+  /*top: 1px;*/
+  font-size: 137px;
+}
+.mph__number--5:after{
+  content:'\0035';
+  position: relative;
+  left: -27px;
+  font-size: 145px;
+}
+.mph__number--6:after{
+  content:'\0036';
+  position: relative;
+  left: -27px;
+  font-size: 145px;
+}
+.mph__number--7:after{
+  content: '\0037';
+  position: relative;
+  left: -24px;
+  font-size: 143px;
+  top: -1px;
+}
+.mph__number--8:after, .mph__number--default:before{
+  content:'\0038';
+}
+.mph__number--8:after{
+  position: relative;
+  left: -27px;
+  top: 0;
+  font-size: 145px;
+}
+.mph__number--9:after{
+  content:'\0039';
+  position: relative;
+  left: -27px;
+  top: 0;
+  font-size: 145px;
+}
+
+.small-num__container{
+  display: inline-block;
+  min-width: 175px;
+  margin-left: -40px;
+}
+.small-number, .small-number--default{
+  color: #fff;
+  display: inline-block;
+  width: 29px;
+  height: 50px;
+  text-align: right;
+  padding-right: 10px;
+}
+.small-number--default{
+  color: #292630;
+}
+.small-number--default:first-child{
+  padding-right: 19px;
+}
+.small-number:last-child, .small-number--default:last-child{
+  padding-right: 0;
+}
+.rpm{
+  position: absolute;
+}
+.small-number:first-child{
+  padding-right: 5px;
+}
+.small-number--comma{
+  padding-right: 5px;
+}
+.small-number--hidden-comma{
+  padding-right: 5px;
+  opacity: 0;
+}
+.comma-image{
+  width: 9px;
+  transform: translateY(10px);
+}
+.small-number, .small-number--default, [class*=" rpm__"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'small numbers' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 48px;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.small-number__label{
+  font-family: "Brandon Grotesque";
+  font-weight: bold;
+  color: #423E4A;
+  text-align: center;
+  margin-top: 3px;
+  font-size: 20px;
+}
+
+.small-number--0:before {
+    content: "\e900";
+}
+.small-number--1:before {
+    content: "\e901";
+}
+.small-number--2:before {
+    content: "\e902";
+}
+.small-number--3:before {
+    content: "\e903";
+}
+.small-number--4:before {
+    content: "\e904";
+}
+.small-number--5:before {
+    content: "\e905";
+}
+.small-number--6:before {
+    content: "\e906";
+}
+.small-number--7:before {
+    content: "\e907";
+}
+.small-number--8:before, .small-number--default:before {
+    content: "\e908";
+}
+.small-number--9:before {
+    content: "\e909";
+}
+.rpm-num__container{
+  background: #423E4A;
+  padding: 10px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+
+html{
+  color: red;
+}
+.dial{
+  position: absolute;
+  width: 498px;
+	transform: rotate(0,0);
+}
+.needle{
+  width: 498px;
+}
+
+
+
+
+
+
+body {
+	background: #292630;
+	padding: 0;
+	margin: 0;
+}
+
+
+#content {
+	padding: 20px 20px 0;
+	margin: auto;
+}
+
+.comment {
+	border: 1px #ddd solid;
+	padding: 20px;
+}
+.comment .author {
+	font-weight: bold;
+}
+.comment .body {
+	padding-top: 5px;
+}
+
+.commentForm {
+	margin-top: 20px;
+}
+.commentForm input,
+.commentForm textarea {
+	width: 100%;
+	margin-bottom: 5px;
+	border: 1px #ddd solid;
+	padding: 5px;
+}
+
+
+.rpm__marker, .rpm__marker--background{
+  display: block;
+  width: 440px;
+  height: 440px;
+  position: absolute;
+}
+.rpm__marker::after, .rpm__marker--background::after, .temp__marker, .temp__marker--background{
+  content: ' ';
+  width: 6px;
+  height: 40px;
+  border-radius: 3px;
+  display: block;
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
+.rpm__marker::after{
+  background: #75F2E4;
+  box-shadow: 0 0 6px 0 rgba(80,221,221,0.60);
+}
+.rpm__container--redline .rpm__marker::after {
+  background: #F03939;
+  box-shadow: 0 0 6px 0 rgba(255,0,0,0.60);
+}
+.temp__marker, .temp__marker--background{
+  width: 40px;
+  height: 6px;
+  margin-bottom: 10px;
+}
+.rpm__container{
+  width: 440px;
+  height: 440px;
+  display: flex;
+}
+.rpm__marker--background::after, .temp__marker--background{
+  background: #423E4A;
+}
+
+.mph, .mph--background{
+  font-family: "big numbers";
+  color: #ffffff;
+  font-size: 145px;
+  line-height: 145px;
+  margin: 0;
+  text-align: center;
+  letter-spacing: -48px;
+  position: absolute;
+}
+.mph__label{
+  text-align: center;
+  font-size: 30px;
+  font-family: "Brandon Grotesque";
+  font-weight: bold;
+  color: #423E4A;
+  top: 135px;
+  position: relative;
+}
+.mph__container{
+  width: 278px;
+  height: 145px;
+  margin: 150px auto 0;
+  /*overflow: hidden;*/
+}
+.mph__number--default{
+  margin-right: 25px;
+  color: #423E4A;
+  width: 76px;
+}
+.mph__number--default:last-child{
+  margin-right: 0;
+}
+.mph__number{
+  position: absolute;
+  width: 76px;
+}
+.mph__number:nth-child(2n){
+  left: 94px;
+}
+.mph__number:nth-child(3n){
+  left: 190px;
+}
+.temp__container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
+}
+
+
+
+.dash-changer__container {
+  padding-top: 100px;
+}
+ul{
+  padding: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+li {
+  flex-direction: column;
+  list-style: none;
+}
+.mph-column .mph__container{
+  margin-top: 0;
+  height: 225px;
+}
+.mph-column {
+  padding: 0 20px;
+}
+
+
+
+
+/* Drawer */
+.dash-changer__container {
+  position: fixed;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  padding: 20px;
+  background: #ffffff;
+  left: 0;
+  transform: translateY(100%);
+  transition: all .3s ease;
+  opacity: .3;
+}
+.dash-changer__container.open {
+  transition: all .3s ease;
+  transform: translateY(0%);
+  opacity: 1;
+}
+.drawer-toggle {
+  display: block;
+  position: absolute;
+  margin-top: -84px;
+  height: 50px;
+  width: 60px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  transition: all .3s ease;
+}
+.drawer-toggle--close {
+  opacity: 0;
+  transition: all .3s ease;
+}
+.open .drawer-toggle--close {
+  opacity: 1;
+  transition: all .3s ease;
+}
+.open .drawer-toggle--open {
+  opacity: 0;
+  transition: all .3s ease;
+}
+.dash-button{
+  background: black;
+  padding: 15px 20px;
+  border-radius: 3px;
+  font-family: "Brandon Grotesque";
+  font-weight: bold;
+  color: #ffffff;
+  display: inline-block;
+}
+.dash-icon {
+  width: 60px;
+}
+.close-icon {
+  width: 20px;
+}
+
+.dash-button:nth-child(3){
+  margin-right: 20px;
+}
+/* End Drawer */
