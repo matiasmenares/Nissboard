@@ -1,4 +1,4 @@
-# vue-front
+# Nissboard
 
 ## Project setup
 ```
