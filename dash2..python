@@ -1,0 +1,120 @@
+import sys
+import os
+import time
+import math
+import serial
+import threading
+import datetime
+import os
+
+PORT = serial.Serial('/dev/ttys004', 9600, timeout=None)
+
+########################################################################
+class ReadStream(threading.Thread):
+
+    def __init__(self, daemon):
+        threading.Thread.__init__(self)
+        self.daemon = daemon
+        self.MPH_Value = 0
+        self.RPM_Value = 0
+        self.TEMP_Value = 0
+        self.BATT_Value = 0
+        self.MAF_Value = 0
+        self.AAC_Value = 0
+        self.INJ_Value = 0
+        self.TIM_Value = 0
+        read_Thread = True;
+        self.Header = 255
+        self.returnBytes = 14
+        self.fileName = datetime.datetime.now().strftime("%d-%m-%y-%H-%M")
+        self.start()
+    def check_data_size(self, data_list):
+        try:
+            if data_list[-4] != self.Header:
+                return False
+            if data_list[-3] != self.returnBytes:
+                return False   
+        except(ValueError, IndexError):
+            return False
+        return True
+                
+    def consume_data(self, bytesRequested):
+        read_thread = True
+        while read_thread:
+            incomingData = PORT.read(4)
+            if incomingData:
+                dataList = map(ord,incomingData)
+                self.logToFile(incomingData, self.fileName)
+            if not self.check_data_size(dataList):
+                continue  
+            try:
+#                 self.MPH_Value = self.convertToMPH(int(dataList[-2]))
+                self.RPM_Value = self.convertToRev(int(dataList[1]), int(dataList[2]))
+#                 self.TEMP_Value = self.convertToTemp(int(dataList[0]))
+#                 self.BATT_Value = self.convertToBattery(float(dataList[1]))
+#                 self.AAC_Value = self.convertToAAC(int(dataList[8]))
+#                 self.MAF_Value = self.convertToMAF(int(dataList[5]))
+            except (ValueError, IndexError):
+                pass
+            os.system('clear')
+            print(self.RPM_Value)          
+            time.sleep(0.002)
+
+    def run(self):
+        command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0xF0]
+        PORT.write(command)
+        bytesRequested = (len(command) - 1) / 2;
+        #cant think of  a reason for declerations and initialisations to be seperate
+        self.consume_data(bytesRequested) 
+    
+    def convertToMPH(self,inputData):
+        return int(round ((inputData * 2.11) * 0.621371192237334))
+
+    def convertToRev(self, mostSignificantBit, leastSignificantBit):
+        return ((mostSignificantBit << 8) + leastSignificantBit) * 12.5
+
+    def convertToTemp(self,inputData):
+        return inputData - 50
+
+    def convertToBattery(self,inputData):
+        return round(((inputData * 80) / 1000),1)
+
+    def convertToMAF(self,inputData):
+        return inputData * 5
+
+    def convertToAAC(self,inputData):
+        return inputData / 2
+
+    def convertToInjection(self,inputData):
+        return inputData / 100
+
+    def convertToTiming(self,inputData):
+        return 110 - inputData
+
+    def logToFile(self,data,fileName):
+        with open(fileName + '.hex', 'a+') as logFile:
+            logFile.write(data)
+#########################################################################
+READ_THREAD = False
+MPH_Value = 0
+RPM_Value = 0
+TEMP_Value = 0
+BATT_Value = 0
+AAC_Value = 0
+MAF_Value = 0
+
+while READ_THREAD == False:
+    try:
+        PORT.flushInput()
+        print("Esperando Respuesta de confirmacion")
+        PORT.write([0xFF, 0xFF, 0xEF])
+        Connected = PORT.read(1)
+        print "Respuesta de confirmacion".join(hex(ord(n)) for n in Connected)
+        time.sleep(2)
+        if Connected == '\x10':
+            READ_THREAD = True
+            read = ReadStream(True)
+            read.run()
+    except ValueError:
+        PORT.open()
+

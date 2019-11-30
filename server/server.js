@@ -7,7 +7,9 @@ var SerialPort = serialport.SerialPort;
 
 // Don't set the serialport on development
 if (process.env.NODE_ENV != "development"){
-  var sp =  new serialport('/dev/tty.usbserial-A103NKGZ', { baudRate: 9600 });
+//   var sp =  new serialport('/dev/tty.usbserial-A103NKGZ', { baudRate: 9600 });
+  var sp =  new serialport('/dev/ttys005', { baudRate: 9600 });
+
 }
 
 // All the values we are getting from the ECU
@@ -35,12 +37,24 @@ function handleData(data, bytesExpected){
         // read lengthByte from the ECU
         lengthByte = parseInt(char, 16);
       }else{
+        console.log("Primer Byte al array")
+        console.log(char)
         // push byte of data onto our array
         currentData.push(parseInt(char, 16));
       }
     }
   }
+/*
+  console.log("Current Data")
+  console.log(currentData.slice())
+  console.log("Byte esperado")
+  console.log(bytesExpected)
+*/
+	console.log(currentData.length)
+	console.log(bytesExpected)
   if(currentData.length === bytesExpected){
+	  console.log("Válido")
+	  exit()
     // End of data, return the array of data
     frameStarted = false;
     return currentData.slice();
@@ -100,6 +114,8 @@ if (process.env.NODE_ENV != "development"){
         sp.write(command, function(err,results){});
       }else{
         // Read the data from the stream and parse it
+        console.log("Buffer")
+        console.log(data)
         parseData(handleData(data, bytesRequested));
       }
     });

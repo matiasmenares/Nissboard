@@ -8,7 +8,7 @@ import VueSocketIO from 'vue-socket.io'
 import VueSvgGauge from 'vue-svg-gauge'
 
 Vue.use(new VueSocketIO({
-  connection: 'http://localhost:8090',
+  connection: 'http://localhost:5000/',
 }))
 Vue.use(VueSvgGauge)
 Vue.use(BootstrapVue)
@@ -17,7 +17,7 @@ Vue.router = router;
 App.router = Vue.router;
 const instance = axios.create({
   baseURL: "http://192.168.1.108:3000/api/v1/",
-  params: {} // do not remove this, its added to add params later in the config
+  params: {}
 });
 Vue.use(VueAxios, instance);
 
