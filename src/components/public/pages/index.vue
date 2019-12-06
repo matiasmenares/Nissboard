@@ -5,34 +5,28 @@
                 <vue-svg-gauge
                     :start-angle="-90"
                     :end-angle="0"
-                    :value="ecu.coolantTemp"
+                    :value="ecu.temp"
                     :separator-step="0"
                     :min="0"
                     :max="170"
-                    :gauge-color="color.coolantTemp"
+                    :gauge-color="color.temp"
                     :scale-interval="10"
                     :inner-radius="80"
                 />
-                <h5 class="text-white">Coolant Temp {{ecu.coolantTemp}}</h5>
+                <h5 class="text-white">Coolant Temp {{ecu.temp}}</h5>
+            </b-col>
+            <b-col>
+                <vue-svg-gauge :start-angle="-90" :end-angle="90" :value="ecu.rpm" :separator-step="0" :min="0" :max="7000" :gauge-color="color.rpm.gaugue" :scale-interval="1000" :inner-radius="80">
+                    <div class="inner-text">
+                        <span><h1>{{ecu.rpm}}</h1></span>
+                    </div>
+                </vue-svg-gauge>
+                <h5 class="text-white">RPM {{ecu.rpm}}</h5>
             </b-col>
             <b-col>
                 <vue-svg-gauge
                     :start-angle="-90"
                     :end-angle="90"
-                    :value="ecu.rpm"
-                    :separator-step="0"
-                    :min="0"
-                    :max="7000"
-                    :gauge-color="color.rpm.gaugue"
-                    :scale-interval="1000"
-                    :inner-radius="80"
-                />
-                <h5 class="text-white">RPM {{ecu.rpm}}</h5>
-            </b-col>
-            <b-col>
-                <vue-svg-gauge
-                    :start-angle="-100"
-                    :end-angle="100"
                     :value="ecu.mph"
                     :separator-step="0"
                     :min="0"
@@ -41,21 +35,21 @@
                     :scale-interval=20
                     :inner-radius="80"
                 />
-                <h5 class="text-white">Speed: {{ecu.mph}} Mph</h5>
+                <h5 class="text-white">Speed: {{ecu.mph}} Kph</h5>
             </b-col>
             <b-col>
                 <vue-svg-gauge
                     :start-angle="0"
                     :end-angle="100"
-                    :value="ecu.coolantTemp"
+                    :value="ecu.temp"
                     :separator-step="0"
                     :min="0"
                     :max="170"
-                    :gauge-color="color.coolantTemp"
+                    :gauge-color="color.temp"
                     :scale-interval="10"
                     :inner-radius="80"
                 />
-                <p class="text-white clock-font">Coolant Temp {{ecu.coolantTemp}}</p>
+                <h5 class="text-white">MAF: {{ecu.temp}} Kph</h5>
             </b-col>
         </b-row>
         <!-- <b-row>
@@ -73,7 +67,6 @@
         </b-row> -->
 	</div>
 </template>
-
 <script>
 // import RadialGauge from 'vue-canvas-gauges/src/RadialGauge'
 
@@ -81,8 +74,9 @@
     name: 'Index',
     data(){
         return{
-            ecu: {rpm: 0, mph: 0, coolantTemp: 0},
-            color: {rpm: {gaugue:"#008000", bar: "success"}, mph: "#008000", coolantTemp: "#008000" }
+            sheet: false,
+            ecu: {rpm: 0, mph: 0, temp: 0},
+            color: {rpm: {gaugue:"#008000", bar: "success"}, mph: "#008000", temp: "#008000" }
         }
     },
 	components: {
@@ -136,4 +130,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.inner-text {
+  height: 100%;
+  width: 100%;
+
+  span {
+    max-width: 100px;
+    color: red;
+  }
+}
 </style>

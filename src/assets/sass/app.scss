@@ -3,6 +3,7 @@ $color-macal:  #E4610C;
 $color-macal-transparent:  #E4610C60;
 $color-macal-var: #E74327;
 $color-grey: #707070;
+$material-light.background = #fff;
 
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
@@ -28,8 +29,8 @@ b{
 .pointer{
 	cursor: pointer;
 }
-body {
-    background-image: url("/image/back.jpg");
+#landing-page {
+    background-image: url("/image/back.jpg") !important ;
     background-color: #000000;
     background-size:     cover;
     background-repeat:   no-repeat;

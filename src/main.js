@@ -6,15 +6,22 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 import VueSocketIO from 'vue-socket.io'
 import VueSvgGauge from 'vue-svg-gauge'
+import vuetify from '@/plugins/vuetify'
+import HighchartsVue from 'highcharts-vue'
 
 Vue.use(new VueSocketIO({
   connection: 'http://localhost:5000/',
 }))
+
+Vue.use(HighchartsVue)
 Vue.use(VueSvgGauge)
 Vue.use(BootstrapVue)
+
 Vue.config.productionTip = false
+
 Vue.router = router;
 App.router = Vue.router;
+
 const instance = axios.create({
   baseURL: "http://192.168.1.108:3000/api/v1/",
   params: {}
@@ -23,5 +30,6 @@ Vue.use(VueAxios, instance);
 
 new Vue({
   render: h => h(App),
-  router,
+  vuetify,
+  router
 }).$mount('#app')
