@@ -1,48 +1,52 @@
 <template>
-    <div>    <line-chart
-      v-if="loaded"
-      :chartdata="chartdata"
-      :options="options"/></div>
+  <div class="small">
+    <line-chart :chart-data="datacollection"></line-chart>
+    <button @click="fillData()">Randomize</button>
+  </div>
 </template>
+
 <script>
-import { Bar } from 'vue-chartjs'
-// import {Chart} from 'highcharts-vue'
+  import LineChart from './LineChart.js'
+
   export default {
-    name: 'Menu',
-    extends: Bar,
-    data(){
-        return {
-            chartOptions: {
-                title: {text: "Gráficos de RPM"},
-                series: [{
-                data: [1,2,3,5,6,6,7,8,8,9,10,22,2,3,4,5]
-                }]
-            },
-            chartdata: {
-                labels: ['January', 'February'],
-                datasets: [
-                    {
-                    label: 'Data One',
-                    backgroundColor: '#f87979',
-                    data: [40, 20]
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        }
-    },
-  mounted () {
-    this.renderChart(this.chartdata, this.options)
-  },
     components: {
-        // highcharts: Chart 
+      LineChart
+    },
+    data () {
+      return {
+        datacollection: null
+      }
+    },
+    mounted () {
+      this.fillData()
+    },
+    methods: {
+      fillData () {
+        this.datacollection = {
+          labels: [this.getRandomInt(), this.getRandomInt()],
+          datasets: [
+            {
+              label: 'Data One',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt()]
+            }, {
+              label: 'Data One',
+              backgroundColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt()]
+            }
+          ]
+        }
+      },
+      getRandomInt () {
+        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      }
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+  .small {
+    max-width: 600px;
+    margin:  50px auto;
+  }
 </style>
