@@ -12,7 +12,10 @@
                     <div>
                         <b-row>
                             <b-col>
-                                <v-btn @click="send_to_dashboard()"><v-icon>fas fa-tachometer-alt</v-icon>Dashboard</v-btn>
+                                <v-btn @click="send_to_dashboard('dashboard-cuga')"><v-icon>fas fa-tachometer-alt</v-icon>Dashboard Cuga</v-btn>
+                            </b-col>
+                            <b-col>
+                                <v-btn @click="send_to_dashboard('dashboard-kinek')"><v-icon>fas fa-tachometer-alt</v-icon>Dashboard Kinek</v-btn>
                             </b-col>
                             <b-col>
                                 <v-btn @click="send_to_chart_rpm()"><v-icon>fas fa-tachometer-alt</v-icon>Gráficos</v-btn>
@@ -43,9 +46,9 @@ export default {
             this.sheet = false
             this.$router.push({ name: 'graph-rpm', params: {}});
         },
-        send_to_dashboard(){
+        send_to_dashboard(dash_name){
             this.sheet = false
-            this.$router.push({ name: 'index', params: {}});
+            this.$router.push({ name: dash_name, params: {}});
         }
     }
 }
