@@ -24,4 +24,10 @@
 	#modal-login___BV_modal_outer_{
 		z-index: 1060 !important;
 	}
+#app{
+    background: url("../../../static/images/back.png") !important;
+    background-size:     cover !important;
+    background-repeat:   no-repeat !important;
+	background-position: center center !important;
+}
 </style>
