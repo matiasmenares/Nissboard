@@ -3,7 +3,6 @@ $color-macal:  #E4610C;
 $color-macal-transparent:  #E4610C60;
 $color-macal-var: #E74327;
 $color-grey: #707070;
-$material-light.background = #fff;
 
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
@@ -11,7 +10,9 @@ $material-light.background = #fff;
     font-family: "digital-clock-font";
     src: url('/digital-clock.ttf')
 }
-
+html, body {
+	background-color: #303030;
+}
 div,table,tr,td, th,h1,h2,h3, h4, h5, p,button, a, li, button:focus, .btn:focus, .btn.focus, .form-control:focus{
 	outline:none;
     -webkit-box-shadow: none;

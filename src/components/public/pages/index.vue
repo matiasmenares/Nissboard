@@ -157,9 +157,9 @@
   position: absolute;
   text-align: center;
   bottom: -65px;
-  span {
+}
+.inner-text > span {
     max-width: 100px;
     color: red;
   }
-}
 </style>

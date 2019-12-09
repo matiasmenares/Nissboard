@@ -1,52 +1,66 @@
 <template>
-  <div class="small">
-    <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="fillData()">Randomize</button>
-  </div>
+	<div class="small">
+		<line-chart :chart-data="datacollection" :options="chartOptions" :styles="myStyles"></line-chart>
+	</div>
 </template>
 
 <script>
-  import LineChart from './LineChart.js'
+	import LineChart from './LineChart.js'
 
-  export default {
-    components: {
-      LineChart
-    },
-    data () {
-      return {
-        datacollection: null
-      }
-    },
-    mounted () {
-      this.fillData()
-    },
-    methods: {
-      fillData () {
-        this.datacollection = {
-          labels: [this.getRandomInt(), this.getRandomInt()],
-          datasets: [
-            {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
-            }, {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
-            }
-          ]
-        }
-      },
-      getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-      }
-    }
-  }
+	export default {
+		components: {
+			LineChart
+		},
+		data () {
+			return {
+				height: 350,
+				gradient: null,
+				gradient2: null,
+				datacollection: {},
+				chartOptions: {
+					responsive: true,
+					maintainAspectRatio: false
+				}
+			}
+		},
+		mounted () {
+			//this.fillData();
+		},
+		methods: {
+			fillData () {
+				this.datacollection = {
+					labels: [this.getRandomInt(), this.getRandomInt()],
+					datasets: [
+						{
+							data: [this.getRandomInt(), this.getRandomInt()]
+						}, {
+							data: [this.getRandomInt(), this.getRandomInt()]
+						}
+					]
+				}
+			},
+			getRandomInt () {
+				return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+			}
+		},
+		computed: {
+			myStyles () {
+				let calculatedHeight = this.height;
+				if (document.getElementById('car-alert')){
+					calculatedHeight = this.height - document.getElementById('car-alert').offsetHeight;
+				}
+				return {
+					height: `${calculatedHeight}px`,
+					position: 'relative'
+				}
+			}
+		}
+	}
 </script>
 
 <style>
-  .small {
-    max-width: 600px;
-    margin:  50px auto;
-  }
+	.small {
+		max-width: 740px;
+		margin:  50px auto;
+	}
 </style>

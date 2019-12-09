@@ -1,6 +1,6 @@
 <template>
       <div>
-        <b-row>
+        <b-row id="element">
             <b-col>
               <div class="left-gauge">
                 <vue-svg-gauge
@@ -138,30 +138,33 @@
 </script>
 
 <style scoped>
-.size-letter {
-  font-size: 8px;
-}
-.left-gauge {
-  position: absolute;
-  margin-left: 13%;
-  margin-top: 6%;
-  max-width: 150px;
-}
-.right-gauge {
-  position: absolute;
-  margin-left: -9%;
-  margin-top: 6%;
-  max-width: 150px;
-}
-.inner-text {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  text-align: center;
-  bottom: -65px;
-  span {
-    max-width: 100px;
-    color: red;
-  }
-}
+	.size-letter {
+		font-size: 8px;
+	}
+	.left-gauge {
+		position: absolute;
+		margin-left: 13%;
+		margin-top: 6%;
+		max-width: 150px;
+	}
+	.right-gauge {
+		position: absolute;
+		margin-left: -9%;
+		margin-top: 6%;
+		max-width: 150px;
+	}
+	.inner-text {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		bottom: -65px;
+	}
+	.inner-text span {
+		max-width: 100px;
+		color: red;
+	}
+	#element{
+		margin-top: 10%;
+	}
 </style>

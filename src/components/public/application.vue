@@ -7,7 +7,7 @@
 	</div>
 </template>
 <script>
-    import Header from "./components/header";
+    import Header from "./components/v-header";
 	import Footer from "./components/footer";
 	import Alerts from "./components/alerts";
 	export default {
