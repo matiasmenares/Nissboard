@@ -145,11 +145,13 @@
   position: absolute;
   margin-left: 13%;
   margin-top: 6%;
+  max-width: 150px;
 }
 .right-gauge {
   position: absolute;
-  margin-left: -7%;
+  margin-left: -9%;
   margin-top: 6%;
+  max-width: 150px;
 }
 .inner-text {
   height: 100%;
