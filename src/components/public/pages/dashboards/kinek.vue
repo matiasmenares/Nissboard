@@ -1,7 +1,6 @@
 <template>
       <div>
         <b-row>
-            <v-container>
                 <v-progress-linear
                     :active="active"
                     :background-opacity="opacity"
@@ -17,7 +16,6 @@
                     :value="20"
                     color="light-blue"
                 ></v-progress-linear>
-                </v-container>
         </b-row>
         <b-row>
             <b-col class="text-center mt-5 size-letter">
