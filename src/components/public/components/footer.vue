@@ -1,32 +1,42 @@
 <template>
     <v-footer absolute class="font-weight-medium">
-        <v-spacer></v-spacer>
             <v-bottom-sheet v-model="sheet">
                 <template v-slot:activator="{ on }">
                     <v-btn class="ma-2" color="red" dark v-on="on">
-                        <v-icon dark>mdi-wrench</v-icon>
+                        <v-icon dark>mdi-chevron-up</v-icon>
                     </v-btn>
                 </template>
-                <v-sheet dark class="text-center" height="200px">
-                    <v-btn class="mt-6" text color="red" @click="sheet = !sheet">Cerrar</v-btn>
+                <v-sheet dark class="px-3" height="200px">
+                    <v-btn class="mt-6" dark color="red" @click="sheet = !sheet"><v-icon>mdi-chevron-down</v-icon></v-btn>
                     <div>
                         <b-row>
                             <b-col>
-                                <v-btn @click="send_to_dashboard('dashboard-cuga')"><v-icon>fas fa-tachometer-alt</v-icon>Dashboard Cuga</v-btn>
+                                <v-btn @click="send_to('dashboard-cuga')"><v-icon>mdi-alpha-c-box-outline</v-icon> Dashboard Cuga</v-btn>
                             </b-col>
                             <b-col>
-                                <v-btn @click="send_to_dashboard('dashboard-kinek')"><v-icon>fas fa-tachometer-alt</v-icon>Dashboard Kinek</v-btn>
+                                <v-btn @click="send_to('dashboard-kinek')"><v-icon>mdi-alpha-k-box-outline</v-icon> Dashboard Kinek</v-btn>
                             </b-col>
                             <b-col>
-                                <v-btn @click="send_to_chart_rpm()"><v-icon>fas fa-tachometer-alt</v-icon>Gráficos</v-btn>
+                                <v-btn @click="send_to('dashboard-rocket')"><v-icon>mdi-alpha-k-box-outline</v-icon> Dashboard Rocket</v-btn>
                             </b-col>
                             <b-col>
-                                <v-icon>mdi-history</v-icon>Configuración
+                                <v-btn @click="send_to('dashboard-blume')"><v-icon>mdi-alpha-k-box-outline</v-icon> Dashboard Blume</v-btn>
+                            </b-col>
+                            <b-col>
+                                <v-btn @click="send_to('graph-rpm')"><v-icon>mdi-chart-line</v-icon> Gráficos</v-btn>
+                            </b-col>
+                            <b-col>
+                                <v-btn @click="send_to()"><v-icon>mdi-tune</v-icon> Alertas</v-btn>
+                            </b-col>
+                            <b-col>
+                                <v-btn @click="send_to('setting-main')"><v-icon>mdi-tune</v-icon> Configuración</v-btn>
                             </b-col>
                         </b-row>
                     </div>
                 </v-sheet>
             </v-bottom-sheet>
+            <v-spacer></v-spacer>
+            Nissboard V 0.3 BETA
         </v-footer>
 </template>
 <script>
@@ -42,13 +52,9 @@ export default {
         'v-menu': Menu,
     },
     methods:{
-        send_to_chart_rpm(){
+        send_to(name){
             this.sheet = false
-            this.$router.push({ name: 'graph-rpm', params: {}});
-        },
-        send_to_dashboard(dash_name){
-            this.sheet = false
-            this.$router.push({ name: dash_name, params: {}});
+            this.$router.push({ name: name, params: {}});
         }
     }
 }

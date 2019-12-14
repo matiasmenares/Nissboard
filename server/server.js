@@ -151,7 +151,7 @@ const function_interval = (socket) => {
 			coolantTemp = 0
 		}
 	}
-	socket.emit('ecuData', {'rpm': Math.floor(rpm),'mph':Math.floor(mph),'coolantTemp':Math.floor(coolantTemp)});
+	socket.emit('ecuData', {'rpm': Math.floor(rpm),'mph':Math.floor(mph),'temp':Math.floor(coolantTemp)});
 }
 
 const on_connection = (socket) => {

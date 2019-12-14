@@ -10,7 +10,7 @@ import vuetify from '@/plugins/vuetify'
 import HighchartsVue from 'highcharts-vue'
 
 Vue.use(new VueSocketIO({
-  connection: 'http://localhost:5000/',
+  connection: 'http://10.0.1.6:8090/',
 }))
 
 Vue.use(HighchartsVue)

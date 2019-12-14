@@ -1,5 +1,5 @@
 <template>
-      <div>
+      <div class="gauge-container">
         <b-row id="element">
             <b-col>
               <div class="left-gauge">
@@ -13,8 +13,8 @@
                     :gauge-color="color.temp"
                     :scale-interval="10"
                     :inner-radius="80">
-                    <div class="inner-text">
-                      <h1>{{ecu.temp || 10}}</h1>
+                    <div class="inner-text-left">
+                      <h1>{{ecu.temp || 0}}</h1>
                     </div>
                     </vue-svg-gauge>
                 </div>
@@ -67,11 +67,22 @@
                     :gauge-color="color.temp"
                     :scale-interval="10"
                     :inner-radius="80">
-                <div class="inner-text">
-                  <h1>{{ecu.temp || 10}} <span class="size-letter">Kph</span></h1>
-                </div>
-              </vue-svg-gauge>
+                    <div class="inner-text">
+                    <h1>{{ecu.temp || 0}}</h1>
+                    </div>
+                </vue-svg-gauge>
               </div>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                Battery 14.0 V
+            </b-col>
+            <b-col>
+                sadasdaaaa
+            </b-col>
+            <b-col>
+                sadasdaaaa
             </b-col>
         </b-row>
     </div>
@@ -85,7 +96,7 @@
             sheet: false,
             ecu: {rpm: 0, mph: 0, temp: 0},
             color: {
-                rpm: { gaugue:"#7FFF22",bar: "success" }, mph: "#008000", temp: "#008000" }
+                rpm: { gaugue:"#008000", bar: "success" }, mph: "#008000", temp: "#008000" }
         }
     },
     components: {
@@ -113,7 +124,7 @@
                     this.color.rpm.gaugue = "#FFFF00"
                     this.color.rpm.bar = "warning"
                 } else {
-                    this.color.rpm.gaugue = "#7FFF22"
+                    this.color.rpm.gaugue = "#008000"
                     this.color.rpm.bar = "success"
                 }
             }
@@ -139,7 +150,7 @@
 
 <style scoped>
 	.size-letter {
-		font-size: 8px;
+		font-size: 14px;
 	}
 	.left-gauge {
 		position: absolute;
@@ -155,14 +166,21 @@
 	}
 	.inner-text {
 		height: 100%;
-		width: 100%;
+		width: 90%;
+		position: absolute;
+		text-align: center;
+		bottom: -65px;
+	}
+	.inner-text-left {
+		height: 100%;
+		width: 70%;
 		position: absolute;
 		text-align: center;
 		bottom: -65px;
 	}
 	.inner-text span {
-		max-width: 100px;
-		color: red;
+		max-width: 10px;
+		color: rgb(255, 255, 255);
 	}
 	#element{
 		margin-top: 10%;
