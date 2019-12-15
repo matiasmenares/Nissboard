@@ -11,7 +11,7 @@ import socketio
 import struct
 #Serial
 # PORT = serial.Serial('/dev/tty.usbserial-A103NKGZ', 9600, timeout=None)
-PORT = serial.Serial('/dev/ttys005', 9600, timeout=None)
+PORT = serial.Serial('/dev/tty.usbserial-A103NKGZ', 9600, timeout=None)
 #WebServer
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SGOPWEBZWB'
@@ -47,7 +47,7 @@ class ReadStream():
         read_thread = True
         byte_request = (len(command) - 1) / 2
         while read_thread:
-            incomingData = PORT.read(11)
+            incomingData = PORT.read(16)
             dataList = self.handleData(incomingData, byte_request)
             self.logToFile(incomingData, "Skyline_data")
             if dataList != None:
@@ -55,19 +55,23 @@ class ReadStream():
               MPH_Value  = self.convertToMPH(int(dataList[3]))
               KMH_Value  = self.convertToKMH(int(dataList[3]))
               RPM_Value  = self.convertToRev(int(dataList[1]), int(dataList[2]))
-#             BATT_Value = self.convertToBattery(float(dataList[1]))
+              BATT_Value = self.convertToBattery(float(dataList[4]))
+              TURBO_Value = self.convertToTurbo(int(dataList[5]))
+              TPS_Value = self.convertToTps(int(dataList[6]))
+#               INTAKE_Value = self.convertToTemp(int(dataList[7]))
+
 #             AAC_Value  = self.convertToAAC(int(dataList[8]))
 #             MAF_Value  = self.convertToMAF(int(dataList[5]))
 #             print({'rpm': RPM_Value, 'kmh': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value, 'battery': BATT_Value, 'aac': AAC_Value, 'maf': MAF_Value})
 
 #             socketio.emit('ecuData', {'rpm': RPM_Value, 'kmh': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value, 'battery': BATT_Value, 'aac': AAC_Value, 'maf': MAF_Value})
-              socketio.emit('ecuData', {'rpm': RPM_Value, 'kmh': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value})
-              print({'rpm': RPM_Value, 'kmh': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value})
+              socketio.emit('ecuData', {'rpm': RPM_Value, 'kmh': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value, 'batt': BATT_Value, 'turbo': TURBO_Value, 'tps': TPS_Value })
+#               print({'rpm': RPM_Value, 'kmh': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value, 'batt': BATT_Value, 'turbo': TURBO_Value, 'tps': TPS_Value})
               time.sleep(0.002)
 
     def run(self):
 #         command = '\x5A\x0B\x5A\x01\x5A\x08\x5A\x0C\x5A\x0D\x5A\x03\x5A\x05\x5A\x09\x5A\x13\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x21\xF0'
-        command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0xF0]
+        command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0x5A,0x0c,0x5A,0x29,0x5A,0x0d,0xF0]
         PORT.write(command)
         self.consume_data(command)
 
@@ -93,12 +97,18 @@ class ReadStream():
 
     def convertToKMH(self,inputData):
         return int(round(inputData * 2.11))
-
+        
+    def convertToTps(self, inputData):
+        return int(round(inputData) * 20)
+        
     def convertToRev(self, mostSignificantBit, leastSignificantBit):
         return round(((mostSignificantBit << 8) + leastSignificantBit) * 12.5)
 
     def convertToTemp(self,inputData):
         return inputData - 50
+
+    def convertToTurbo(self, inputData):
+        return inputData
 
     def convertToBattery(self,inputData):
         return round(((inputData * 80) / 1000),1)
@@ -134,7 +144,9 @@ def background_thread():
                  READ_THREAD = True
                  read = ReadStream()
                  read.run()
-#                     PORT.open()
+             else:
+                 print("else")
+                 PORT.write('\x30')
 		    
         while READ_THREAD == True:
               print("true") 
