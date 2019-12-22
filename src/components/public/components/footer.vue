@@ -11,16 +11,19 @@
                     <div>
                         <b-row>
                             <b-col>
-                                <v-btn @click="send_to('dashboard-cuga')"><v-icon>mdi-alpha-c-box-outline</v-icon> Dashboard Cuga</v-btn>
+                                <v-btn @click="send_to('dashboard-cuga')"><v-icon>mdi-alpha-c-box-outline</v-icon> Cuga</v-btn>
                             </b-col>
                             <b-col>
-                                <v-btn @click="send_to('dashboard-kinek')"><v-icon>mdi-alpha-k-box-outline</v-icon> Dashboard Kinek</v-btn>
+                                <v-btn @click="send_to('dashboard-kinek')"><v-icon>mdi-alpha-k-box-outline</v-icon> Kinek</v-btn>
                             </b-col>
                             <b-col>
-                                <v-btn @click="send_to('dashboard-rocket')"><v-icon>mdi-alpha-k-box-outline</v-icon> Dashboard Rocket</v-btn>
+                                <v-btn @click="send_to('dashboard-rocket')"><v-icon>mdi-alpha-k-box-outline</v-icon> Rocket</v-btn>
                             </b-col>
                             <b-col>
-                                <v-btn @click="send_to('dashboard-blume')"><v-icon>mdi-alpha-k-box-outline</v-icon> Dashboard Blume</v-btn>
+                                <v-btn @click="send_to('dashboard-blume')"><v-icon>mdi-alpha-k-box-outline</v-icon> Blume</v-btn>
+                            </b-col>
+                            <b-col>
+                                <v-btn @click="send_to('dashboard-dust')"><v-icon>mdi-alpha-k-box-outline</v-icon>  Dust</v-btn>
                             </b-col>
                             <b-col>
                                 <v-btn @click="send_to('graph-rpm')"><v-icon>mdi-chart-line</v-icon> Gráficos</v-btn>
@@ -35,8 +38,11 @@
                     </div>
                 </v-sheet>
             </v-bottom-sheet>
+            <div class=" text-center">
+                <v-icon class="text-color-success">mdi-access-point-network</v-icon><v-icon class="text-color-warning">mdi-satellite-variant</v-icon>
+            </div>
             <v-spacer></v-spacer>
-            Nissboard V 0.3 BETA
+            <span class="min-letter">Nissboard V 0.3</span>
         </v-footer>
 </template>
 <script>
@@ -59,3 +65,14 @@ export default {
     }
 }
 </script>
+<style scoped>
+.text-color-warning{
+    color: rgba(255, 255, 0, 0.753);
+}
+.text-color-success{
+    color: rgb(0, 170, 0);
+}
+.min-letter {
+  font-size: 15px;
+}
+</style>

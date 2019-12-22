@@ -13,7 +13,7 @@ if (process.env.NODE_ENV != "development"){
 }
 
 // All the values we are getting from the ECU
-var rpm, mph, coolantTemp = 0;
+var rpm, mph, coolantTemp, tps, batt, turbo = 0;
 
 var currentData= [];
 var frameStarted = false;
@@ -150,8 +150,23 @@ const function_interval = (socket) => {
 		} else{
 			coolantTemp = 0
 		}
+		if(tps < 4100){
+			tps += 410
+		}else{
+			tps = 0
+		}
+		if(batt < 14){
+			batt += 1
+		}else{
+			batt = 13
+		}
+		if(turbo < 900){
+			turbo += 150
+		}else{
+			turbo = 9
+		}
 	}
-	socket.emit('ecuData', {'rpm': Math.floor(rpm),'mph':Math.floor(mph),'temp':Math.floor(coolantTemp)});
+	socket.emit('ecuData', {'rpm': Math.floor(rpm),'speed':Math.floor(mph),'temp':Math.floor(coolantTemp), 'tps': Math.floor(tps), 'batt': Math.floor(batt), 'turbo': Math.floor(turbo)});
 }
 
 const on_connection = (socket) => {

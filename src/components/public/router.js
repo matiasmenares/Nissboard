@@ -3,12 +3,13 @@ import DashboarCuga from './pages/dashboards/cuga.vue';
 import DashboarKinek from './pages/dashboards/kinek.vue';
 import DashboarRocket from './pages/dashboards/rocket.vue';
 import DashboarBlume from './pages/dashboards/blume.vue';
+import DashboarDust from './pages/dashboards/dust.vue';
 import SettingMain from './pages/settings/setting.vue';
 
 export const PublicRoutes =
   [
     {
-      path: '/',
+      path: '/dashboard/cuga',
       component: DashboarCuga,
       name: 'dashboard-cuga',
     },
@@ -23,12 +24,17 @@ export const PublicRoutes =
       name: 'dashboard-blume',
     },
     {
+      path: '/dashboard/dust',
+      component: DashboarDust,
+      name: 'dashboard-dust',
+    },
+    {
       path: '/graph/rpm',
       component: GraphRpm,
       name: 'graph-rpm',
     },
     {
-      path: '/dashboard/kinek',
+      path: '/',
       component: DashboarKinek,
       name: 'dashboard-kinek',
     },

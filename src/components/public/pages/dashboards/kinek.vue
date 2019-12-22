@@ -38,17 +38,8 @@
                 </g>
             </svg>
             <v-progress-linear
-                :active="active"
                 :background-opacity="0.5"
-                :bottom="bottom"
-                :buffer-value="buffer"
                 :height="80"
-                :indeterminate="indeterminate"
-                :query="query"
-                :rounded="rounded"
-                :stream="stream"
-                :striped="striped"
-                :top="top"
                 :value="value"
                 :color="color.rpm"
             ></v-progress-linear>
@@ -56,7 +47,7 @@
         
         <b-row no-gutters class="mt-5">
            <b-col class="text-center mt-12 normal-letter">
-                <h1>{{ecu.mph}} <span class="min-letter">KPH</span></h1>
+                <h1>{{ecu.speed}} <span class="min-letter">KPH</span></h1>
             </b-col>
             <b-col class="text-center mt-1 max-letter">
                 <h1>{{ecu.rpm}} <span class="min-letter">RPM</span></h1>
@@ -68,13 +59,16 @@
         <hr>
         <b-row no-gutters class="mt-5">
            <b-col class="text-center normal-letter">
-                <h1>{{ecu.turbo}} <span class="min-letter">Turbo</span></h1>
+                <h1>{{ecu.turbo}} <span class="min-letter">Boost</span></h1>
             </b-col>
             <b-col class="text-center normal-letter">
                 <h1>{{Math.round((((ecu.tps) * 100)/4100),2)}} % <span class="min-letter"> TPS</span></h1>
             </b-col>
            <b-col class="text-center normal-letter">
                 <h1>{{ecu.batt}} <span class="min-letter">V</span></h1>
+            </b-col>
+           <b-col class="text-center normal-letter">
+                <h1>{{ecu.timming}} <span class="min-letter">Timming</span></h1>
             </b-col>
         </b-row>
         <hr>
@@ -97,7 +91,7 @@
     data(){
         return{
             sheet: false,
-            ecu: {rpm: 0, mph: 0, temp: 0, batt: 0, turbo: 0, tps: 0, intake: 0},
+            ecu: {rpm: 0, speed: 0, temp: 0, batt: 0, turbo: 0, tps: 0, intake: 0, timming: 0},
             color: {rpm: "light-blue"},
             value: 0,
         }

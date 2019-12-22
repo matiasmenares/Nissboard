@@ -41,6 +41,11 @@ def set_ecu():
 
 #Init 1
 def main(params):
+# 	print(params.d)
+# 	if !params.d:
+# 		print("Need Specify device")
+# 		exit()
+	
 	socketio.run(app)
 		
 if __name__ == '__main__':

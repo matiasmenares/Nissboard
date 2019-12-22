@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <b-row>
+        <b-row class="mt-12 mx-12">
             <b-col>
                <canvas data-type="radial-gauge"
                     data-width="300"
@@ -15,7 +15,7 @@
                         {"from": 200, "to": 220, "color": "rgba(200, 50, 50, .75)"}
                     ]'
                     :data-value="ecu.mph"
-                    data-color-major-ticks="#ddd"
+                     data-color-major-ticks="#ddd"
                     data-color-minor-ticks="#ddd"
                     data-color-title="#eee"
                     data-color-units="#ccc"
@@ -63,7 +63,7 @@
                     data-animation-rule="linear"
                 ></canvas>
             </b-col>
-            <b-col style="display: none">
+            <b-col style="display:none">
                 <radial-gauge :options="{'max-value': 1000}" :value="ecu.rpm/100"></radial-gauge>
             </b-col>
         </b-row>
