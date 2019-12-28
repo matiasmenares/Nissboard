@@ -1,5 +1,5 @@
 <template>
-    <v-alert prominent type="error" id="car-alert" dismissible>
+    <v-alert prominent type="error" border="top" id="car-alert" dismissible>
       <v-row align="center">
         <v-col class="grow"><b>Alerta</b> Alta temperatura.</v-col>
         <v-col class="shrink">

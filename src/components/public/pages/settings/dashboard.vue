@@ -1,10 +1,9 @@
 <template>
 <v-card>
     <v-tabs color="accent-4" left>
-      <v-tab>Cuga</v-tab>
+      <v-tab>Kinek</v-tab>
       <v-tab>Graph</v-tab>
       <v-tab>General</v-tab>
-
       <v-tab-item >
         <v-container fluid>
           <v-row>
@@ -12,13 +11,13 @@
                 <v-card flat color="transparent">
                     <v-subheader>Yellow Shift Light RPM</v-subheader>
                     <v-card-text>
-                        <v-slider v-model="cuga.rpm.yellow" :tick-labels="rpm" :max="11" step="1" ticks tick-size="1"></v-slider>
+                      <v-slider v-model="kinek.rpm.yellow" :tick-labels="rpm" :max="11" step="1" ticks tick-size="1" @click="save('kinek', 'yellow')"></v-slider>
                     </v-card-text>
                 </v-card>
                 <v-card flat color="transparent">
                     <v-subheader>Red Shift Light RPM</v-subheader>
                     <v-card-text>
-                        <v-slider v-model="cuga.rpm.red" :tick-labels="rpm" :max="11" step="1" ticks tick-size="1"></v-slider>
+                        <v-slider v-model="kinek.rpm.red" :tick-labels="rpm" :max="11" step="1" ticks tick-size="1" @click="save('kinek','red')"></v-slider>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -30,11 +29,9 @@
 </template>
 <script>
 	export default {
-		components: {
-		},
 		data () {
 			return {
-        cuga: {
+        kinek: {
           rpm: {
             yellow: null,
             red: null
@@ -47,7 +44,12 @@
 			//this.fillData();
 		},
 		methods: {
-			
+			save(dashboard, light){
+        console.log(dashboard, light)
+        console.log(this.kinek.rpm.red)
+        console.log(this.kinek.rpm.yellow)
+
+      }
 		},
 		computed: {
 			

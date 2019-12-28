@@ -195,25 +195,15 @@
         "ecu.tps": {
             handler: function() {
                 this.values.tps = Math.round((((this.ecu.tps) * 100)/4100),2)
-                 if(this.values.tps > 90){
-                    //danger
-                    this.colors.tps = this.dashboard.colors.danger
-                } else if(this.values.tps > 80 && this.ecu.temp < 90) {
-                    //warning
-                    this.colors.tps = this.dashboard.colors.warning
-                } else {
-                    //success
-                    this.colors.tps = this.dashboard.colors.safe
-                }
             }
         },
         "ecu.batt": {
             handler: function() {
             this.values.batt = (this.ecu.batt * 100) / 16
-                 if(this.values.batt > 15){
+                 if(this.values.batt > 90 || this.values.batt < 20 ){
                     //danger
-                    this.colors.tps = this.dashboard.colors.danger
-                } else if(this.values.batt > 14 && this.ecu.batt < 15) {
+                    this.colors.batt = this.dashboard.colors.danger
+                } else if(this.values.batt > 80 && this.ecu.batt < 90) {
                     //warning
                     this.colors.batt = this.dashboard.colors.warning
                 } else {
@@ -224,7 +214,7 @@
         },
         "ecu.turbo": {
             handler: function() {
-            this.values.turbo = (this.ecu.turbo * 100) / 1
+            this.values.turbo = (this.ecu.turbo * 100.0) / 1.0
                  if(this.values.turbo > 0.8){
                     //danger
                     this.colors.turbo = this.dashboard.colors.danger

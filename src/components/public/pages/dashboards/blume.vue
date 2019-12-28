@@ -14,7 +14,7 @@
                     data-highlights='[
                         {"from": 200, "to": 220, "color": "rgba(200, 50, 50, .75)"}
                     ]'
-                    :data-value="ecu.mph"
+                    :data-value="ecu.speed"
                      data-color-major-ticks="#ddd"
                     data-color-minor-ticks="#ddd"
                     data-color-title="#eee"
@@ -36,10 +36,10 @@
                 <canvas data-type="radial-gauge"
                     data-width="300"
                     data-height="300"
-                    data-units="RPM"
+                    data-units="x1000 RPM"
                     data-min-value="0"
                     data-max-value="9000"
-                    data-major-ticks="0,1000,2000,3000,4000,5000,6000,7000,8000,9000"
+                    data-major-ticks="0,1,2,3,4,5,6,7,8,9"
                     data-minor-ticks="2"
                     data-stroke-ticks="true"
                     data-highlights='[
@@ -59,11 +59,11 @@
                     data-needle-circle-size="7"
                     data-needle-circle-outer="true"
                     data-needle-circle-inner="false"
-                    data-animation-duration="200"
+                    data-animation-duration="400"
                     data-animation-rule="linear"
                 ></canvas>
             </b-col>
-            <b-col style="display:none">
+            <b-col style="">
                 <radial-gauge :options="{'max-value': 1000}" :value="ecu.rpm/100"></radial-gauge>
             </b-col>
         </b-row>
@@ -77,7 +77,7 @@
     data(){
         return{
             sheet: false,
-            ecu: {rpm: 0, mph: 0, temp: 0},
+            ecu: {rpm: 0, speed: 0, temp: 0},
             color: {
                 rpm: { gaugue:"#008000", bar: "success" }, mph: "#008000", temp: "#008000" }
         }

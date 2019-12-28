@@ -1,2 +1,4 @@
 flask_socketio
 flask_cors
+wifi
+flask_restful

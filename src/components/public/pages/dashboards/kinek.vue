@@ -91,7 +91,7 @@
     data(){
         return{
             sheet: false,
-            ecu: {rpm: 0, speed: 0, temp: 0, batt: 0, turbo: 0, tps: 0, intake: 0, timming: 0},
+            ecu: {rpm: 0, speed: 0, temp: 0, batt: 0, turbo: 0.0, tps: 0, intake: 0, timming: 0},
             color: {rpm: "light-blue"},
             value: 0,
         }

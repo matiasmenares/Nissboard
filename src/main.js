@@ -23,7 +23,7 @@ Vue.router = router;
 App.router = Vue.router;
 
 const instance = axios.create({
-  baseURL: "http://192.168.1.108:3000/api/v1/",
+  baseURL: "http://localhost:5000/",
   params: {}
 });
 Vue.use(VueAxios, instance);

@@ -4,7 +4,7 @@ import DashboarKinek from './pages/dashboards/kinek.vue';
 import DashboarRocket from './pages/dashboards/rocket.vue';
 import DashboarBlume from './pages/dashboards/blume.vue';
 import DashboarDust from './pages/dashboards/dust.vue';
-import SettingMain from './pages/settings/setting.vue';
+import SettingDashboard from './pages/settings/dashboard.vue';
 
 export const PublicRoutes =
   [
@@ -39,8 +39,8 @@ export const PublicRoutes =
       name: 'dashboard-kinek',
     },
     {
-      path: '/settings/setting',
-      component: SettingMain,
-      name: 'setting-main',
+      path: '/settings/dashboard',
+      component: SettingDashboard,
+      name: 'setting-dashboard',
     },
   ];

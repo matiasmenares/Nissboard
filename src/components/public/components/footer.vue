@@ -8,60 +8,97 @@
                 </template>
                 <v-sheet dark class="px-3" height="200px">
                     <v-btn class="mt-6" dark color="red" @click="sheet = !sheet"><v-icon>mdi-chevron-down</v-icon></v-btn>
-                    <div>
+                    <v-btn v-if="this.menu != 'Main'" class="mt-6 ml-3" dark color="red" @click="define_menu('Main')"><v-icon>mdi-chevron-left</v-icon></v-btn>
+                    <div v-if="this.menu =='Main'">
                         <b-row>
                             <b-col>
-                                <v-btn @click="send_to('dashboard-cuga')"><v-icon>mdi-alpha-c-box-outline</v-icon> Cuga</v-btn>
-                            </b-col>
-                            <b-col>
-                                <v-btn @click="send_to('dashboard-kinek')"><v-icon>mdi-alpha-k-box-outline</v-icon> Kinek</v-btn>
-                            </b-col>
-                            <b-col>
-                                <v-btn @click="send_to('dashboard-rocket')"><v-icon>mdi-alpha-k-box-outline</v-icon> Rocket</v-btn>
-                            </b-col>
-                            <b-col>
-                                <v-btn @click="send_to('dashboard-blume')"><v-icon>mdi-alpha-k-box-outline</v-icon> Blume</v-btn>
-                            </b-col>
-                            <b-col>
-                                <v-btn @click="send_to('dashboard-dust')"><v-icon>mdi-alpha-k-box-outline</v-icon>  Dust</v-btn>
+                                <v-btn @click="define_menu('Dashboard')"><v-icon>mdi-view-dashboard-variant</v-icon> Dashboards</v-btn>
                             </b-col>
                             <b-col>
                                 <v-btn @click="send_to('graph-rpm')"><v-icon>mdi-chart-line</v-icon> Gráficos</v-btn>
                             </b-col>
                             <b-col>
-                                <v-btn @click="send_to()"><v-icon>mdi-tune</v-icon> Alertas</v-btn>
+                                <v-btn @click="send_to()"><v-icon>mdi-alert-outline</v-icon> Alertas</v-btn>
                             </b-col>
                             <b-col>
-                                <v-btn @click="send_to('setting-main')"><v-icon>mdi-tune</v-icon> Configuración</v-btn>
+                                <v-btn @click="define_menu('Config')"><v-icon>mdi-tune</v-icon> Configuración</v-btn>
                             </b-col>
                         </b-row>
                     </div>
+                    <menu-dashboards v-if="menu == 'Dashboard'" :menu="menu"></menu-dashboards>
+                    <menu-configs v-if="menu == 'Config'" :menu="menu"></menu-configs>
                 </v-sheet>
             </v-bottom-sheet>
-            <div class=" text-center">
-                <v-icon class="text-color-success">mdi-access-point-network</v-icon><v-icon class="text-color-warning">mdi-satellite-variant</v-icon>
-            </div>
             <v-spacer></v-spacer>
-            <span class="min-letter">Nissboard V 0.3</span>
+            <div class="mx-12 text-center">
+                <v-icon :class="icons.ecu.color">mdi-access-point-network</v-icon>
+                <v-icon :class="icons.gps.color">mdi-satellite-variant</v-icon>
+                <v-icon :class="icons.internet.color">{{icons.internet.icon}}</v-icon>
+            </div>
+            <span class="min-letter">Nissboard <small>v 0.4</small></span>
         </v-footer>
 </template>
 <script>
-import Menu from "./menu";
+import MenuDashboard from "./menus/dashboards";
+import MenuConfig from "./menus/configs";
+
 export default {
     name: "Footer",
     data(){
         return{
+            menu: "Main",
             sheet: false,
+            icons: { ecu: {color: "text-color-warning"}, gps: {color: "text-color-warning"}, internet: {color: "text-color-warning", icon: "mdi-wifi-strength-outline"}},
+            ecu_connection: {status: false},
+            internet_connection: {status: false}
         }
     },
-    component:{
-        'v-menu': Menu,
+    components:{
+        'menu-dashboards': MenuDashboard,
+        'menu-configs': MenuConfig
+    },
+    mounted(){
+        this.connections()
     },
     methods:{
         send_to(name){
             this.sheet = false
             this.$router.push({ name: name, params: {}});
+        },
+        define_menu(menu){
+            this.menu = menu;
+        },
+        connections(){
+            this.sockets.subscribe('ecuConnection', (data) => {
+                this.ecu_connection = data;
+            })
+            this.sockets.subscribe('InternetConnection', (data) => {
+                this.internet_connection = data;
+            })
         }
+
+    },
+    watch:{
+        "ecu_connection": {
+            handler: function() {
+                if (this.ecu_connection.status){
+                    this.icons.ecu.color =  "text-color-success"
+                }else{
+                    this.icons.ecu.color =  "text-color-warning"
+                }
+            }
+        },
+        "internet_connection": {
+            handler: function() {
+                if (this.internet_connection.status){
+                    this.icons.internet.icon = "mdi-wifi"
+                    this.icons.internet.color =  "text-color-success"
+                }else{
+                    this.icons.internet.icon = "mdi-wifi-strength-outline"
+                    this.icons.internet.color =  "text-color-warning"
+                }
+            }
+        },
     }
 }
 </script>
