@@ -94,6 +94,8 @@
             ecu: {rpm: 0, speed: 0, temp: 0, batt: 0, turbo: 0.0, tps: 0, intake: 0, timming: 0},
             color: {rpm: "light-blue"},
             value: 0,
+            red_line: 0,
+            yellow_line: 0
         }
     },
     components: {
@@ -102,11 +104,21 @@
     },
     created() {
         this.set_data()
+        this.set_kinek()
     },
     methods: {
         set_data(){
             this.sockets.subscribe('ecuData', (data) => {
                 this.ecu = data;
+            })
+        },
+        set_kinek(){
+            let self = this
+            this.axios.get("settings/kinek").then(result => {
+                red_line = parseInt(result.data["kinkek"][2])
+                yellow_line = parseInt(result.data["kinkek"][3])
+            }).catch(error => {
+                console.log(error);
             })
         }
     },

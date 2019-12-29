@@ -11,7 +11,9 @@ from threading import Lock
 #Core
 from core.ecu import Ecu
 from core.database import Database
+#API
 from api.system import System
+from api.settings.kinek_setting import KinekSetting
 
 import urllib2
 import serial
@@ -35,6 +37,7 @@ socketio = SocketIO(app, cors_allowed_origins="*",async_mode='threading')
 api = Api(app)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 api.add_resource(System, '/system')  # Route_1
+api.add_resource(KinekSetting, '/settings/kinek')  # Route_1
 
 #database
 d = Database()
@@ -50,7 +53,7 @@ def test_connect():
 	with thread_lock:
 		if thread is None:
 			thread = socketio.start_background_task(set_ecu)
-			thread2 = socketio.start_background_task(internet_on)
+			thread_2 = socketio.start_background_task(internet_on)
 
 def set_ecu():
 	ecu.start(socketio)

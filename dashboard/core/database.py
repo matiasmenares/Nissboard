@@ -23,8 +23,19 @@ class Database():
 	def init(self):
 		cursorObj = self.con.cursor()
 		cursorObj.execute("CREATE TABLE if not exists records(id integer PRIMARY KEY, date_record datetime)")
-		cursorObj.execute("CREATE TABLE if not exists sensors(id integer PRIMARY KEY, name text, command text)")
-		cursorObj.execute("CREATE TABLE if not exists dashboards(id integer PRIMARY KEY, name text, red_line text, yellow_line text)")
-
+		cursorObj.execute("CREATE TABLE if not exists sensors(id integer PRIMARY KEY, name text, command text, medition_text text)")
+		cursorObj.execute("CREATE TABLE if not exists dashboards(id integer PRIMARY KEY, name text, red_line text, yellow_line text, red_line_rpm text, yellow_line_rpm text)")
 		self.con.commit()
+		self.set_seed()
 		self.close()
+		
+	def set_seed(self):
+		self.set_dashboards_seed()
+
+	def set_dashboards_seed(self):
+		cursorObj = self.con.cursor()
+		if len(cursorObj.execute('SELECT * FROM dashboards').fetchall()) == 0:
+			cursorObj.execute("INSERT INTO dashboards VALUES(1, 'KINEK', '0', '0', '0','0')")
+			cursorObj.execute("INSERT INTO dashboards VALUES(2, 'DUST', '0', '0', '0','0')")
+			self.con.commit()
+
