@@ -10,13 +10,9 @@
             <div>
                 <b-row>
                     <b-col>
-                        <v-icon>fas fa-tachometer-alt</v-icon>Dashboard
-                    </b-col>
-                    <b-col>
-                        <v-icon>mdi-history</v-icon>Graficos
-                    </b-col>
-                    <b-col>
-                        <v-icon>mdi-history</v-icon>Configuración
+                        <v-icon class="mr-2">fas fa-tachometer-alt</v-icon>Dashboard
+                        <v-icon class="mr-2">mdi-history</v-icon>Graficos
+                        <v-icon class="mr-2">mdi-history</v-icon>Configuración
                     </b-col>
                 </b-row>
             </div>

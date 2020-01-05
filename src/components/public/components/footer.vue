@@ -12,16 +12,17 @@
                     <div v-if="this.menu =='Main'">
                         <b-row>
                             <b-col>
-                                <v-btn @click="define_menu('Dashboard')"><v-icon>mdi-view-dashboard-variant</v-icon> Dashboards</v-btn>
+                                <v-btn class="mr-2" @click="define_menu('Dashboard')"><v-icon>mdi-view-dashboard-variant</v-icon> Dash</v-btn>
+                                <v-btn class="mr-2" @click="send_to('graph-rpm')"><v-icon>mdi-chart-line</v-icon> Gráficos</v-btn>
+                                <v-btn class="mr-2" @click="send_to()"><v-icon>mdi-alert-outline</v-icon> Alertas</v-btn>
+                                <v-btn class="mr-2" @click="send_to()"><v-icon>mdi-racing-helmet</v-icon> Race</v-btn>
+                                <v-btn class="mr-2" @click="send_to('g-force-gforce')"><v-icon>mdi-rotate-orbit</v-icon> G-force</v-btn>
+                                <v-btn @click="send_to()" class="mr-2"><v-icon>mdi-go-kart-track</v-icon> Track</v-btn>
                             </b-col>
+                        </b-row>
+                        <b-row>
                             <b-col>
-                                <v-btn @click="send_to('graph-rpm')"><v-icon>mdi-chart-line</v-icon> Gráficos</v-btn>
-                            </b-col>
-                            <b-col>
-                                <v-btn @click="send_to()"><v-icon>mdi-alert-outline</v-icon> Alertas</v-btn>
-                            </b-col>
-                            <b-col>
-                                <v-btn @click="define_menu('Config')"><v-icon>mdi-tune</v-icon> Configuración</v-btn>
+                                <v-btn @click="define_menu('Config')"><v-icon>mdi-settings-outline</v-icon> Configuración</v-btn>
                             </b-col>
                         </b-row>
                     </div>

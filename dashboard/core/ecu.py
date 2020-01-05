@@ -1,5 +1,7 @@
 import time
+from datetime import datetime
 from core.serial import PortSerial
+from core.database import Database
 
 class Ecu():
 
@@ -13,7 +15,7 @@ class Ecu():
 		self.MPH_Value = 0
 		self.RPM_Value = 0
 		self.TEMP_Value = 0
-		self.BATT_Value = 0
+		self.BATT_Value = 0.0
 		self.MAF_Value = 0
 		self.AAC_Value = 0
 		self.INJ_Value = 0
@@ -24,6 +26,7 @@ class Ecu():
 
 	def consume_data(self):
 		read_thread = True
+		record_id = self.setRecord()
 		byte_request = (len(self.command_live_sensors) - 1) / 2
 		x = 0
 		while read_thread:
@@ -32,31 +35,33 @@ class Ecu():
 				dataList = self.handleData(incomingData, byte_request)
 				self.logToFile(incomingData, "Skyline_data2")
 				if dataList != None:
-					TEMP_Value = self.convertToTemp(int(dataList[0]))
-					MPH_Value  = self.convertToMPH(int(dataList[3]))
-					KMH_Value  = self.convertToKMH(int(dataList[3]))
-					RPM_Value  = self.convertToRev(int(dataList[1]), int(dataList[2]))
-					BATT_Value = self.convertToBattery(float(dataList[4]))
-					TIM_Value = self.convertToTiming(int(dataList[5]))
-					TPS_Value = self.convertToTps(int(dataList[6]))
-					TURBO_Value = self.convertToTurbo(int(dataList[7]))
-					AAC_Value = self.convertToAAC(int(dataList[8]))
-					O2_Value = self.convertToO2(dataList[9])
-					AF_Value = dataList[10]
-					INJ_Value  = self.convertToInj(int(dataList[11]), int(dataList[12]))
+					self.TEMP_Value  = self.convertToTemp(int(dataList[0]))
+					self.MPH_Value   = self.convertToMPH(int(dataList[3]))
+					self.KMH_Value   = self.convertToKMH(int(dataList[3]))
+					self.RPM_Value   = self.convertToRev(int(dataList[1]), int(dataList[2]))
+					self.BATT_Value  = self.convertToBattery(float(dataList[4]))
+					self.TIM_Value   = self.convertToTiming(int(dataList[5]))
+					self.TPS_Value   = self.convertToTps(int(dataList[6]))
+					self.TURBO_Value = self.convertToTurbo(int(dataList[7]))
+					self.AAC_Value   = self.convertToAAC(int(dataList[8]))
+					self.O2_Value    = self.convertToO2(dataList[9])
+					self.AF_Value    = dataList[10]
+					self.INJ_Value   = self.convertToInj(int(dataList[11]), int(dataList[12]))
 
 # 					print({'rpm': RPM_Value, 'speed': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value, 'batt': BATT_Value, 'turbo': TURBO_Value, 'tps': TPS_Value, 'timming': TIM_Value, 'aac': AAC_Value, '02': O2_Value, 'af': AF_Value, 'injector': INJ_Value})
-					self.socketio.emit('ecuData', {'rpm': RPM_Value, 'speed': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value, 'batt': BATT_Value, 'turbo': TURBO_Value, 'tps': TPS_Value, 'timming': TIM_Value, 'aac': AAC_Value, '02': O2_Value, 'af': AF_Value, 'injector': INJ_Value})
+
+					self.socketio.emit('ecuData', {'rpm': self.RPM_Value, 'speed': self.KMH_Value, 'mph': self.MPH_Value, 'temp': self.TEMP_Value, 'batt': self.BATT_Value, 'turbo': self.TURBO_Value, 'tps': self.TPS_Value, 'timming': self.TIM_Value, 'aac': self.AAC_Value, 'O2': self.O2_Value, 'af': self.AF_Value, 'injector': self.INJ_Value})
 					self.socketio.emit('ecuConnection', {'status': True})
-					time.sleep(0.002)
+					self.setAlerts()
+					time.sleep(0.001)
 			except:
-				traceback.print_exc()
 				self.socketio.emit('ecuConnection', {'status': False})
 				self.start(self.socketio, True)
+
 	def run(self):
-		#         command = '\x5A\x0B\x5A\x01\x5A\x08\x5A\x0C\x5A\x0D\x5A\x03\x5A\x05\x5A\x09\x5A\x13\x5A\x16\x5A\x17\x5A\x1A\x5A\x1C\x5A\x21\xF0'
 		self.PORT.write(self.command_live_sensors)
 		self.consume_data()
+
 	def handleData(self, data, byteExpected):
 		try:
 			frameStarted = False
@@ -78,6 +83,24 @@ class Ecu():
 		except:
 			print("An exception occurred With this HEX: ")	
 # 			self.printHex(data)
+
+	def setAlerts(self):
+		database = Database()
+		cursor = database.con.cursor()
+		row = cursor.execute('SELECT * FROM sensors WHERE name = "Water" and alert > 0 ')
+		row = row.fetchone()
+		if row != None:
+			if self.TEMP_Value > row[4]:
+				self.socketio.emit('Alerts',{'type': "error", 'text': "Temperatura alta"} )
+		database.close()
+		return True
+
+	def setRecord(self):
+		database = Database()
+		cursor = database.con.cursor()
+		now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		cursor.execute("INSERT INTO records (id, date_record) VALUES (?,?)", (None, now))
+		database.con.commit()
 
 	def convertToMPH(self,inputData):
 		return int(round ((inputData * 2.11) * 0.621371192237334))
@@ -111,9 +134,6 @@ class Ecu():
 	def convertToAAC(self,inputData):
 		return inputData / 2
 	
-	def convertToInjection(self,inputData):
-		return inputData / 100
-	
 	def convertToTiming(self,inputData):
 		return 110 - inputData
 		
@@ -121,7 +141,7 @@ class Ecu():
 		return inputData * 10
 
 	def convertToInj(self, mostSignificantBit, leastSignificantBit):
-		return round(((mostSignificantBit << 8) + leastSignificantBit) / 100)
+		return round(((mostSignificantBit << 8) + leastSignificantBit) / 100.0)
 	
 	def logToFile(self, data, fileName):
 		with open(fileName + '.hex', 'a+') as logFile:

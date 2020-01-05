@@ -22,9 +22,11 @@ class Database():
 
 	def init(self):
 		cursorObj = self.con.cursor()
-		cursorObj.execute("CREATE TABLE if not exists records(id integer PRIMARY KEY, date_record datetime)")
-		cursorObj.execute("CREATE TABLE if not exists sensors(id integer PRIMARY KEY, name text, command text, medition_text text)")
-		cursorObj.execute("CREATE TABLE if not exists dashboards(id integer PRIMARY KEY, name text, red_line text, yellow_line text, red_line_rpm text, yellow_line_rpm text)")
+		cursorObj.execute("CREATE TABLE if not exists records(id integer PRIMARY KEY AUTOINCREMENT, date_record datetime)")
+		cursorObj.execute("CREATE TABLE if not exists record_has_sensor(id integer PRIMARY KEY AUTOINCREMENT, date_record datetime)")
+		cursorObj.execute("CREATE TABLE if not exists sensors(id integer PRIMARY KEY, name text, command text, medition_text text, alert integer, alert_value integer)")
+		cursorObj.execute("CREATE TABLE if not exists backgrounds(id integer PRIMARY KEY, name text, url text)")
+		cursorObj.execute("CREATE TABLE if not exists dashboards(id integer PRIMARY KEY, name text, red_line integer, yellow_line integer, red_line_rpm integer, yellow_line_rpm integer)")
 		self.con.commit()
 		self.set_seed()
 		self.close()
@@ -37,5 +39,8 @@ class Database():
 		if len(cursorObj.execute('SELECT * FROM dashboards').fetchall()) == 0:
 			cursorObj.execute("INSERT INTO dashboards VALUES(1, 'KINEK', '0', '0', '0','0')")
 			cursorObj.execute("INSERT INTO dashboards VALUES(2, 'DUST', '0', '0', '0','0')")
+			self.con.commit()
+		if len(cursorObj.execute('SELECT * FROM sensors').fetchall()) == 0:
+			cursorObj.execute("INSERT INTO sensors VALUES(1, 'Water', '0', 'Celcius', '0', '0')")
 			self.con.commit()
 

@@ -113,10 +113,9 @@
             })
         },
         set_kinek(){
-            let self = this
             this.axios.get("settings/kinek").then(result => {
-                red_line = parseInt(result.data["kinkek"][2])
-                yellow_line = parseInt(result.data["kinkek"][3])
+                this.red_line = parseInt(result.data["kinkek"][4])
+                this.yellow_line = parseInt(result.data["kinkek"][5])
             }).catch(error => {
                 console.log(error);
             })
@@ -126,13 +125,28 @@
         "ecu.rpm": {
             handler: function() {
                 this.value = (this.ecu.rpm * 100) / 9000
-                if(this.ecu.rpm > 6500){
+                if (this.red_line > 0){
+                    if(this.ecu.rpm > this.red_line){
                     //danger
-                    this.color.rpm = "red darken-2"
-                } else if(this.ecu.rpm > 5500 && this.ecu.rpm < 9000) {
-                    //warning
-                    this.color.rpm = "amber"
-                } else {
+                        this.color.rpm = "red darken-2"
+                    }else if(this.yellow_line > 0){
+                        if(this.ecu.rpm > this.yellow_line && this.ecu.rpm < this.red_line){
+                            //warning
+                            this.color.rpm = "amber"
+                        }else{
+                        //success
+                        this.color.rpm = "light-blue" 
+                         }
+                    }else{
+                        //success
+                        this.color.rpm = "light-blue" 
+                    }
+                }else if(this.yellow_line > 0){
+                    if(this.ecu.rpm > this.red_line){
+                        //warning
+                        this.color.rpm = "amber"
+                    }
+                }else{
                     //success
                     this.color.rpm = "light-blue"
                 }

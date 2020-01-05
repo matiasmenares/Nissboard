@@ -14,6 +14,7 @@ from core.database import Database
 #API
 from api.system import System
 from api.settings.kinek_setting import KinekSetting
+from api.settings.water_setting import WaterSetting
 
 import urllib2
 import serial
@@ -36,8 +37,9 @@ socketio = SocketIO(app, cors_allowed_origins="*",async_mode='threading')
 #API
 api = Api(app)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
-api.add_resource(System, '/system')  # Route_1
-api.add_resource(KinekSetting, '/settings/kinek')  # Route_1
+api.add_resource(System, '/system')
+api.add_resource(KinekSetting, '/settings/kinek') 
+api.add_resource(WaterSetting, '/settings/water')
 
 #database
 d = Database()

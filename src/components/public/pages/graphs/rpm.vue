@@ -24,12 +24,12 @@
 			}
 		},
 		mounted () {
-			//this.fillData();
+			this.fillData();
 		},
 		methods: {
 			fillData () {
 				this.datacollection = {
-					labels: [this.getRandomInt(), this.getRandomInt()],
+					labels: ["RPM", "Speed"],
 					datasets: [
 						{
 							data: [this.getRandomInt(), this.getRandomInt()]

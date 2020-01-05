@@ -23,25 +23,26 @@ export default {
 	this.gradient2.addColorStop(0.5, 'rgba(0, 231, 255, 0.25)');
 	this.gradient2.addColorStop(1, 'rgba(0, 231, 255, 0)');
 	this.datacollection = {
-		labels: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()],
+		labels: [1, 2, 3, 4, 6],
 		datasets: [
 			{
-				label: 'Data One',
+				label: 'Rpm',
 				backgroundColor: this.gradient,
 				borderColor: '#FC2525', 
 				pointBackgroundColor: '#FC2525', 
 				borderWidth: 2, 
 				pointBorderColor: '#FC2525',
-				data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
-			}, {
-				label: 'Data One',
-				backgroundColor: this.gradient2,
-				borderColor: 'rgb(0, 231, 255)', 
-				pointBackgroundColor: 'rgb(0, 231, 255)', 
-				borderWidth: 2, 
-				pointBorderColor: 'rgb(0, 231, 255)',
-				data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+				data: [800, 3000, this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
 			}
+			// }, {
+			// 	label: 'Speed',
+			// 	backgroundColor: this.gradient2,
+			// 	borderColor: 'rgb(0, 231, 255)', 
+			// 	pointBackgroundColor: 'rgb(0, 231, 255)', 
+			// 	borderWidth: 2, 
+			// 	pointBorderColor: 'rgb(0, 231, 255)',
+			// 	data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+			// }
 		]
 	};
     // this.chartData is created in the mixin.
@@ -50,7 +51,7 @@ export default {
   },
   methods: {
 	getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+        return Math.floor(Math.random() * (50 - 5 + 1)) + 9000
       }
   }
 }
