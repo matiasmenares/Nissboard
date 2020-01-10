@@ -1,6 +1,30 @@
 <template>
-	<div class="small">
-        <div id="ball1" class="csstelemetry-gball csstelemetry-center" style="height: 300px; width: 300px;"></div>
+	<div style="margin-top: 20px; width: 90%; margin-left: auto; margin-right: auto">
+		<table style="width: 100%">
+		<tr>
+			<th style="vertical-align: top;">
+				<h2>1.2 G</h2>
+				<h3>Lateral</h3>
+			</th>
+			<th rowspan="2">
+				<div id="ball1" class="csstelemetry-gball csstelemetry-center" style="height: 380px; width: 380px;"></div>
+			</th>
+			<th style="vertical-align: top;">
+				<h2>0.9 G</h2>
+				<h3>Acceleration</h3>
+			</th>
+		</tr>
+		<tr>
+			<th style="vertical-align: bottom;">
+				<h1>2.2 G</h1>
+				<h3>Max Lateral</h3>
+			</th>
+			<th style="vertical-align: bottom;">
+				<h1>1.9 G</h1>
+				<h3>Max Acceleration</h3>
+			</th>
+		</tr>
+		</table>
 	</div>
 </template>
 
@@ -11,6 +35,8 @@
 		data () {
 			return {
 				height: 350,
+				size: 8,
+				scale: 2,
 				gradient: null,
 				gradient2: null,
 				datacollection: {},
@@ -22,14 +48,12 @@
 		},
 		mounted () {
 			let id = "ball1"
-			let size = 6;
-			let scale = 2;
 			this.ball = document.getElementById(id);
 			this.cursor = document.createElement("div");
 			this.cursor.classList.add("csstelemetry-gball-cursor");
-			this.cursor.style.height = size + "%";
-			this.cursor.style.width = size + "%";
-			this.cursor.style.margin = -(size / 2) + "% 0 0 " + -(size / 2) + "%";
+			this.cursor.style.height = this.size + "%";
+			this.cursor.style.width = this.size + "%";
+			this.cursor.style.margin = -(this.size / 2) + "% 0 0 " + -(this.size / 2) + "%";
 			this.ball.appendChild(this.cursor);
 			/*Scale*/
 			const steps = 3
@@ -41,7 +65,7 @@
 				grid.style.width = grid.style.height = currentStep + "%";
 				grid.style.margin = -(currentStep / 2) + "% 0 0 " + -(currentStep / 2) + "%";
 				let span = document.createElement("span");
-				span.innerText = ((currentStep / 100) * scale) + "G";
+				span.innerText = ((currentStep / 100) * this.scale) + "G";
 				grid.appendChild(span);
 				if (i % 2 != 0) {
 					grid.style.borderStyle = "dashed";
@@ -51,7 +75,7 @@
 			let span = document.createElement("span");
 			span.innerText = Math.trunc(this.scale) + "G";
 			this.ball.appendChild(span);
-			this.showForce(20,10)           
+			this.showForce(0,0);
 		},
 		methods: {
 			showForce(xAxis, yAxis) {
