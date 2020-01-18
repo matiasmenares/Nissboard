@@ -1,5 +1,6 @@
 //Graph
 import GraphRpm from './pages/graphs/rpm.vue';
+import GraphGforce from './pages/graphs/g-force.vue';
 //Dashboard
 import DashboarCuga from './pages/dashboards/cuga.vue';
 import DashboarKinek from './pages/dashboards/kinek.vue';
@@ -54,6 +55,11 @@ export const PublicRoutes =
       path: '/graph/rpm',
       component: GraphRpm,
       name: 'graph-rpm',
+    },
+    {
+      path: '/graph/g-force',
+      component: GraphGforce,
+      name: 'graph-gforce',
     },
     {
       path: '/settings/dashboard',

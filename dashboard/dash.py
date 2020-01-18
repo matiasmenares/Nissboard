@@ -11,12 +11,14 @@ from threading import Lock
 #Core
 from core.ecu import Ecu
 from core.database import Database
+from core.accelerometer import Accelerometer
+
 #API
 from api.system import System
 from api.settings.kinek_setting import KinekSetting
 from api.settings.water_setting import WaterSetting
 
-import urllib2
+from urllib.request import urlopen
 import serial
 import random
 import socketio
@@ -54,16 +56,20 @@ def test_connect():
 	global thread
 	with thread_lock:
 		if thread is None:
-			thread = socketio.start_background_task(set_ecu)
-			thread_2 = socketio.start_background_task(internet_on)
+			ecu = socketio.start_background_task(set_ecu)
+			internet = socketio.start_background_task(internet_on)
+			accelerometer = socketio.start_background_task(set_accelerometer)
 
 def set_ecu():
 	ecu.start(socketio)
-	
+
+def set_accelerometer():
+	acc.start()	
+
 def internet_on():
 	while True:
 		try:
-			urllib2.urlopen('http://216.58.192.142', timeout=1)
+			urlopen('http://216.58.192.142', timeout=1)
 			socketio.emit('InternetConnection', {'status': True})
 			time.sleep(3)
 		except: 
@@ -75,6 +81,7 @@ def main(params):
 		
 if __name__ == '__main__':
 	ecu = Ecu(params.d, socketio, params.e, serial)
+	acc = Accelerometer(socketio)
 
 try:
     main(params)

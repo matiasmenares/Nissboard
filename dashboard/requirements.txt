@@ -2,3 +2,6 @@ flask_socketio
 flask_cors
 wifi
 flask_restful
+serial
+adafruit-circuitpython-adxl34x
+adafruit-blinka

@@ -3,25 +3,47 @@
 		<table style="width: 100%">
 		<tr>
 			<th style="vertical-align: top;">
-				<h2>1.2 G</h2>
+				<h1>{{Math.abs(accelerometer.lateral.g)}} G</h1>
 				<h3>Lateral</h3>
 			</th>
-			<th rowspan="2">
+			<th rowspan="4">
 				<div id="ball1" class="csstelemetry-gball csstelemetry-center" style="height: 380px; width: 380px;"></div>
 			</th>
 			<th style="vertical-align: top;">
-				<h2>0.9 G</h2>
+				<h1>{{Math.abs(accelerometer.acceleration.g)}} G</h1>
 				<h3>Acceleration</h3>
 			</th>
 		</tr>
 		<tr>
 			<th style="vertical-align: bottom;">
-				<h1>2.2 G</h1>
-				<h3>Max Lateral</h3>
+				<h4>{{max_g.right}} G</h4>
+				<h5>Right</h5>
 			</th>
 			<th style="vertical-align: bottom;">
-				<h1>1.9 G</h1>
-				<h3>Max Acceleration</h3>
+				<h4>{{max_g.acc}} G</h4>
+				<h5>Acceleration</h5>
+			</th>
+		</tr>
+		<tr>
+			<th style="vertical-align: bottom;">
+				<h4>{{max_g.latetal}} G</h4>
+				<h5>Left</h5>
+
+			</th>
+			<th style="vertical-align: bottom;">
+				<h4>{{max_g.brake}} G</h4>
+				<h5>Brake</h5>
+
+			</th>
+		</tr>
+		<tr>
+			<th style="vertical-align: bottom;">
+				<h1>{{max_g.latetal}} G</h1>
+				<h4>Peak Lateral</h4>
+			</th>
+			<th style="vertical-align: bottom;">
+				<h1>{{max_g.acceleration}} G</h1>
+				<h4>Peak Acceleration</h4>
 			</th>
 		</tr>
 		</table>
@@ -40,13 +62,12 @@
 				gradient: null,
 				gradient2: null,
 				datacollection: {},
-				chartOptions: {
-					responsive: true,
-					maintainAspectRatio: false
-				}
+				accelerometer: {lateral: {ms: 0.0, g:0.0, g_calculation: 0.0}, acceleration: {ms: 0.0, g: 0.0, g_calculation: 0.0 }},
+				max_g: {latetal: 0.0, acceleration: 0.0, left: 0.0, right: 0.0, acc: 0.0, brake: 0.0 }
 			}
 		},
 		mounted () {
+			this.set_data();
 			let id = "ball1"
 			this.ball = document.getElementById(id);
 			this.cursor = document.createElement("div");
@@ -85,10 +106,79 @@
 				let res = [(Math.abs(xAxis) > Math.abs(maxX)) ? maxX : xAxis, (Math.abs(yAxis) > Math.abs(maxY)) ? maxY : yAxis];
 				this.cursor.style.left = 50 + ((50 - (this.size / 2)) * res[0]) / this.scale + "%";
 				this.cursor.style.top = 50 + ((50 - (this.size / 2)) * res[1]) / this.scale + "%";
+			},
+			set_data(){
+				this.sockets.subscribe('accelerometer', (data) => {
+					this.accelerometer = data;
+				})
 			}
 		},
-		computed: {
+		watch: {
+			"accelerometer.lateral.ms": {
+				handler: function() {
+					
+					if(this.accelerometer.lateral.g > 0.1 || this.accelerometer.lateral.g < -0.1){
+						this.accelerometer.lateral.g = this.accelerometer.lateral.g;
+					}else{
+						this.accelerometer.lateral.g = 0.0
+					}
+					if(this.accelerometer.acceleration.g > 0.1 || this.accelerometer.acceleration.g < -0.1){
+						this.accelerometer.acceleration.g = this.accelerometer.acceleration.g;
+					}else{
+						this.accelerometer.acceleration.g = 0.0
+					}
 
+					if(Math.abs(this.accelerometer.lateral.g) > this.max_g.latetal){
+						if(Math.abs(this.accelerometer.lateral.g) < 4.0){
+							this.max_g.latetal = Math.abs(this.accelerometer.lateral.g)
+						}
+					}
+
+					if(Math.abs(this.accelerometer.acceleration.g) > this.max_g.acceleration){
+						if(Math.abs(this.accelerometer.acceleration.g) < 4.0){
+							this.max_g.acceleration = Math.abs(this.accelerometer.acceleration.g)
+						}
+					}
+
+					if(this.accelerometer.lateral.g < 0.0){
+						//Right
+						if(Math.abs(this.accelerometer.lateral.g) > this.max_g.right){
+							if(Math.abs(this.accelerometer.lateral.g) < 4.0){
+								this.max_g.right = Math.abs(this.accelerometer.lateral.g)
+							}
+						}
+					}
+
+					if(this.accelerometer.lateral.g > 0.0){
+						//Left
+						if(Math.abs(this.accelerometer.lateral.g) > this.max_g.left){
+							if(Math.abs(this.accelerometer.lateral.g) < 4.0){
+								this.max_g.left = Math.abs(this.accelerometer.lateral.g)
+							}
+						}
+					}
+
+					if(this.accelerometer.acceleration.g > 0.0){
+						//Acceleration
+						if(Math.abs(this.accelerometer.acceleration.g) > this.max_g.acc){
+							if(Math.abs(this.accelerometer.acceleration.g) < 4.0){
+								this.max_g.acc = Math.abs(this.accelerometer.acceleration.g)
+							}
+						}
+					}
+
+
+					if(this.accelerometer.acceleration.g < 0.0){
+						//Brake
+						if(Math.abs(this.accelerometer.acceleration.g) > this.max_g.brake){
+							if(Math.abs(this.accelerometer.acceleration.g) < 4.0){
+								this.max_g.brake = Math.abs(this.accelerometer.acceleration.g)
+							}
+						}
+					}
+					this.showForce((this.accelerometer.lateral.g * - 1.0), this.accelerometer.acceleration.g)
+				}
+			},
 		}
 	}
 </script>
@@ -133,6 +223,6 @@
 }
 
 .csstelemetry-gball-cursor{
-  transition: 500ms;
+  transition: 300ms;
 }
 </style>
