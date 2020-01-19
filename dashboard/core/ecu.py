@@ -208,7 +208,7 @@ class Ecu():
 		acknowledgment = True
 		while acknowledgment:
 			response = self.PORT.read(1)
-			print "".join(hex(ord(n)) for n in response)
+			print("".join(hex(ord(n)) for n in response))
 			if response == '\xfe':
 				print("Command Stoped")
 				acknowledgment = False

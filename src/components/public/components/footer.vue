@@ -13,7 +13,7 @@
                         <b-row>
                             <b-col>
                                 <v-btn class="mr-2" @click="define_menu('Dashboard')"><v-icon>mdi-view-dashboard-variant</v-icon> Dash</v-btn>
-                                <v-btn class="mr-2" @click="send_to('graph-rpm')"><v-icon>mdi-chart-line</v-icon> Gráficos</v-btn>
+                                <v-btn class="mr-2" @click="define_menu('Graphs')"><v-icon>mdi-chart-line</v-icon> Gráficos</v-btn>
                                 <v-btn class="mr-2" @click="send_to()"><v-icon>mdi-alert-outline</v-icon> Alertas</v-btn>
                                 <v-btn class="mr-2" @click="send_to()"><v-icon>mdi-racing-helmet</v-icon> Race</v-btn>
                                 <v-btn class="mr-2" @click="send_to('g-force-gforce')"><v-icon>mdi-rotate-orbit</v-icon> G-force</v-btn>
@@ -27,7 +27,9 @@
                         </b-row>
                     </div>
                     <menu-dashboards v-if="menu == 'Dashboard'" :menu="menu"></menu-dashboards>
+                    <menu-graphs v-if="menu == 'Graphs'" :menu="menu"></menu-graphs>
                     <menu-configs v-if="menu == 'Config'" :menu="menu"></menu-configs>
+
                 </v-sheet>
             </v-bottom-sheet>
             <v-spacer></v-spacer>
@@ -42,6 +44,7 @@
 <script>
 import MenuDashboard from "./menus/dashboards";
 import MenuConfig from "./menus/configs";
+import GraphConfig from "./menus/graphs";
 
 export default {
     name: "Footer",
@@ -56,7 +59,8 @@ export default {
     },
     components:{
         'menu-dashboards': MenuDashboard,
-        'menu-configs': MenuConfig
+        'menu-configs': MenuConfig,
+        'menu-graphs': GraphConfig
     },
     mounted(){
         this.connections()

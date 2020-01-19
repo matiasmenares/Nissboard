@@ -10,19 +10,26 @@ import '@mdi/font/css/materialdesignicons.css'
 import vuetify from '@/plugins/vuetify'
 import HighchartsVue from 'highcharts-vue'
 import Vuex from 'vuex'
+import VueApexCharts from 'vue-apexcharts'
+
 
 Vue.use(vuetify, {
   iconfont: 'mdi'
 })
 
 Vue.use(new VueSocketIO({
-  connection: 'http://localhost:5000/',
+  connection: 'http://10.0.1.67:5000/',
 }))
 
+Vue.use(VueApexCharts)
 Vue.use(HighchartsVue)
 Vue.use(VueSvgGauge)
 Vue.use(BootstrapVue)
 Vue.use(Vuex)
+
+
+Vue.component('apexchart', VueApexCharts)
+
 
 const store = new Vuex.Store({
   state: {

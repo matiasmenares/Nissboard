@@ -24,7 +24,7 @@
                 Speed
             </b-col>
             <b-col>
-                <v-icon>mdi-gauge-full</v-icon> 
+                <v-icon>mdi-speedometer</v-icon> 
             </b-col>
             <b-col cols="8">
                 <v-progress-linear
