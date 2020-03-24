@@ -1,5 +1,13 @@
 # Nissboard
 
+![Nissboard Gif](https://github.com/matiasmenares/Nissboard/blob/master/extras/ezgif.com-video-to-gif.gif?raw=true)
+
+
+## Project setup
+```
+npm install
+```
+
 ## Project setup
 ```
 npm install
