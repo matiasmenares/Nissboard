@@ -7,7 +7,7 @@
 
 ### Whats is Nissboard?
 
-Nissboard is a realtime dashbaord for Nissan (soon for others brands) made with Raspberry pi, this project tested only in Nissan Skyline R34 for a while.
+Nissboard is a realtime dashboard for Nissan (soon for others brands) made with Raspberry pi, this project tested only in Nissan Skyline R34 for a while.
 
 ## Requirements
 
@@ -17,6 +17,7 @@ Nissboard is a realtime dashbaord for Nissan (soon for others brands) made with 
 * Accelerometer
 * GPS
 * Nissan consult
+* Serial to USB cable
 
 ## Tested on
 
