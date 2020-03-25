@@ -63,7 +63,7 @@ pip3 install requirements.txt
 ```
 #### Run server
 ```
-python3 /home/pi/nissboard/accelerometer/dashboard/dash.py -d /dev/ttyUSB0 &amp;
+python3 dashboard/dash.py -d /dev/ttyUSB0
 ```
 Note: /dev/ttyUSB0 is a path of USB Nissan consult, in development mode just add any path
 
