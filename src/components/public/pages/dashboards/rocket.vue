@@ -24,7 +24,7 @@
 								</span>
 							</td>
 							<td v-for="n in 3" :key="n" :class="['air-red-'+String(n)]">
-								<span :class="{'switch-led switch-led-red': true, 'active': (status == 2)}">
+								<span :class="{'switch-led switch-led-red': true, 'active': (status >= 2)}">
 									<span class="switch-led-border">
 										<span class="switch-led-light">
 											<span class="switch-led-glow"></span>
@@ -50,7 +50,7 @@
 								</span>
 							</td>
 							<td v-for="n in 3" :key="n" :class="['air-blue-'+String(n)]">
-								<span :class="{'switch-led switch-led-blue': true, 'active': (status >= 1)}">
+								<span :class="{'switch-led switch-led-blue': true, 'active': (status == 1)}">
 									<span class="switch-led-border">
 										<span class="switch-led-light">
 											<span class="switch-led-glow"></span>
@@ -59,7 +59,7 @@
 								</span>
 							</td>
 							<td v-for="n in 3" :key="n" :class="['air-green-'+String(n)]">
-								<span :class="{'switch-led switch-led-green': true, 'active': (status >= 0)}">
+								<span :class="{'switch-led switch-led-green': true, 'active': (status == 0)}">
 									<span class="switch-led-border">
 										<span class="switch-led-light">
 											<span class="switch-led-glow"></span>
