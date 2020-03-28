@@ -13,6 +13,9 @@ import SettingDashboard from './pages/settings/dashboard.vue';
 import SettingAlert from './pages/settings/alert.vue';
 //G-force
 import GforceGforce from './pages/g-force/gforce.vue';
+//Map
+import TrackMap from './pages/track/map.vue';
+
 
 export const PublicRoutes =
   [
@@ -40,6 +43,11 @@ export const PublicRoutes =
       path: '/dashboard/init',
       component: DashboarInit,
       name: 'dashboard-init',
+    },
+    {
+      path: '/track/map',
+      component: TrackMap,
+      name: 'track-map',
     },
     {
       path: '/dashboard/blume',

@@ -16,7 +16,7 @@
                                 <v-btn class="mr-2" @click="define_menu('Graphs')"><v-icon>mdi-chart-line</v-icon> Graphs</v-btn>
                                 <v-btn class="mr-2" @click="send_to()"><v-icon>mdi-racing-helmet</v-icon> Race</v-btn>
                                 <v-btn class="mr-2" @click="send_to('g-force-gforce')"><v-icon>mdi-rotate-orbit</v-icon> G-force</v-btn>
-                                <v-btn @click="send_to()" class="mr-2"><v-icon>mdi-go-kart-track</v-icon> Track</v-btn>
+                                <v-btn @click="send_to('track-map')" class="mr-2"><v-icon>mdi-go-kart-track</v-icon> Track</v-btn>
                                 <v-btn @click="define_menu('Config')"><v-icon>mdi-settings-outline</v-icon> Setting</v-btn>
                             </b-col>
                         </b-row>
