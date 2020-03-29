@@ -12,6 +12,7 @@ from threading import Lock
 from core.ecu import Ecu
 from core.database import Database
 from core.accelerometer import Accelerometer
+from core.gps import Gps
 
 #API
 from api.system import System
@@ -29,7 +30,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-e", help="Enviroments")
 parser.add_argument("-d", help="ECU USB Devise")
-args = parser.parse_args()
+parser.add_argument("-g", help="GPS USB Devise")
+
 params = parser.parse_args()
 #WebServer
 app = Flask(__name__)
@@ -59,12 +61,16 @@ def test_connect():
 			ecu = socketio.start_background_task(set_ecu)
 			internet = socketio.start_background_task(internet_on)
 			accelerometer = socketio.start_background_task(set_accelerometer)
+			gps = socketio.start_background_task(set_gps)
 
 def set_ecu():
 	ecu.start(socketio)
 
 def set_accelerometer():
-	acc.start()	
+	acc.start()
+
+def set_gps():
+	gps.start()
 
 def internet_on():
 	while True:
@@ -82,6 +88,7 @@ def main(params):
 if __name__ == '__main__':
 	ecu = Ecu(params.d, socketio, params.e, serial)
 	acc = Accelerometer(socketio)
+	gps = Gps(socketio, params.g, serial)
 
 try:
     main(params)
