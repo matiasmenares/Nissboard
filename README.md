@@ -5,7 +5,7 @@
 
 [![Code Climate](https://codeclimate.com/github/matiasmenares/Nissboard/badges/gpa.svg)](https://codeclimate.com/github/matiasmenares/Nissboard)
 
-![Nissboard Gif](https://github.com/matiasmenares/Nissboard/blob/master/extras/ezgif.com-video-to-gif.gif?raw=true)
+![Nissboard Gif](https://github.com/matiasmenares/Nissboard/blob/master/extras/video-readme.gif?raw=true)
 
 ### Whats is Nissboard?
 
@@ -68,11 +68,9 @@ python3 dashboard/dash.py -d /dev/ttyUSB0
 Note: /dev/ttyUSB0 is a path of USB Nissan consult, in development mode just add any path
 
 ## Screen Shots
-<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/dash-1.png" width="380">
-<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/track-list.png" width="380">
-<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/track-map.png" width="380">
-<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/g-force.png" width="380">
-<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/setting.png" width="380">
+<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/dash-1.png" width="380"><img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/dash-2.png" width="380">
+<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/track-list.png" width="380"><img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/track-map.png" width="380">
+<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/g-force.png" width="380"><img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/setting.png" width="380">
 
 ## Whats next?
 
