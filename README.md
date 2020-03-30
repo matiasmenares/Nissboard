@@ -68,11 +68,11 @@ python3 dashboard/dash.py -d /dev/ttyUSB0
 Note: /dev/ttyUSB0 is a path of USB Nissan consult, in development mode just add any path
 
 ## Screen Shots
-![Shuffle Logo](https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/dash-1.png)
-![Shuffle Logo](https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/track-list.png)
-![Shuffle Logo](https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/track-map.png)
-![Shuffle Logo](https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/g-force.png)
-![Shuffle Logo](https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/setting.png)
+<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/dash-1.png" width="380">
+<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/track-list.png" width="380">
+<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/track-map.png" width="380">
+<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/g-force.png" width="380">
+<img src="https://raw.githubusercontent.com/matiasmenares/Nissboard/master/extras/setting.png" width="380">
 
 ## Whats next?
 
