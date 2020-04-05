@@ -115,7 +115,7 @@ export default {
             led_outputs: [],
             channel_outputs: [],
             leds: [{id: 1, name: "1",},{id: 2, name: "2"}, {id: 3, name: "3"},{id: 4, name: "4"}, {id: 5, name: "5"},{id: 6, name: "6"},{id: 7, name: "7"}, {id: 8, name: "8"}],
-            colors: [{id: 1, name: "Blue",},{id: 2, name: "Red"}],
+            colors: [{id: 1, name: "red"}, {id: 2, name: "blue"}, {id: 3, name: "green"}, {id: 4, name: "yellow"}],
             visible: false,
             layout: "normal",
             options: { useKbEvents: false, preventClickEvent: false},

@@ -101,9 +101,10 @@ class Database():
 			cursorObj.execute("INSERT INTO measure VALUES(NULL, 'Revol. Per. Min.', '))', '))', 'This sensor measure RPM', 4)")
 
 		if len(cursorObj.execute('SELECT * FROM color').fetchall()) == 0:
-			cursorObj.execute("INSERT INTO color VALUES(NULL, 'Red', '2345', '0,255,255')")
-			cursorObj.execute("INSERT INTO color VALUES(NULL, 'Blue', '2345', '0,255,255')")
-			cursorObj.execute("INSERT INTO color VALUES(NULL, 'Green', '2345', '0,255,255')")
+			cursorObj.execute("INSERT INTO color VALUES(NULL, 'Red', '2345', '255,0,0')")
+			cursorObj.execute("INSERT INTO color VALUES(NULL, 'Blue', '2345', '0,0,255')")
+			cursorObj.execute("INSERT INTO color VALUES(NULL, 'Green', '2345', '0,255,0')")
+			cursorObj.execute("INSERT INTO color VALUES(NULL, 'Yellow', '2345', '255,255,0')")
 			self.con.commit()
 
 

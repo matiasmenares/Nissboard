@@ -26,8 +26,8 @@ class Output:
                     self.set_analog_output(output, response)
                 if output.channel_input.obd_input_id != None:
                     self.set_obd_output(output, response)
-            self.socketio.emit('channelOutput', response)
             self.externs(response)
+            self.socketio.emit('channelOutput', response)
 
     def externs(self, response):
             alarm = threading.Thread(target=self.alarm.send, args=(response,), daemon=True)
