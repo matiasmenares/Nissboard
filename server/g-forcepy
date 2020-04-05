@@ -1,0 +1,38 @@
+import time
+import board
+import busio
+import adafruit_adxl34x
+import subprocess as sp
+
+i2c = busio.I2C(board.SCL, board.SDA)
+
+ad = adafruit_adxl34x
+accelerometer = ad.ADXL345(i2c)
+accelerometer.data_rate = ad.DataRate.RATE_12_5_HZ
+accelerometer.range = ad.Range.RANGE_4_G
+#accelerometer.RANGE(RANGE_4_G)
+#accelerometer.set_data_rate(adafruit_adxl34x.ADXL345.ADXL345_DATARATE_12_5_HZ)
+
+xoff, YOFF, zoff = accelerometer.acceleration
+#yoff = accelerometer.acceleration[1]
+#zoff = accelerometer.acceleration[2]
+max_g = 0.0
+while True:
+    print("OFFSET Y %f"%(YOFF))
+    x,y,z = accelerometer.acceleration
+    latG = round((YOFF - y * (1/9.80655)),2)
+    print("latG=%f"%((latG)))
+   # print("Tapped: %s" % accelerometer.events['tap'])
+    print("%f"%(x))
+    print("%f"%(y))
+    print("%f"%(z))
+    if max_g < latG:
+        max_g = latG
+    print("Max G: %f"%max_g)
+
+ #   print("%f"%accelerometer.acceleration[0])
+ #   print("%f"%accelerometer.acceleration[1])
+ #   print("%f"%accelerometer.acceleration[2])
+    print("-----------------------")
+    time.sleep(0.05)
+    sp.call('clear',shell=True)

@@ -13,6 +13,7 @@ from core.ecu import Ecu
 from core.database import Database
 from core.accelerometer import Accelerometer
 from core.gps import Gps
+from core.analog import Analog
 
 #API
 from api.system import System
@@ -31,6 +32,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-e", help="Enviroments")
 parser.add_argument("-d", help="ECU USB Devise")
 parser.add_argument("-g", help="GPS USB Devise")
+parser.add_argument("-a", help="Arduino USB Devise")
 
 params = parser.parse_args()
 #WebServer
@@ -62,6 +64,7 @@ def test_connect():
 			internet = socketio.start_background_task(internet_on)
 			accelerometer = socketio.start_background_task(set_accelerometer)
 			gps = socketio.start_background_task(set_gps)
+			arduino = socketio.start_background_task(set_analog)
 
 def set_ecu():
 	ecu.start(socketio)
@@ -72,10 +75,13 @@ def set_accelerometer():
 def set_gps():
 	gps.start()
 
+def set_analog():
+	analog.start()
+
 def internet_on():
 	while True:
 		try:
-			urlopen('http://216.58.192.142', timeout=1)
+			urlopen('http://apptec.cl', timeout=1)
 			socketio.emit('InternetConnection', {'status': True})
 			time.sleep(3)
 		except: 
@@ -89,6 +95,7 @@ if __name__ == '__main__':
 	ecu = Ecu(params.d, socketio, params.e, serial)
 	acc = Accelerometer(socketio)
 	gps = Gps(socketio, params.g, serial)
+	analog = Analog(socketio, params.a, serial)
 
 try:
     main(params)

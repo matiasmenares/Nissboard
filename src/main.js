@@ -12,13 +12,12 @@ import HighchartsVue from 'highcharts-vue'
 import Vuex from 'vuex'
 import VueApexCharts from 'vue-apexcharts'
 
-
 Vue.use(vuetify, {
   iconfont: 'mdi'
 })
 
 Vue.use(new VueSocketIO({
-  connection: 'http://10.0.1.67:5000/',
+  connection: process.env.VUE_APP_API_URL,
 }))
 
 Vue.use(VueApexCharts)
@@ -60,9 +59,10 @@ Vue.router = router;
 App.router = Vue.router;
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: process.env.VUE_APP_API_URL,
   params: {}
 });
+
 Vue.use(VueAxios, instance);
 
 new Vue({

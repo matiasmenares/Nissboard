@@ -16,7 +16,7 @@
                                 <v-btn class="mr-2" @click="define_menu('Graphs')"><v-icon>mdi-chart-line</v-icon> Graphs</v-btn>
                                 <v-btn class="mr-2" @click="send_to()"><v-icon>mdi-racing-helmet</v-icon> Race</v-btn>
                                 <v-btn class="mr-2" @click="send_to('g-force-gforce')"><v-icon>mdi-rotate-orbit</v-icon> G-force</v-btn>
-                                <v-btn @click="send_to('track-map')" class="mr-2"><v-icon>mdi-go-kart-track</v-icon> Track</v-btn>
+                                <v-btn @click="send_to('track-list')" class="mr-2"><v-icon>mdi-go-kart-track</v-icon> Track</v-btn>
                                 <v-btn @click="define_menu('Config')"><v-icon>mdi-settings-outline</v-icon> Setting</v-btn>
                             </b-col>
                         </b-row>
@@ -29,11 +29,12 @@
             </v-bottom-sheet>
             <v-spacer></v-spacer>
             <div class="mx-12 text-center">
+                <v-icon :class="icons.analog.color">mdi-current-ac</v-icon>
                 <v-icon :class="icons.ecu.color">mdi-access-point-network</v-icon>
                 <v-icon :class="icons.gps.color">mdi-satellite-variant</v-icon>
                 <v-icon :class="icons.internet.color">{{icons.internet.icon}}</v-icon>
             </div>
-            <span class="min-letter">Nissboard <small>v 0.4</small></span>
+            <span class="min-letter">Nissboard <small>v 0.9.1</small></span>
         </v-footer>
 </template>
 <script>
@@ -47,9 +48,11 @@ export default {
         return{
             menu: "Main",
             sheet: false,
-            icons: { ecu: {color: "text-color-warning"}, gps: {color: "text-color-warning"}, internet: {color: "text-color-warning", icon: "mdi-wifi-strength-outline"}},
+            icons: { ecu: {color: "text-color-warning"}, gps: {color: "text-color-warning"}, analog: {color: "text-color-warning"}, internet: {color: "text-color-warning", icon: "mdi-wifi-strength-outline"}},
             ecu_connection: {status: false},
-            internet_connection: {status: false}
+            internet_connection: {status: false},
+            gps_connection: {status: false},
+            analog_connection: {status: false},
         }
     },
     components:{
@@ -75,6 +78,12 @@ export default {
             this.sockets.subscribe('InternetConnection', (data) => {
                 this.internet_connection = data;
             })
+            this.sockets.subscribe('gpsConnection', (data) => {
+                this.gps_connection = data;
+            })
+            this.sockets.subscribe('analogConnection', (data) => {
+                this.analog_connection = data;
+            })
         }
 
     },
@@ -99,6 +108,29 @@ export default {
                 }
             }
         },
+        "analog_connection": {
+            handler: function() {
+                if (this.analog_connection.status){
+                    this.icons.analog.color =  "text-color-success"
+                }else{
+                    this.icons.analog.color =  "text-color-warning"
+                }
+            }
+        },
+        "gps_connection": {
+            handler: function() {
+                if (this.gps_connection.status){
+                    if(this.gps_connection.signal){
+                        this.icons.gps.color =  "text-color-success"
+                    }else{
+                        this.icons.gps.color =  "text-color-warning"
+                    }                 
+                }else{
+                    this.icons.gps.icon = "mdi-wifi-strength-outline"
+                    this.icons.gps.color =  "text-color-danger"
+                }
+            }
+        },
     }
 }
 </script>
@@ -108,6 +140,9 @@ export default {
 }
 .text-color-success{
     color: rgb(0, 170, 0);
+}
+.text-color-danger{
+    color: rgb(243, 32, 19);
 }
 .min-letter {
   font-size: 15px;

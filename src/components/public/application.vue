@@ -55,7 +55,7 @@ html {
     background: #FF0000;
 }
 #app{
-    background: url("../../../static/images/back5.png") !important;
+    background: url("../../../static/images/back5.png") !important ;
     background-size:     cover !important;
     background-repeat:   no-repeat !important;
 	background-position: center center !important;

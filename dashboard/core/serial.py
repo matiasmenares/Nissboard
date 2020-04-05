@@ -12,7 +12,6 @@ class PortSerial():
 			self.PORT = self.serial.Serial(self.devise_path, 9600, timeout=None)
 			return False
 		except:
-# 			traceback.print_exc()
 			self.PORT = None
 			return True
 		return False

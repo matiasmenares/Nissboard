@@ -130,7 +130,7 @@
             dashboard:{
                 colors:{ safe: "light-green" , warning: "amber" , danger: "red darken-2"}
             },
-            analog: {}
+            analog: {turbo: { psi: {value: "0.0", raw: "0000", peak: "0.0"}, bar: {value: "0.0", raw: "0000", peak: "0.0"}}},
         }
     },
     components: {

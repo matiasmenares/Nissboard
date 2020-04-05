@@ -1,7 +1,7 @@
 <template>
 	<b-row>
 		<b-col cols="12">
-			<MglMap class="map-box-track" :accessToken="accessToken" :mapStyle="mapStyle" :center="coordinates" :zoom="12" :geojson="geojson">
+			<MglMap class="map-box-track" :accessToken="accessToken" :mapStyle="mapStyle" :center="this.center" :zoom="15" :geojson="geojson">
 				<MglNavigationControl position="top-right" />
 				<MglGeojsonLayer
 				type="geojson"
@@ -22,12 +22,13 @@
 			MglGeojsonLayer,
 			MglNavigationControl
 		},
+		props:{
+			center: {default: null}
+		},
 		data() {
 			return {
 				accessToken: "pk.eyJ1Ijoibmlzc2JvYXJkIiwiYSI6ImNrOGF0dWEyeTAxcmkzZXFjYzN4Yzl0NXoifQ.DVP6cTca7lufsyIiAw1N0g",
-				mapStyle: 'mapbox://styles/mapbox/light-v10',
-				// coordinates: [-70.6338175, -34.0369462],
-				coordinates:  [-77.035, 38.875],
+				mapStyle: 'mapbox://styles/mapbox/satellite-v9',
 				geojson: {
 					'type': 'FeatureCollection',
 					'id': 'geoID'
@@ -44,30 +45,35 @@
 							geometry: {
 								type: 'LineString',
 								coordinates: [
-									[-77.044211, 38.852924],
-									[-77.045659, 38.860158],
-									[-77.044232, 38.862326],
-									[-77.040879, 38.865454],
-									[-77.039936, 38.867698],
-									[-77.040338, 38.86943],
-									[-77.04264, 38.872528],
-									[-77.03696, 38.878424],
-									[-77.032309, 38.87937],
-									[-77.030056, 38.880945],
-									[-77.027645, 38.881779],
-									[-77.026946, 38.882645],
-									[-77.026942, 38.885502],
-									[-77.028054, 38.887449],
-									[-77.02806, 38.892088],
-									[-77.03364, 38.892108],
-									[-77.033643, 38.899926]
+									[-70.632402, -34.036850],
+									[-70.630672, -34.037105],
+									[-70.628530, -34.037495],
+									[-70.628122, -34.037700],
+									[-70.628052, -34.038000],
+									[-70.627998, -34.038125],
+									[-70.627660, -34.038219],
+									[-70.627188, -34.038263],
+									[-70.626952, -34.038285],
+									[-70.626421, -34.038116],
+									[-70.625170, -34.037725],
+									[-70.624962, -34.037434],
+									[-70.625005, -34.037063],
+									[-70.625153, -34.036956],
+									[-70.625475, -34.036829],
+									[-70.625813, -34.036760],
+									[-70.626300, -34.036687],
+									[-70.626673, -34.036683],
+									[-70.627419, -34.036930],
+									[-70.627907, -34.036974],
+									[-70.628159, -34.036910],
+									[-70.628457, -34.036754]
 								]
 							}
 						}
 					},
 					paint: {
 						'line-color': 'red',
-						'line-width': 14,
+						'line-width': 5,
 						// 'line-gradient' must be specified using an expression
 						// with the special 'line-progress' property		
 						'line-gradient': [
@@ -75,14 +81,22 @@
 							['linear'],
 							['line-progress'],
 							0,
-							'blue',
+							'lime',
 							0.1,
-							'royalblue',
+							'lime',
 							0.3,
-							'cyan',
+							'lime',
+							0.35,
+							'yellow',
+							0.4,
+							'red',
 							0.5,
 							'lime',
+							0.65,
+							'lime',
 							0.7,
+							'lime',
+							0.9,
 							'yellow',
 							1,
 							'red'

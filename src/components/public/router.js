@@ -15,6 +15,7 @@ import SettingAlert from './pages/settings/alert.vue';
 import GforceGforce from './pages/g-force/gforce.vue';
 //Map
 import TrackMap from './pages/track/map.vue';
+import TrackList from './pages/track/list.vue';
 
 
 export const PublicRoutes =
@@ -48,6 +49,12 @@ export const PublicRoutes =
       path: '/track/map',
       component: TrackMap,
       name: 'track-map',
+      props: true
+    },
+    {
+      path: '/track/list',
+      component: TrackList,
+      name: 'track-list',
     },
     {
       path: '/dashboard/blume',
