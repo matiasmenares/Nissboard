@@ -56,7 +56,7 @@
                 ></v-progress-linear>
             </b-col>
             <b-col>
-                <span class="normal-letter">{{ecu.turbo}}</span> Bar
+                <span class="normal-letter">{{analog.turbo.bar.value}}</span> Bar
             </b-col>
         </b-row>
         <b-row class="mt-1">
@@ -129,7 +129,8 @@
             values: {rpm: 0, speed: 0, temp: 0, batt: 0, turbo: 0, tps: 0, intake: 0},
             dashboard:{
                 colors:{ safe: "light-green" , warning: "amber" , danger: "red darken-2"}
-            }
+            },
+            analog: {}
         }
     },
     components: {
@@ -138,13 +139,19 @@
     },
     created() {
         this.set_data()
+        this.set_analog_sensors()
     },
     methods: {
         set_data(){
             this.sockets.subscribe('ecuData', (data) => {
                 this.ecu = data;
             })
-        }
+        },
+        set_analog_sensors(){
+            this.sockets.subscribe('analog', (data) => {
+                this.analog = data;
+            })
+        },
     },
     watch: {
         "ecu.rpm": {
@@ -212,13 +219,13 @@
                 }
             }
         },
-        "ecu.turbo": {
+        "analog.turbo.bar.value": {
             handler: function() {
-            this.values.turbo = (this.ecu.turbo * 100.0) / 1.0
-                 if(this.values.turbo > 0.8){
+                this.values.turbo = ((this.analog.turbo.bar.value * 100.0) / 2.0)
+                 if(this.values.turbo > 80.0){
                     //danger
                     this.colors.turbo = this.dashboard.colors.danger
-                } else if(this.values.turbo > 0.7 && this.ecu.turbo < 0.8) {
+                } else if(this.values.turbo > 70.0 && this.ecu.turbo < 80.0) {
                     //warning
                     this.colors.turbo = this.dashboard.colors.warning
                 } else {

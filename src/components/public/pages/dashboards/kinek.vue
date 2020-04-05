@@ -59,7 +59,7 @@
         <hr>
         <b-row no-gutters class="mt-5">
            <b-col class="text-center normal-letter">
-                <h1>{{ecu.turbo}} <span class="min-letter">Boost</span></h1>
+                <h1>{{analog.turbo.bar.value}} <span class="min-letter">Boost (BAR)</span></h1><small>Peak: {{analog.turbo.bar.peak}}</small>
             </b-col>
             <b-col class="text-center normal-letter">
                 <h1>{{Math.round((((ecu.tps) * 100)/4100),2)}} % <span class="min-letter"> TPS</span></h1>
@@ -92,6 +92,7 @@
         return{
             sheet: false,
             ecu: {rpm: 0, speed: 0, temp: 0, batt: 0, turbo: 0.0, tps: 0, intake: 0, timming: 0},
+            analog: {psi: {value: "0.0", raw: "0000", peak: "0.0"}, bar: {value: "0.0", raw: "0000", peak: "0.0"}},
             color: {rpm: "light-blue"},
             value: 0,
             red_line: 0,
@@ -104,12 +105,18 @@
     },
     created() {
         this.set_data()
+        this.set_analog_sensors()
         this.set_kinek()
     },
     methods: {
         set_data(){
             this.sockets.subscribe('ecuData', (data) => {
                 this.ecu = data;
+            })
+        },
+        set_analog_sensors(){
+            this.sockets.subscribe('analog', (data) => {
+                this.analog = data;
             })
         },
         set_kinek(){
@@ -191,3 +198,4 @@ svg {
   overflow: hidden;
 }
 </style>
+
