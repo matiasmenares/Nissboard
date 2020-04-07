@@ -15,7 +15,7 @@ def run(user, host, dir):
 	hostname = user+"@"+host
 	os.system("cd .. && npm run build")
 	os.system("cd .. && zip -r dist.zip dist")
-	os.system("cd .. && zip -r dashboard.zip dashbord")
+	os.system("cd .. && zip -r dashboard.zip dashboard")
 	subprocess.run(["scp", "../dist.zip", hostname+":~/dist.zip"])
 	subprocess.run(["scp", "../dashboard.zip", hostname+":~/dashboard.zip"])
 	subprocess.run(["scp", "raspberry/kiosk.sh", hostname+":~/kiosk.sh"])
@@ -27,8 +27,12 @@ def run(user, host, dir):
 	subprocess.call(['ssh', '-t', hostname, "sudo rm ~/dist.zip"])
 	subprocess.call(['ssh', '-t', hostname, "sudo mv ~/dist/* /var/www/html"])
 	#Backend
+	subprocess.call(['ssh', hostname, "sudo rm -rf ~/nissboard-prod"])
+	subprocess.call(['ssh', hostname, "sudo rm -rf ~/dashboard"])
+	subprocess.call(['ssh', hostname, "mkdir  ~/nissboard-prod"])
 	subprocess.run(['ssh', hostname, "unzip ~/dashboard.zip"])
-	subprocess.run(['ssh', hostname, "mv ~/dashboard ~/nissboard-prod/dashboard"])
+	subprocess.run(['ssh', hostname, "mv ~/dashboard/* ~/nissboard-prod/"])
+	subprocess.run(['ssh', hostname, "pip3 install -r ~/nissboard-prod/requirements.txt"])
 	#Reboot
 	subprocess.call(['ssh', '-t', hostname, "sudo reboot"])
 
