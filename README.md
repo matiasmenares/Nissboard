@@ -13,8 +13,9 @@ Nissboard is a realtime dashboard for Nissan (soon for others brands) made with 
 
 ## Requirements
 
-* Raspberry pi 3 
+* Vuejs
 * Python3
+* Raspberry pi 3 
 * Screen LCD
 * Accelerometer
 * GPS
@@ -27,6 +28,8 @@ Nissboard is a realtime dashboard for Nissan (soon for others brands) made with 
 * Raspberry pi 3B+
 * Raspbian GNU/Linux 10 (buster)
 * Accelerometer ADXL345
+* Accelerometer ADXL345
+* Arduino Nano every
 
 ## Sensor Displayed
 
@@ -59,11 +62,11 @@ npm run serve
 
 #### Project setup
 ```
-pip3 install requirements.txt 
+pip3 install -r requirements.txt 
 ```
 #### Run server
 ```
-python3 dashboard/dash.py -d /dev/ttyUSB0
+python3 dashboard/dash.py -d /dev/ttyUSB0 -g /dev/cu.usbserial-0001 -a /dev/cu.usbmodem144101
 ```
 Note: /dev/ttyUSB0 is a path of USB Nissan consult, in development mode just add any path
 
