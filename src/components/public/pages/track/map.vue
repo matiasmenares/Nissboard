@@ -1,7 +1,10 @@
 <template>
 	<b-row>
 		<b-col cols="12">
-			<MglMap class="map-box-track" :accessToken="accessToken" :mapStyle="mapStyle" :center="this.center" :zoom="15" :geojson="geojson">
+			<MglMap class="map-box-track" :accessToken="accessToken" :mapStyle.sync="mapStyle" :center="center" :zoom="15" :geojson="geojson">
+				<MglMarker :coordinates="coord" color="green">
+					<v-icon slot="marker">mdi-map-marker</v-icon>
+				</MglMarker>
 				<MglNavigationControl position="top-right" />
 				<MglGeojsonLayer
 				type="geojson"
@@ -10,17 +13,19 @@
 				:source="geojson"
 				:layer="layers"
 				/>
+
 			</MglMap>
 		</b-col>
 	</b-row>
 </template>
 <script>
-	import { MglMap, MglGeojsonLayer, MglNavigationControl } from "vue-mapbox";
+	import { MglMap, MglGeojsonLayer, MglNavigationControl, MglMarker } from "vue-mapbox";
 	export default {
 		components: {
 			MglMap,
 			MglGeojsonLayer,
-			MglNavigationControl
+			MglNavigationControl,
+			MglMarker,
 		},
 		props:{
 			center: {default: null}
@@ -29,6 +34,7 @@
 			return {
 				accessToken: "pk.eyJ1Ijoibmlzc2JvYXJkIiwiYSI6ImNrOGF0dWEyeTAxcmkzZXFjYzN4Yzl0NXoifQ.DVP6cTca7lufsyIiAw1N0g",
 				mapStyle: 'mapbox://styles/mapbox/satellite-v9',
+				coord: [-70.632402, -34.036850],
 				geojson: {
 					'type': 'FeatureCollection',
 					'id': 'geoID'
@@ -112,9 +118,5 @@
 	};
 </script>
 <style>
-	.map-box-track{ position: absolute;
-		top: 0;
-		bottom: 0;
-		width: 100%;
-	}
+
 </style>
