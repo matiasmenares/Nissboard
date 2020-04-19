@@ -17,8 +17,13 @@ from core.analog import Analog
 
 #API
 from api.system import System
+from api.measure import Measure
+from api.measure_group import MeasureGroup
 from api.settings.kinek_setting import KinekSetting
 from api.settings.water_setting import WaterSetting
+from api.settings.channels.input import InputChannel
+from api.settings.channels.analog import AnalogChannel
+from api.settings.channels.output import OutputChannel
 
 from urllib.request import urlopen
 import serial
@@ -32,7 +37,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-e", help="Enviroments")
 parser.add_argument("-d", help="ECU USB Devise")
 parser.add_argument("-g", help="GPS USB Devise")
-parser.add_argument("-a", help="Arduino USB Devise")
+parser.add_argument("-a", help="Analog USB Devise")
 
 params = parser.parse_args()
 #WebServer
@@ -46,6 +51,11 @@ cors = CORS(app, resources={r"*": {"origins": "*"}})
 api.add_resource(System, '/system')
 api.add_resource(KinekSetting, '/settings/kinek') 
 api.add_resource(WaterSetting, '/settings/water')
+api.add_resource(AnalogChannel, '/settings/channels/input/analog')
+api.add_resource(InputChannel, '/settings/channels/input')
+api.add_resource(OutputChannel, '/settings/channels/output')
+api.add_resource(Measure, '/measures')
+api.add_resource(MeasureGroup, '/measure_groups')
 
 #database
 d = Database()
@@ -83,13 +93,13 @@ def internet_on():
 		try:
 			urlopen('http://apptec.cl', timeout=1)
 			socketio.emit('InternetConnection', {'status': True})
-			time.sleep(3)
+			time.sleep(5)
 		except: 
 			socketio.emit('InternetConnection', {'status': False})
-			time.sleep(3)
+			time.sleep(1)
 #Init 1
 def main(params):
-	socketio.run(app)
+	socketio.run(app, host= '0.0.0.0')
 		
 if __name__ == '__main__':
 	ecu = Ecu(params.d, socketio, params.e, serial)
