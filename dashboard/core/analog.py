@@ -29,5 +29,5 @@ class Analog():
 		ard = self.PORT.readline().decode().replace("\r\n","")
 		analog = eval(ard)
 		self.socketio.emit('analogConnection', {'status': True})
-		self.socketio.emit("analog", {'turbo': {'psi': { 'value': analog['psi'], 'peak': analog['peak'], 'raw': analog['raw'] }, 'bar': {'value': round((analog['psi'] * 0.0689475729317831), 2), 'peak': round((analog['peak'] * 0.0689475729317831), 2) } }})
+		self.socketio.emit("analog", {'turbo': {'psi': { 'value': analog['psi'], 'peak': analog['peak'], 'raw': analog['raw'], 'voltage': analog['voltage'], 'boostmar': analog['boostmar'] }, 'bar': {'value': round((analog['psi'] * 0.0689475729317831), 2), 'peak': round((analog['peak'] * 0.0689475729317831), 2), 'voltage': analog['voltage'] } }})
 		time.sleep(0.001)

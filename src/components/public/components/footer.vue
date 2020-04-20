@@ -24,7 +24,6 @@
                     <menu-dashboards v-if="menu == 'Dashboard'" :menu="menu"></menu-dashboards>
                     <menu-graphs v-if="menu == 'Graphs'" :menu="menu"></menu-graphs>
                     <menu-configs v-if="menu == 'Config'" :menu="menu"></menu-configs>
-
                 </v-sheet>
             </v-bottom-sheet>
             <v-spacer></v-spacer>
