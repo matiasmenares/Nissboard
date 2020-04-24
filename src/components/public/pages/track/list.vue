@@ -10,7 +10,7 @@
         <v-icon>mdi-view-module</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-list two-line subheader>
+    <v-list two-line subheader class="overflow-y-auto">
       <v-subheader inset>Circuit</v-subheader>
       <v-list-item v-for="item in items2" :key="item.title" @click="set_map(item.center)" >
         <v-list-item-avatar>
@@ -52,6 +52,7 @@
   }
 </script>
 <style scoped>
-.list-tracks{
-}
+	.v-list{
+		height: 361px;
+	}
 </style>
