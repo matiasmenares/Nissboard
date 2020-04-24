@@ -1,77 +1,67 @@
 <template>
     <div class="">
-        <b-row class="mt-12 mx-12">
+        <img class="picture" style="" src="../../../../../static/images/dashboards/gtr.jpg" width="710" height="330" />
+        <b-row class="mt-2 front">
             <b-col>
-               <canvas data-type="radial-gauge"
-                    data-width="300"
-                    data-height="300"
-                    data-units="Km/H"
-                    data-min-value="0"
-                    data-max-value="220"
-                    data-major-ticks="0,20,40,60,80,100,120,140,160,180,200,220"
-                    data-minor-ticks="2"
-                    data-stroke-ticks="true"
-                    data-highlights='[
-                        {"from": 200, "to": 220, "color": "rgba(200, 50, 50, .75)"}
-                    ]'
-                    :data-value="ecu.speed"
-                     data-color-major-ticks="#ddd"
-                    data-color-minor-ticks="#ddd"
-                    data-color-title="#eee"
-                    data-color-units="#ccc"
-                    data-color-numbers="#eee"
-                    data-color-plate="#222"
-                    data-border-shadow-width="0"
-                    data-borders="false"
-                    data-needle-type="arrow"
-                    data-needle-width="2"
-                    data-needle-circle-size="7"
-                    data-needle-circle-outer="true"
-                    data-needle-circle-inner="false"
-                    data-animation-duration="200"
-                    data-animation-rule="linear"
-                ></canvas>
+              <vue-svg-gauge
+                    :start-angle="-110"
+                    :end-angle="110"
+                    :value="ecu.rpm"
+                    :separator-step="0"
+                    :min="0"
+                    :max="7000"
+                    :gauge-color="color.rpm.gaugue"
+                    base-color="#00000"
+                    :scale-interval="1000"
+                    :inner-radius="80"
+                    class="left-gauge">
+              <div class="inner-text">
+                <h1>{{ecu.rpm}}</h1>
+                <span class="size-letter">RPM</span>
+              </div>
+              </vue-svg-gauge>
             </b-col>
             <b-col>
-                <canvas data-type="radial-gauge"
-                    data-width="300"
-                    data-height="300"
-                    data-units="x1000 RPM"
-                    data-min-value="0"
-                    data-max-value="9000"
-                    data-major-ticks="0,1,2,3,4,5,6,7,8,9"
-                    data-minor-ticks="2"
-                    data-stroke-ticks="true"
-                    data-highlights='[
-                        {"from": 7500, "to": 9000, "color": "rgba(200, 50, 50, .75)"}
-                    ]'
-                    :data-value="ecu.rpm"
-                    data-color-major-ticks="#ddd"
-                    data-color-minor-ticks="#ddd"
-                    data-color-title="#eee"
-                    data-color-units="#ccc"
-                    data-color-numbers="#eee"
-                    data-color-plate="#222"
-                    data-border-shadow-width="0"
-                    data-borders="false"
-                    data-needle-type="arrow"
-                    data-needle-width="2"
-                    data-needle-circle-size="7"
-                    data-needle-circle-outer="true"
-                    data-needle-circle-inner="false"
-                    data-animation-duration="400"
-                    data-animation-rule="linear"
-                ></canvas>
+                <vue-svg-gauge
+                    :start-angle="-110"
+                    :end-angle="110"
+                    :value="ecu.mph"
+                    :separator-step="0"
+                    :min="0"
+                    :max="120"
+                    :gauge-color="color.mph"
+                    :scale-interval=20
+                    :inner-radius="80"
+                >
+                <div class="inner-text">
+                  <h1>{{ecu.mph}}</h1>
+                  <span class="size-letter">Speed</span>
+                </div>
+                </vue-svg-gauge>
             </b-col>
-            <b-col style="">
-                <radial-gauge :options="{'max-value': 1000}" :value="ecu.rpm/100"></radial-gauge>
+            <b-col>
+              <vue-svg-gauge
+                    :start-angle="-110"
+                    :end-angle="110"
+                    :value="ecu.rpm"
+                    :separator-step="0"
+                    :min="0"
+                    :max="7000"
+                    :gauge-color="color.rpm.gaugue"
+                    :scale-interval="1000"
+                    :inner-radius="80"
+                    class="rpm">
+              <div class="inner-text">
+                <h1>{{ecu.rpm}}</h1>
+                <span class="size-letter">RPM</span>
+              </div>
+              </vue-svg-gauge>
             </b-col>
         </b-row>
     </div>
-
 </template>
 <script>
-  import RadialGauge from 'vue-canvas-gauges/src/RadialGauge'
+//   import RadialGauge from 'vue-canvas-gauges/src/RadialGauge'
   export default {
     name: 'Rocket',
     data(){
@@ -83,7 +73,7 @@
         }
     },
     components: {
-      RadialGauge,
+    //   RadialGauge,
     },
     mounted(){
 
@@ -102,13 +92,13 @@
         "ecu.rpm": {
             handler: function() {
                 if(this.ecu.rpm > 6500){
-                    this.color.rpm.gaugue = "#FF3232"
+                    this.color.rpm.gaugue = "#000000"
                     this.color.rpm.bar = "danger"
                 } else if(this.ecu.rpm > 5500 && this.ecu.rpm < 9000) {
-                    this.color.rpm.gaugue = "#FFFF00"
+                    this.color.rpm.gaugue = "#000000"
                     this.color.rpm.bar = "warning"
                 } else {
-                    this.color.rpm.gaugue = "#008000"
+                    this.color.rpm.gaugue = "#07080a"
                     this.color.rpm.bar = "success"
                 }
             }
@@ -133,5 +123,20 @@
 </script>
 
 <style scoped>
-   
+   .picture{
+        z-index: 1;
+        position: absolute;
+        left: 45px;
+        top: 45px;
+   }
+   .front{
+       z-index: 2;
+       position: absolute;
+   }
+	.left-gauge {
+		position: absolute;
+		margin-left: 13%;
+		margin-top: 6%;
+		max-width: 150px;
+	}
 </style>
