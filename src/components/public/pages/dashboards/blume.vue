@@ -1,63 +1,128 @@
 <template>
     <div class="">
-        <img class="picture" style="" src="../../../../../static/images/dashboards/gtr.jpg" width="710" height="330" />
-        <b-row class="mt-2 front">
-            <b-col>
-              <vue-svg-gauge
-                    :start-angle="-110"
-                    :end-angle="110"
-                    :value="ecu.rpm"
-                    :separator-step="0"
-                    :min="0"
-                    :max="7000"
-                    :gauge-color="color.rpm.gaugue"
-                    base-color="#00000"
-                    :scale-interval="1000"
-                    :inner-radius="80"
-                    class="left-gauge">
-              <div class="inner-text">
-                <h1>{{ecu.rpm}}</h1>
-                <span class="size-letter">RPM</span>
-              </div>
-              </vue-svg-gauge>
-            </b-col>
-            <b-col>
-                <vue-svg-gauge
-                    :start-angle="-110"
-                    :end-angle="110"
-                    :value="ecu.mph"
-                    :separator-step="0"
-                    :min="0"
-                    :max="120"
-                    :gauge-color="color.mph"
-                    :scale-interval=20
-                    :inner-radius="80"
-                >
-                <div class="inner-text">
-                  <h1>{{ecu.mph}}</h1>
-                  <span class="size-letter">Speed</span>
-                </div>
-                </vue-svg-gauge>
-            </b-col>
-            <b-col>
-              <vue-svg-gauge
-                    :start-angle="-110"
-                    :end-angle="110"
-                    :value="ecu.rpm"
-                    :separator-step="0"
-                    :min="0"
-                    :max="7000"
-                    :gauge-color="color.rpm.gaugue"
-                    :scale-interval="1000"
-                    :inner-radius="80"
-                    class="rpm">
-              <div class="inner-text">
-                <h1>{{ecu.rpm}}</h1>
-                <span class="size-letter">RPM</span>
-              </div>
-              </vue-svg-gauge>
-            </b-col>
-        </b-row>
+        <img class="picture" style="" src="../../../../../static/images/dashboards/gtr.jpg" />
+        <div class="picture">
+			<b-row no-gutters class="mt-2 front">
+				<b-col style="">
+				<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="ecu.rpm"
+						:separator-step="0"
+						:min="0"
+						:max="7000"
+						:gauge-color="color.rpm.gaugue"
+						base-color="#000000"
+						:scale-interval="1000"
+						:inner-radius="80"
+						class="gauge">
+				<div class="inner-text">
+					<h1>{{ecu.rpm}}</h1>
+					<span class="size-letter">RPM</span>
+				</div>
+				</vue-svg-gauge>
+				</b-col>
+				<b-col>
+					<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="ecu.mph"
+						:separator-step="0"
+						:min="0"
+						:max="120"
+						:gauge-color="color.mph"
+						:scale-interval="20"
+						:inner-radius="80"
+						base-color="#000000"
+						class="gauge"
+					>
+					<div class="inner-text">
+					<h1>{{ecu.mph}}</h1>
+					<span class="size-letter">Speed</span>
+					</div>
+					</vue-svg-gauge>
+				</b-col>
+				<b-col>
+				<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="ecu.rpm"
+						:separator-step="0"
+						:min="0"
+						:max="7000"
+						:gauge-color="color.rpm.gaugue"
+						:scale-interval="900"
+						:inner-radius="80"
+						base-color="#000000"
+						class="gauge">
+				<div class="inner-text">
+					<h1>{{ecu.rpm}}</h1>
+					<span class="size-letter">RPM</span>
+				</div>
+				</vue-svg-gauge>
+				</b-col>
+			</b-row>
+			<b-row no-gutters class="front lower-row">
+				<b-col style="">
+				<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="ecu.rpm"
+						:separator-step="0"
+						:min="0"
+						:max="7000"
+						:gauge-color="color.rpm.gaugue"
+						base-color="#000000"
+						:scale-interval="1000"
+						:inner-radius="80"
+						class="gauge">
+				<div class="inner-text">
+					<h1>{{ecu.rpm}}</h1>
+					<span class="size-letter">RPM</span>
+				</div>
+				</vue-svg-gauge>
+				</b-col>
+				<b-col>
+					<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="ecu.mph"
+						:separator-step="0"
+						:min="0"
+						:max="120"
+						:gauge-color="color.mph"
+						:scale-interval="20"
+						:inner-radius="80"
+						base-color="#000000"
+						class="gauge"
+					>
+					<div class="inner-text">
+					<h1>{{ecu.mph}}</h1>
+					<span class="size-letter">Speedo</span>
+					</div>
+					</vue-svg-gauge>
+				</b-col>
+				<b-col>
+				<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="ecu.rpm"
+						:separator-step="0"
+						:min="0"
+						:max="7000"
+						:gauge-color="color.rpm.gaugue"
+						:scale-interval="1000"
+						:inner-radius="80"
+						base-color="#000000"
+						class="gauge">
+				<div class="inner-text">
+					<h1>{{ecu.rpm}}</h1>
+					<span class="size-letter">RPM</span>
+				</div>
+				</vue-svg-gauge>
+				</b-col>
+			</b-row>
+		</div>
     </div>
 </template>
 <script>
@@ -123,20 +188,36 @@
 </script>
 
 <style scoped>
-   .picture{
-        z-index: 1;
-        position: absolute;
-        left: 45px;
-        top: 45px;
-   }
-   .front{
-       z-index: 2;
-       position: absolute;
-   }
-	.left-gauge {
+	.picture{
+		z-index: 1;
 		position: absolute;
-		margin-left: 13%;
-		margin-top: 6%;
-		max-width: 150px;
+		left: 45px;
+		top: 45px;
+		width: 710px;
+		height: 330px;
 	}
-</style>
+	.front{
+		z-index: 2;
+	}
+	.lower-row{
+		margin-top: 70px;
+	}
+	.gauge{
+		border: 0px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 70%;
+		margin-top: 14px;
+	}
+	.inner-text {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		bottom: -65px;
+	}
+	.inner-text span {
+		max-width: 10px;
+		color: rgb(255, 255, 255);
+	}
+	</style>
