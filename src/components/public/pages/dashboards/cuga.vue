@@ -1,24 +1,6 @@
 <template>
       <div class="gauge-container">
-        <b-row id="element">
-            <b-col>
-              <div class="left-gauge">
-                <vue-svg-gauge
-                    :start-angle="-100"
-                    :end-angle="20"
-                    :value="ecu.temp"
-                    :separator-step="0"
-                    :min="0"
-                    :max="170"
-                    :gauge-color="color.temp"
-                    :scale-interval="10"
-                    :inner-radius="80">
-                    <div class="inner-text-left">
-                      <h1>{{ecu.temp || 0}}</h1>
-                    </div>
-                    </vue-svg-gauge>
-                </div>
-            </b-col>
+        <b-row class="mt-2">
             <b-col>
               <vue-svg-gauge
                     :start-angle="-110"
@@ -56,35 +38,81 @@
                 </vue-svg-gauge>
             </b-col>
             <b-col>
-              <div class="right-gauge">
-                <vue-svg-gauge
-                    :start-angle="-22"
-                    :end-angle="100"
-                    :value="ecu.temp"
+              <vue-svg-gauge
+                    :start-angle="-110"
+                    :end-angle="110"
+                    :value="analog.turbo.psi.value"
                     :separator-step="0"
                     :min="0"
-                    :max="170"
-                    :gauge-color="color.temp"
-                    :scale-interval="10"
-                    :inner-radius="80">
-                    <div class="inner-text">
-                    <h1>{{ecu.temp || 0}}</h1>
-                    </div>
-                </vue-svg-gauge>
+                    :max="14"
+                    :gauge-color="color.rpm.gaugue"
+                    :scale-interval="4"
+                    :inner-radius="80"
+                    class="rpm">
+              <div class="inner-text">
+                <h1>{{analog.turbo.psi.value}}</h1>
+                <span class="size-letter">Boost</span>
               </div>
+              </vue-svg-gauge>
             </b-col>
         </b-row>
-        <b-row>
+        <b-row class="mt-2">
             <b-col>
-                Battery 14.0 V
+              <vue-svg-gauge
+                    :start-angle="-110"
+                    :end-angle="110"
+                    :value="ecu.rpm"
+                    :separator-step="0"
+                    :min="0"
+                    :max="7000"
+                    :gauge-color="color.rpm.gaugue"
+                    :scale-interval="1000"
+                    :inner-radius="80"
+                    class="rpm">
+              <div class="inner-text">
+                <h1>{{ecu.rpm}}</h1>
+                <span class="size-letter">RPM</span>
+              </div>
+              </vue-svg-gauge>
             </b-col>
             <b-col>
-                sadasdaaaa
+                <vue-svg-gauge
+                    :start-angle="-110"
+                    :end-angle="110"
+                    :value="ecu.mph"
+                    :separator-step="0"
+                    :min="0"
+                    :max="120"
+                    :gauge-color="color.mph"
+                    :scale-interval=20
+                    :inner-radius="80"
+                >
+                <div class="inner-text">
+                  <h1>{{ecu.mph}}</h1>
+                  <span class="size-letter">Speed</span>
+                </div>
+                </vue-svg-gauge>
             </b-col>
             <b-col>
-                sadasdaaaa
+              <vue-svg-gauge
+                    :start-angle="-110"
+                    :end-angle="110"
+                    :value="ecu.rpm"
+                    :separator-step="0"
+                    :min="0"
+                    :max="7000"
+                    :gauge-color="color.rpm.gaugue"
+                    :scale-interval="1000"
+                    :inner-radius="80"
+                    class="rpm">
+              <div class="inner-text">
+                <h1>{{ecu.rpm}}</h1>
+                <span class="size-letter">RPM</span>
+              </div>
+              </vue-svg-gauge>
             </b-col>
         </b-row>
+        
     </div>
 </template>
 <script>
@@ -95,6 +123,7 @@
         return{
             sheet: false,
             ecu: {rpm: 0, mph: 0, temp: 0},
+            analog: {turbo: { psi: {value: "0.0", raw: "0000", peak: "0.0"}, bar: {value: "0.0", raw: "0000", peak: "0.0"}}},
             color: {
                 rpm: { gaugue:"#008000", bar: "success" }, mph: "#008000", temp: "#008000" }
         }
@@ -106,11 +135,18 @@
     },
     created() {
         this.set_data()
+        this.set_analog()
+
     },
     methods: {
         set_data(){
             this.sockets.subscribe('ecuData', (data) => {
                 this.ecu = data;
+            })
+        },
+        set_analog(){
+            this.sockets.subscribe('analog', (data) => {
+                this.analog = data;
             })
         }
     },
@@ -166,14 +202,14 @@
 	}
 	.inner-text {
 		height: 100%;
-		width: 90%;
+		width: 100%;
 		position: absolute;
 		text-align: center;
 		bottom: -65px;
 	}
 	.inner-text-left {
 		height: 100%;
-		width: 70%;
+		width: 100%;
 		position: absolute;
 		text-align: center;
 		bottom: -65px;
