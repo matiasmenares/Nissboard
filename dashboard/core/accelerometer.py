@@ -9,7 +9,7 @@ import adafruit_adxl34x
 class Accelerometer():
 
 	def __init__(self, socketio):
-		self.start = False
+		self.runit = False
 		try:
 			self.socketio = socketio
 			i2c = busio.I2C(board.SCL, board.SDA)
@@ -17,12 +17,12 @@ class Accelerometer():
 			self.accelerometer = ad.ADXL345(i2c)
 			self.accelerometer.data_rate = ad.DataRate.RATE_12_5_HZ
 			self.accelerometer.range = ad.Range.RANGE_4_G
-			self.start = True
+			self.runit = True
 		except:
-			self.start = False
+			self.runit = False
 			print("No Accelerometer is finded")
-	def start():
-		if self.start:
+	def start(self):
+		if self.runit:
 			while True:
 				xoff, YOFF, zoff = self.accelerometer.acceleration
 				if zoff < 1.5 and YOFF < 1.0:
