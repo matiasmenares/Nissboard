@@ -1,5 +1,7 @@
 <template>
     <div class="">
+		<h1 class="hours">{{ timestamp }}</h1>
+        <img class="picture-header" style="" src="../../../../../static/images/dashboards/header-gtr.png" />
         <img class="picture" style="" src="../../../../../static/images/dashboards/gtr.jpg" />
         <div class="picture">
 			<b-row no-gutters class="mt-2 front">
@@ -7,30 +9,32 @@
 				<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="ecu.rpm"
+						:value="analog.turbo.bar.value"
 						:separator-step="0"
 						:min="0"
-						:max="7000"
-						:gauge-color="color.rpm.gaugue"
+						:max="1"
+						:transitionDuration="10"
+						gauge-color="#f8f9f9"
 						base-color="#000000"
 						:scale-interval="1000"
 						:inner-radius="80"
 						class="gauge">
-				<div class="inner-text">
-					<h1>{{ecu.rpm}}</h1>
-					<span class="size-letter">RPM</span>
-				</div>
+					<div class="inner-text">
+						<h1>{{analog.turbo.bar.value}}</h1>
+						<span class="size-letter">Speed</span>
+					</div>
 				</vue-svg-gauge>
 				</b-col>
 				<b-col>
 					<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="ecu.mph"
+						:value="analog.turbo.bar.value"
 						:separator-step="0"
 						:min="0"
-						:max="120"
-						:gauge-color="color.mph"
+						:max="1"
+						:transitionDuration="10"
+						gauge-color="#f8f9f9"
 						:scale-interval="20"
 						:inner-radius="80"
 						base-color="#000000"
@@ -46,11 +50,12 @@
 				<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="ecu.rpm"
+						:value="analog.turbo.bar.value"
 						:separator-step="0"
 						:min="0"
-						:max="7000"
-						:gauge-color="color.rpm.gaugue"
+						:max="1"
+						:transitionDuration="10"
+						gauge-color="#f8f9f9"
 						:scale-interval="900"
 						:inner-radius="80"
 						base-color="#000000"
@@ -67,11 +72,12 @@
 				<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="ecu.rpm"
+						:value="analog.turbo.bar.value"
 						:separator-step="0"
 						:min="0"
-						:max="7000"
-						:gauge-color="color.rpm.gaugue"
+						:max="1"
+						:transitionDuration="10"
+						gauge-color="#f8f9f9"
 						base-color="#000000"
 						:scale-interval="1000"
 						:inner-radius="80"
@@ -86,11 +92,12 @@
 					<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="ecu.mph"
+						:value="analog.turbo.bar.value"
 						:separator-step="0"
+						:transitionDuration="10"
 						:min="0"
-						:max="120"
-						:gauge-color="color.mph"
+						:max="1"
+						gauge-color="#f8f9f9"
 						:scale-interval="20"
 						:inner-radius="80"
 						base-color="#000000"
@@ -106,11 +113,12 @@
 				<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="ecu.rpm"
+						:value="analog.turbo.bar.value"
 						:separator-step="0"
 						:min="0"
-						:max="7000"
-						:gauge-color="color.rpm.gaugue"
+						:max="1"
+						:transitionDuration="10"
+						gauge-color="#f8f9f9"
 						:scale-interval="1000"
 						:inner-radius="80"
 						base-color="#000000"
@@ -133,6 +141,8 @@
         return{
             sheet: false,
             ecu: {rpm: 0, speed: 0, temp: 0},
+            timestamp: null,
+            analog: {turbo: { psi: {value: "0.0", raw: "0000", peak: "0.0"}, bar: {value: "0.0", raw: "0000", peak: "0.0"}}},
             color: {
                 rpm: { gaugue:"#008000", bar: "success" }, mph: "#008000", temp: "#008000" }
         }
@@ -145,13 +155,25 @@
     },
     created() {
         this.set_data()
+        this.set_analog_sensors()
+		setInterval(this.getNow, 1000);
     },
     methods: {
         set_data(){
             this.sockets.subscribe('ecuData', (data) => {
                 this.ecu = data;
             })
-        }
+        },
+        set_analog_sensors(){
+            this.sockets.subscribe('analog', (data) => {
+                this.analog = data;
+            })
+		},
+		getNow: function() {
+			const today = new Date();
+			const time = today.getHours() + ":" + today.getMinutes()
+			this.timestamp = time;
+		}
     },
     watch: {
         "ecu.rpm": {
@@ -188,19 +210,25 @@
 </script>
 
 <style scoped>
+	.picture-header{
+		z-index: 1;
+		position: absolute;
+		width: 800px;
+		height: 65px;
+	}
 	.picture{
 		z-index: 1;
 		position: absolute;
-		left: 45px;
-		top: 45px;
-		width: 710px;
-		height: 330px;
+		left: 10px;
+		top: 70px;
+		width: 785px;
+		height: 340px;
 	}
 	.front{
 		z-index: 2;
 	}
 	.lower-row{
-		margin-top: 70px;
+		margin-top: 60px;
 	}
 	.gauge{
 		border: 0px;
@@ -219,5 +247,11 @@
 	.inner-text span {
 		max-width: 10px;
 		color: rgb(255, 255, 255);
+	}
+	.hours {
+		position: absolute;
+		z-index: 2;
+		margin-left: 670px;
+		font-size: 43px;
 	}
 	</style>
