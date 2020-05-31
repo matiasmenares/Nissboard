@@ -1,6 +1,6 @@
 <template>
 <v-card>
-    <v-tabs color="accent-4" left>
+    <v-tabs class="settings tabs-y-scroll" color="accent-4" left>
       <v-tab>Kinek</v-tab>
       <v-tab>Dust</v-tab>
       <v-tab>General</v-tab>
@@ -115,5 +115,11 @@
 	.small {
 		max-width: 740px;
 		margin:  50px auto;
+	}	
+	.settings .v-tabs-items{
+		height: 370px;
+	}
+	.tabs-y-scroll .v-tabs-items{
+		overflow-y: scroll !important;
 	}
 </style>
