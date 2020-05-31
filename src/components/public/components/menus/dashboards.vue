@@ -15,6 +15,13 @@
                 <v-btn class="mr-4" @click="send_to('dashboard-cuga')"><v-icon>mdi-alpha-c-box-outline</v-icon> Cuga</v-btn>
             </b-col>
         </b-row>
+        <b-row>
+            <b-col>
+                <v-btn class="mr-4" @click="send_to('dashboard-proton')"><v-icon>mdi-alpha-c-box-outline</v-icon> Proton</v-btn>
+
+                <v-btn class="mr-4" @click="send_to('dashboard-nebula')"><v-icon>mdi-alpha-c-box-outline</v-icon> Nebula</v-btn>
+            </b-col>
+        </b-row>
     </div>
 </template>
 <script>

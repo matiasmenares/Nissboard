@@ -7,7 +7,7 @@
 
 float rawval = 0; // Setup raw sensor value
 float barboost = 0; // Setup value for boost bar
-
+int poto = 100;
 // peak
 
 int boostPeakReset = 4000; // time in milis to reset peak value
@@ -47,9 +47,8 @@ void loop() // Start loop
   if (boostPeak < boostmbar && boostmbar > 0.50) {
     boostPeak = boostmbar;
   }
-  
+  poto;
   peak = (((boostPeak * 0.001) - barAbsolute) * 14) - 14 ; // 0.97 = 970mbar atmospheric pressure correction
-
   if ((((boostmbar  * 0.001) * 14) - 14) < 0) {
     sender = "{'psi': "+String(((boostmbar * 0.001) * 14) - 14)+", 'peak': "+String(peak)+", 'raw': "+ String(rawval) +", 'voltage': "+String(rawval * (5.0 / 1023.0))+", 'boostmar': "+boostmbar+", 'percentage': "+boostpercentage+"}";
   }

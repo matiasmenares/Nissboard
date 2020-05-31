@@ -1,5 +1,5 @@
 <template>
-      <div>       
+      <div id="init-div">       
         <b-row no-gutters class="mt-10">
            <b-col class="text-center max-letter">
                 <h1>{{ecu.speed}} <span class="min-letter">Kph</span></h1>
@@ -130,6 +130,10 @@
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Quantico');
+#init-div {
+  font-family: 'Quantico', sans-serif;
+}
 .normal-letter{
   font-size: 20px;
 }

@@ -1,5 +1,5 @@
 <template>
-      <div class="mx-12">
+    <div  class="mx-12">
         <b-row class="mt-1">
             <b-col>
                 RPM
@@ -47,10 +47,8 @@
             </b-col>
             <b-col cols="8">
                 <v-progress-linear
-                    :active="active"
                     :background-opacity="0.5"
                     :height="40"
-                    :indeterminate="indeterminate"
                     :value="values.turbo"
                     :color="colors.turbo"
                 ></v-progress-linear>

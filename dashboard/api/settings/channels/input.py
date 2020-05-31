@@ -9,5 +9,5 @@ class InputChannel(Resource):
 
 	def get(self):
 		cursor = self.database.con.cursor()
-		cursor.execute("SELECT * FROM channel_inputs INNER JOIN analog_channels ON analog_channels.id = channel_inputs.analog_channel_id")
+		cursor.execute("SELECT * FROM channel_input INNER JOIN analog_input ON analog_input.id = channel_input.analog_input_id")
 		return {'channels': cursor.fetchall()}

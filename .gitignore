@@ -22,3 +22,5 @@ yarn-error.log*
 *.zip
 *.hex
 *.pyc
+# Dash
+dashboard/Database.db

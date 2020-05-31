@@ -7,3 +7,6 @@ adafruit-circuitpython-adxl34x
 adafruit-blinka
 pynmea2
 termcolor
+Flask-SQLAlchemy==2.1.0
+flask_marshmallow
+rpi-backlight

@@ -11,14 +11,21 @@
                 <v-card flat color="transparent">
                     <v-subheader>Yellow Shift Light RPM</v-subheader>
                     <v-card-text>
-                      <v-slider v-model="kinek.rpm.yellow" :tick-labels="rpm" :max="11" step="1" ticks tick-size="2" @click="save()"></v-slider>
+                      <v-slider v-model="kinek.yellow_line" :tick-labels="rpm" :max="11" step="1" ticks tick-size="2" @click="save()"></v-slider>
                     </v-card-text>
                 </v-card>
                 <v-card flat color="transparent">
                     <v-subheader>Red Shift Light RPM</v-subheader>
                     <v-card-text>
-                        <v-slider v-model="kinek.rpm.red" :tick-labels="rpm" :max="11" step="1" ticks tick-size="2" @click="save()"></v-slider>
+                        <v-slider v-model="kinek.red_line" :tick-labels="rpm" :max="11" step="1" ticks tick-size="2" @click="save()"></v-slider>
                     </v-card-text>
+                </v-card>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col  v-for="(output) in kinek.dashboard_outputs" :key="output.id">
+                <v-card flat color="transparent">
+                    <v-select v-model="kinek.outputs[output.id]" :items="channel_outputs"  :rules="[v => !!v || 'Input sensor is required']" :label="output.name"  @change="save()" required autocomplete="off" />
                 </v-card>
             </v-col>
           </v-row>
@@ -31,7 +38,13 @@
 	export default {
 		data () {
 			return {
+        dashboars: [],
+        channel_outputs: [],
         kinek: {
+          outputs: [],
+          dashboard_outputs: null,
+          yellow_line: null,
+          red_line: null,
           rpm: {
             yellow: null,
             red: null,
@@ -44,32 +57,35 @@
 			}
 		},
 		mounted () {
-			this.set_kinek();
+			this.set_dashboards();
 		},
 		methods: {
-      set_kinek(){
+      set_dashboards(){
         this.axios.get("settings/kinek").then(result => {
-            this.kinek.rpm.red = parseInt(result.data["kinkek"][2])
-            this.kinek.rpm.yellow = parseInt(result.data["kinkek"][3])
-            this.kinek.rpm.last_red = parseInt(result.data["kinkek"][2])
-            this.kinek.rpm.last_yellow = parseInt(result.data["kinkek"][3])
+            result.data.outputs.map(out =>{ this.channel_outputs.push({text: out.name, value: out.id})})
+            this.set_kinek(result.data)
         }).catch(error => {
             console.log(error);
         })
       },
+      set_kinek(result){
+        // this.kinek = result.dashboards.filter(dash => dash == 'KINEK')
+        this.kinek.dashboard_outputs = result.dashboard_outputs.filter(output => output.dashboard_id == 1)
+      },
 			save(){
-        if(this.kinek.rpm.red > this.kinek.rpm.yellow){
-          this.axios.post("settings/kinek",{red_line: this.kinek.rpm.red, yellow_line: this.kinek.rpm.yellow, yellow_line_rpm: this.set_to_rpm(this.kinek.rpm.yellow), red_line_rpm: this.set_to_rpm(this.kinek.rpm.red) }).then(result => {
-            this.kinek.rpm.last_red = this.kinek.rpm.red
-            this.kinek.rpm.last_yellow = this.kinek.rpm.yellow
+        if(this.kinek.red_line > this.kinek.yellow_line){
+          this.kinek.outputs = this.kinek.outputs.filter(out => out != null)
+          this.axios.post("settings/kinek", {kinek: this.kinek}).then(result => {
+            this.kinek.rpm.last_red = this.kinek.red_line
+            this.kinek.rpm.last_yellow = this.kinek.yellow_line
             console.log(result)
           }).catch(error => {
             console.log(error);
           })
         }else{
-          this.$store.dispatch('showAlert', {type: "warning", text: "Yellow line debe ser menor a redline"}).then(() => {
-            this.kinek.rpm.red = this.kinek.rpm.last_red
-            this.kinek.rpm.yellow = this.kinek.rpm.last_yellow
+          this.$store.dispatch('showAlert', {type: "warning", text: "Yellow line must be less than redline"}).then(() => {
+            this.kinek.red_line = this.kinek.red_line
+            this.kinek.yellow_line = this.kinek.yellow_line
 					})
         }
       },

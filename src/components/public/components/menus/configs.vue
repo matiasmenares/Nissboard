@@ -2,15 +2,26 @@
     <div>
         <b-row>
             <b-col>
-                <v-btn class="mr-2" @click="send_to('setting-alert')"><v-icon>mdi-alert-outline</v-icon> Alertas</v-btn>
+                <v-btn class="mr-2" @click="send_to('setting-alert')"><v-icon>mdi-alert-outline</v-icon> Alerts</v-btn>
 
-                <v-btn class="mr-2" @click="send_to('setting-dashboard')"><v-icon>mdi-view-dashboard-variant</v-icon> Dashboards</v-btn>
+                <v-btn class="mr-2" @click="send_to('setting-dashboard')"><v-icon>mdi-view-dashboard-variant</v-icon> Dash</v-btn>
+
+                <v-btn class="mr-2" @click="send_to('setting-channel-list')"><v-icon>mdi-current-ac</v-icon> Channel Input</v-btn>
+
+                <v-btn class="mr-2" @click="send_to('setting-channel-output-list')"><v-icon>mdi-current-ac</v-icon> Channel Output</v-btn>
 
                 <v-btn class="mr-2" @click="send_to('dashboard-kinek')"><v-icon>mdi-wifi</v-icon> Wifi</v-btn>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <v-btn class="mr-2" @click="send_to('setting-screen')"><v-icon>mdi-overscan</v-icon> Screen</v-btn>
 
                 <v-btn class="mr-2" @click="send_to('dashboard-blume')"><v-icon>mdi-account</v-icon> Account</v-btn>
 
-                <v-btn class="mr-2" @click="shutdown()"><v-icon>mdi-power</v-icon> Shutdown</v-btn>
+                <v-btn class="mr-2" @click="off('shutdown')"><v-icon>mdi-power</v-icon> Shutdown</v-btn>
+
+                <v-btn class="mr-2" @click="off('reboot')"><v-icon>mdi-power</v-icon> Reboot</v-btn>
             </b-col>
         </b-row>
     </div>
@@ -36,13 +47,12 @@ export default {
             this.menu = "Main"
             this.$router.push({ name: name, params: {}});
         },
-        shutdown(){
-            this.axios.delete("system").then(result => {
-                console.log(result)
+        off(action){
+            this.axios.delete("system",{action: action}).then(() => {
             }).catch(error => {
                 console.log(error);
             }) 
-        }
+        },
     },
 }
 </script>

@@ -11,6 +11,8 @@ import vuetify from '@/plugins/vuetify'
 import HighchartsVue from 'highcharts-vue'
 import Vuex from 'vuex'
 import VueApexCharts from 'vue-apexcharts'
+import VueTouchKeyboard from "vue-touch-keyboard";
+// import style from "vue-touch-keyboard/dist/vue-touch-keyboard.css";
 
 Vue.use(vuetify, {
   iconfont: 'mdi'
@@ -20,15 +22,14 @@ Vue.use(new VueSocketIO({
   connection: process.env.VUE_APP_API_URL,
 }))
 
+Vue.use(VueTouchKeyboard);
 Vue.use(VueApexCharts)
 Vue.use(HighchartsVue)
 Vue.use(VueSvgGauge)
 Vue.use(BootstrapVue)
 Vue.use(Vuex)
 
-
 Vue.component('apexchart', VueApexCharts)
-
 
 const store = new Vuex.Store({
   state: {

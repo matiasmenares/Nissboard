@@ -209,7 +209,7 @@
 	}
 	.inner-text-left {
 		height: 100%;
-		width: 100%;
+		width: 1000%;
 		position: absolute;
 		text-align: center;
 		bottom: -65px;

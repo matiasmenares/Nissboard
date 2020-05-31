@@ -8,9 +8,18 @@ import DashboarRocket from './pages/dashboards/rocket.vue';
 import DashboarBlume from './pages/dashboards/blume.vue';
 import DashboarDust from './pages/dashboards/dust.vue';
 import DashboarInit from './pages/dashboards/init.vue';
+import DashboarProton from './pages/dashboards/proton.vue';
+import DashboarNebula from './pages/dashboards/nebula.vue';
+
 //Setting
 import SettingDashboard from './pages/settings/dashboard.vue';
 import SettingAlert from './pages/settings/alert.vue';
+import SettingChannelAnalogInput from './pages/settings/channels/analogs/input.vue';
+import SettingChannelList from './pages/settings/channels/list.vue';
+import SettingChannelOutputList from './pages/settings/channels/output/list.vue';
+import SettingChannelOutputForm from './pages/settings/channels/output/form.vue';
+import SettingScreen from './pages/settings/screen.vue';
+
 //G-force
 import GforceGforce from './pages/g-force/gforce.vue';
 //Map
@@ -46,6 +55,11 @@ export const PublicRoutes =
       name: 'dashboard-init',
     },
     {
+      path: '/dashboard/proton',
+      component: DashboarProton,
+      name: 'dashboard-proton',
+    },
+    {
       path: '/track/map',
       component: TrackMap,
       name: 'track-map',
@@ -60,6 +74,11 @@ export const PublicRoutes =
       path: '/dashboard/blume',
       component: DashboarBlume,
       name: 'dashboard-blume',
+    },
+    {
+      path: '/dashboard/nebula',
+      component: DashboarNebula,
+      name: 'dashboard-nebula',
     },
     {
       path: '/dashboard/dust',
@@ -85,5 +104,31 @@ export const PublicRoutes =
       path: '/settings/alert',
       component: SettingAlert,
       name: 'setting-alert',
+    },
+    {
+      path: '/settings/screen',
+      component: SettingScreen,
+      name: 'setting-screen',
+    },
+    {
+      path: '/settings/channels/analogs/input',
+      component: SettingChannelAnalogInput,
+      name: 'setting-channel-analog-input',
+      props: true
+    },
+    {
+      path: '/settings/channels/list',
+      component: SettingChannelList,
+      name: 'setting-channel-list',
+    },
+    {
+      path: '/settings/channels/output/list',
+      component: SettingChannelOutputList,
+      name: 'setting-channel-output-list',
+    },
+    {
+      path: '/settings/channels/output/form',
+      component: SettingChannelOutputForm,
+      name: 'setting-channel-output-form',
     },
   ];

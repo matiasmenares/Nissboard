@@ -26,11 +26,15 @@ class Gps():
 
 	def parse_gps(self):
 		gps = self.PORT.readline().decode()
+		speed = gps
 		if gps.find('GGA') > 0:
 			msg = pynmea2.parse(gps)
+			speed = speed.find('VTG')
+			speed = pynmea2.parse(speed)
+			print(speed.spd_over_grnd_kmph)
 			self.socketio.emit('gpsConnection', {'status': True, "signal": self.signal(msg.lat, msg.lon) })
-			self.socketio.emit("gps", {"lat": msg.lat, "lat_dir": msg.lat_dir, "lon": msg.lon, "lon_dir": msg.lon_dir, "altitude": msg.altitude, "altitude_long": msg.altitude_units, "sat_numbers": msg.num_sats})
-			print ("Timestamp: %s -- Lat: %s %s -- Lon: %s %s -- Altitude: %s %s -- Satellites: %s" % (msg.timestamp,msg.lat,msg.lat_dir,msg.lon,msg.lon_dir,msg.altitude,msg.altitude_units,msg.num_sats))
+			self.socketio.emit("gps", {"lat": msg.latitude, "lat_dir": msg.lat_dir, "lon": msg.longitude, "lon_dir": msg.lon_dir, "altitude": msg.altitude, "altitude_long": msg.altitude_units, "sat_numbers": msg.num_sats})
+			print ("Timestamp: %s -- Lat: %s %s -- Lon: %s %s -- Altitude: %s %s -- Satellites: %s " % (msg.timestamp,msg.latitude,msg.lat_dir,msg.longitude,msg.lon_dir,msg.altitude,msg.altitude_units,msg.num_sats))
 
 	def signal(self, lat, lon):
 		if lat == "" or lon == "":

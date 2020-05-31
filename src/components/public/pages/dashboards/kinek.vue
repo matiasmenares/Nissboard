@@ -1,5 +1,5 @@
 <template>
-      <div>
+      <div id="kinek-div">
         <b-row no-gutters>
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="z-index: 1000; width: 800px; height: 80px; font-weight: bold;">
                 <g style="fill:none;fill-rule:nonzero;fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;">
@@ -40,12 +40,12 @@
             <v-progress-linear
                 :background-opacity="0.5"
                 :height="80"
-                :value="value"
+                :value="ecu.rpm"
                 :color="color.rpm"
+                class="sub-block"
             ></v-progress-linear>
         </b-row>
-        
-        <b-row no-gutters class="mt-5">
+        <b-row no-gutters class="mt-2">
            <b-col class="text-center mt-12 normal-letter">
                 <h1>{{ecu.speed}} <span class="min-letter">KPH</span></h1>
             </b-col>
@@ -58,8 +58,11 @@
         </b-row>
         <hr>
         <b-row no-gutters class="mt-5">
-           <b-col class="text-center normal-letter">
-                <h1>{{analog.turbo.bar.value}} <span class="min-letter">Boost (BAR)</span></h1><small>Peak: {{analog.turbo.bar.peak}}</small>
+           <b-col class="text-center normal-letter" v-if="channel_output[1]">
+                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[1]['name']}}</span></h1><small>Peak: </small>
+            </b-col>
+            <b-col class="text-center normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
             <b-col class="text-center normal-letter">
                 <h1>{{Math.round((((ecu.tps) * 100)/4100),2)}} % <span class="min-letter"> TPS</span></h1>
@@ -67,8 +70,11 @@
            <b-col class="text-center normal-letter">
                 <h1>{{ecu.batt}} <span class="min-letter">V</span></h1>
             </b-col>
-           <b-col class="text-center normal-letter">
-                <h1>{{ecu.timming}} <span class="min-letter">Timming</span></h1>
+           <b-col class="text-center normal-letter" v-if="channel_output[2]">
+                <h1>{{channel_output[2]['value']}} <span class="min-letter">{{channel_output[2]['name']}}</span></h1>
+            </b-col>
+            <b-col class="text-center normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
         </b-row>
         <hr>
@@ -93,6 +99,9 @@
             sheet: false,
             ecu: {rpm: 0, speed: 0, temp: 0, batt: 0, turbo: 0.0, tps: 0, intake: 0, timming: 0},
             analog: {turbo: { psi: {value: "0.0", raw: "0000", peak: "0.0"}, bar: {value: "0.0", raw: "0000", peak: "0.0"}}},
+            channel_output: [],
+            slots: [],
+            dash_outputs: [],
             color: {rpm: "light-blue"},
             value: 0,
             red_line: 0,
@@ -101,12 +110,12 @@
     },
     components: {
     },
-    mounted(){
+    beforeMount(){
+        this.set_dash_output()
     },
     created() {
-        this.set_data()
-        this.set_analog_sensors()
-        this.set_kinek()
+        // this.set_data()
+        this.set_channel_output()
     },
     methods: {
         set_data(){
@@ -114,13 +123,32 @@
                 this.ecu = data;
             })
         },
-        set_analog_sensors(){
-            this.sockets.subscribe('analog', (data) => {
-                this.analog = data;
+        set_channel_output(){
+            this.sockets.subscribe('channelOutput', (data) => {
+                let response = []
+                data.map(result => {
+                    this.dash_outputs.map(has_output => {
+                        if(has_output.channel_output_id == result.id){
+                            response[has_output.slot.id] = result
+                        }
+                    })
+                })
+                this.channel_output = response
             })
         },
-        set_kinek(){
+        set_dash_output(){
             this.axios.get("settings/kinek").then(result => {
+                var outs = []
+                this.slots = result.data.dashboard_outputs.filter(slot => slot.dashboard_id == 1 )
+                result.data.dashboard_has_outputs.map(dashboard_out => {
+                     this.slots.map(slot => {
+                        if(dashboard_out.dashboard_output_id == slot.id){
+                            dashboard_out.slot = slot
+                            outs.push(dashboard_out)
+                        }
+                     })
+                })
+                this.dash_outputs = outs
                 this.red_line = parseInt(result.data["kinkek"][4])
                 this.yellow_line = parseInt(result.data["kinkek"][5])
             }).catch(error => {
@@ -179,6 +207,10 @@
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Chakra+Petch');
+#kinek-div {
+  font-family: 'Chakra Petch', sans-serif;
+}
 .normal-letter{
   font-size: 20px;
 }

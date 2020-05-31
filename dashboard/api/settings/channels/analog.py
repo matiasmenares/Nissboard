@@ -1,6 +1,9 @@
 from flask_restful import Resource
 from flask import request, jsonify
 from core.database import Database
+from model.models import AnalogInput
+from model.models import ChannelInput
+from model.models import db
 
 class AnalogChannel(Resource):
 
@@ -9,20 +12,21 @@ class AnalogChannel(Resource):
 
 	def get(self):
 		cursor = self.database.con.cursor()
-		cursor.execute("SELECT * FROM analog_channels")
+		cursor.execute("SELECT * FROM analog_channel")
 		return {'analogs': cursor.fetchall()}
 
 	def post(self):
 		try: 
-			analog  = request.json['analog']
-			input = 1 if analog["input"] == "Voltage" else 0
-			cursor = self.database.con.cursor()
-			cursor.execute("INSERT INTO analog_channels VALUES(NULL ,?, ?, ?)", (analog["name"], analog["pin"], input))
-			cursor.execute("INSERT INTO channel_inputs VALUES(NULL, ?)", (str(cursor.lastrowid),))
-			self.database.con.commit()
+			params  = request.json['analog']
+			input_voltage = True if params["input"] == "Voltage" else False
+			analog_input = AnalogInput(name=params['name'], pin=params['pin'], voltage_resistance=input_voltage)
+			channel_input = ChannelInput(analog_input=analog_input)
+			db.session.add(analog_input)
+			db.session.add(channel_input)
+			db.session.commit()
 			return {'response': True}
 		except: 
-			return {'response': False}
+			return {'response': False}, 500
 
 	def patch(self):
 		try:
