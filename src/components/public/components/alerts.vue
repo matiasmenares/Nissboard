@@ -1,12 +1,30 @@
 <template>
-
-    <v-alert :value="errorExists" v-if="this.$store.state.alert.type" prominent :type="this.$store.state.alert.type" border="top" id="car-alert" dismissible>
-      <v-row align="center">
-        <v-col class="grow"><b>Alerta</b> {{this.$store.state.alert.text}}</v-col>
-        <v-col class="shrink">
-        </v-col>
-      </v-row>
-    </v-alert>
+	<div v-if="this.$store.state.alert.type">
+		<v-dialog v-if="this.$store.state.alert.isModal" v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+			<v-card :color="this.$store.state.alert.type">
+				<v-container class="vh-100">
+					<v-toolbar flat dark color="transparent">
+						<v-spacer></v-spacer>
+						<v-toolbar-items>
+							<v-btn dark text @click="dialog = false"><v-icon class="icon-lg">mdi-close</v-icon></v-btn>
+						</v-toolbar-items>
+					</v-toolbar>
+					<v-row align="center" class=" text-center">
+						<v-col cols="12">
+							<v-icon class="icon-xl">mdi-alert-circle-outline</v-icon>
+							<h1>{{this.$store.state.alert.text}}</h1>
+						</v-col>
+					</v-row>
+				</v-container>
+			</v-card>
+		</v-dialog>
+		<v-alert v-else :value="errorExists" prominent :type="this.$store.state.alert.type" border="top" id="car-alert" dismissible>
+			<v-row align="center">
+				<v-col class="grow"><b>Alerta</b> {{this.$store.state.alert.text}}</v-col>
+				<v-col class="shrink"></v-col>
+			</v-row>
+		</v-alert>
+	</div>
 </template>
 <script>
   export default {
@@ -14,9 +32,10 @@
     components:{
     },
     data(){
-      return{
-          alert: {type: null, text: ""},
-          setting: true
+		return{
+			alert: {type: null, text: "", isModal: false},
+			setting: true,
+			dialog: false,
       }
     },
     computed:{
@@ -34,11 +53,16 @@
     },
     methods:{
         set_data(){
+			this.$store.dispatch('showAlert', {type: "error" , text: "ALERTA CON EL ERROR", isModal: true}).then(() => {
+				this.dialog = true;
+				return true
+            })
             this.sockets.subscribe('Alerts', (data) => {
-                console.log(data)
-                this.$store.dispatch('showAlert', {type: data.type , text: data.text}).then(() => {
-                  return true
-                })
+				console.log(data)
+				this.$store.dispatch('showAlert', {type: data.type , text: data.text, isModal: data.isModal}).then(() => {
+					this.dialog = true;
+					return true
+				})
             })
         }
     }
@@ -49,5 +73,17 @@
 		position: fixed;
 		z-index: 10000;
 		width: 100%;
+	}
+	.prelative{
+		position: relative;
+	}
+	.vh-100{
+		height: 100vh;
+	}
+	.icon-lg{
+		font-size:4rem;
+	}
+	.icon-xl{
+		font-size: 15rem;
 	}
 </style>

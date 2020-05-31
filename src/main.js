@@ -42,6 +42,7 @@ const store = new Vuex.Store({
     set_alert: (state, alert ) => {
       state.alert.type = alert.type
       state.alert.text = alert.text
+      state.alert.isModal = alert.isModal
     }
   },
   actions:{
