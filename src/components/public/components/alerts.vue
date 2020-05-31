@@ -1,4 +1,5 @@
 <template>
+
     <v-alert :value="errorExists" v-if="this.$store.state.alert.type" prominent :type="this.$store.state.alert.type" border="top" id="car-alert" dismissible>
       <v-row align="center">
         <v-col class="grow"><b>Alerta</b> {{this.$store.state.alert.text}}</v-col>
@@ -44,4 +45,9 @@
   }
 </script>
 <style scoped>
+	.v-alert{
+		position: fixed;
+		z-index: 10000;
+		width: 100%;
+	}
 </style>
