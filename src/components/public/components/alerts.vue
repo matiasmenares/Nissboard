@@ -1,6 +1,6 @@
 <template>
 	<div v-if="this.$store.state.alert.type">
-		<v-dialog v-if="this.$store.state.alert.isModal" v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+		<v-dialog v-if="this.$store.state.alert.isModal" v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition" style="z-index: 1000">
 			<v-card :color="this.$store.state.alert.type">
 				<v-container class="vh-100">
 					<v-toolbar flat dark color="transparent">

@@ -52,9 +52,9 @@ class Database():
 			cursorObj.execute("INSERT INTO dashboard VALUES(2, 'DUST', '0', '0')")
 			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM dashboard_output').fetchall()) == 0:
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(1, 'Slot 1', '1')")
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(2, 'Slot 2', '1')")
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(3, 'Slot 3', '1')")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(1, 'Slot 1', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(2, 'Slot 2', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(3, 'Slot 3', '1', NULL)")
 			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM sensors').fetchall()) == 0:
 			cursorObj.execute("INSERT INTO sensors VALUES(1, 'Water', '0', 'Celcius', '0', '0')")

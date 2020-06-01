@@ -4,7 +4,7 @@
       <v-tab>Kinek</v-tab>
       <v-tab>Dust</v-tab>
       <v-tab>General</v-tab>
-      <v-tab-item >
+      <v-tab-item>
         <v-container fluid>
           <v-row>
             <v-col cols="12" md="4">
@@ -22,10 +22,18 @@
                 </v-card>
             </v-col>
           </v-row>
-          <v-row>
-            <v-col  v-for="(output) in kinek.dashboard_outputs" :key="output.id">
+          <v-card flat color="transparent">
+            <v-subheader>Slot Position Output</v-subheader>
+          </v-card>
+          <v-row v-for="(output) in kinek.dashboard_outputs" :key="output.id">
+            <v-col>
                 <v-card flat color="transparent">
-                    <v-select v-model="kinek.outputs[output.id]" :items="channel_outputs"  :rules="[v => !!v || 'Input sensor is required']" :label="output.name"  @change="save()" required autocomplete="off" />
+                    <v-select v-model="output.channel_output_id" :items="channel_outputs"  :rules="[v => !!v || 'Output sensor is required']" :label="output.name" @change="save()" required autocomplete="off" />
+                </v-card>
+            </v-col>
+            <v-col>
+                <v-card flat color="transparent">
+                  <v-btn class="mr-4" @click="send_to('dashboard-proton')"><v-icon>mdi-eye-outline</v-icon> View</v-btn> Checkbox Peak
                 </v-card>
             </v-col>
           </v-row>
@@ -41,10 +49,9 @@
         dashboars: [],
         channel_outputs: [],
         kinek: {
-          outputs: [],
           dashboard_outputs: null,
-          yellow_line: null,
-          red_line: null,
+          yellow_line: 0,
+          red_line: 0,
           rpm: {
             yellow: null,
             red: null,
@@ -69,12 +76,10 @@
         })
       },
       set_kinek(result){
-        // this.kinek = result.dashboards.filter(dash => dash == 'KINEK')
         this.kinek.dashboard_outputs = result.dashboard_outputs.filter(output => output.dashboard_id == 1)
       },
 			save(){
-        if(this.kinek.red_line > this.kinek.yellow_line){
-          this.kinek.outputs = this.kinek.outputs.filter(out => out != null)
+        if(this.validate_lines(this.kinek.red_line, this.kinek.yellow_line)){
           this.axios.post("settings/kinek", {kinek: this.kinek}).then(result => {
             this.kinek.rpm.last_red = this.kinek.red_line
             this.kinek.rpm.last_yellow = this.kinek.yellow_line
@@ -84,9 +89,19 @@
           })
         }else{
           this.$store.dispatch('showAlert', {type: "warning", text: "Yellow line must be less than redline"}).then(() => {
-            this.kinek.red_line = this.kinek.red_line
-            this.kinek.yellow_line = this.kinek.yellow_line
+            this.kinek.yellow_line = 0
 					})
+        }
+      },
+      validate_lines(red_line, yellow_line){
+        if(yellow_line != 0 && red_line != 0){
+          if(yellow_line > red_line){
+            return false
+          }else{
+            return true
+          }
+        }else{
+          return true
         }
       },
       set_to_rpm(value){

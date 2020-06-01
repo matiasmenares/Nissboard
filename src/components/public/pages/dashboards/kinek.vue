@@ -1,7 +1,7 @@
 <template>
       <div id="kinek-div">
         <b-row no-gutters>
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="z-index: 1000; width: 800px; height: 80px; font-weight: bold;">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="z-index: 10; width: 800px; height: 80px; font-weight: bold;">
                 <g style="fill:none;fill-rule:nonzero;fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;">
                     <path d="M   10,0   10,10 M   20,0   20,10   M  30,0 30,10  M   40,0   40,10 M   50,0   50,20 M   60,0   60,10 M   70,0   70,10 M   80,0   80,10 M   90,0   90,10 M  100,0  100,30
                             M  110,0  110,10 M  120,0  120,10   M 130,0 130,10 M  140,0  140,10 M  150,0  150,20 M  160,0  160,10 M  170,0  170,10 M  180,0  180,10 M  190,0  190,10 M  200,0  200,30
@@ -127,9 +127,9 @@
             this.sockets.subscribe('channelOutput', (data) => {
                 let response = []
                 data.map(result => {
-                    this.dash_outputs.map(has_output => {
-                        if(has_output.channel_output_id == result.id){
-                            response[has_output.slot.id] = result
+                    this.slots.map(slot => {
+                        if(slot.channel_output_id == result.id){
+                            response[slot.id] = result
                         }
                     })
                 })
@@ -137,18 +137,8 @@
             })
         },
         set_dash_output(){
-            this.axios.get("settings/kinek").then(result => {
-                var outs = []
+            this.axios.get("dashboards").then(result => {
                 this.slots = result.data.dashboard_outputs.filter(slot => slot.dashboard_id == 1 )
-                result.data.dashboard_has_outputs.map(dashboard_out => {
-                     this.slots.map(slot => {
-                        if(dashboard_out.dashboard_output_id == slot.id){
-                            dashboard_out.slot = slot
-                            outs.push(dashboard_out)
-                        }
-                     })
-                })
-                this.dash_outputs = outs
                 this.red_line = parseInt(result.data["kinkek"][4])
                 this.yellow_line = parseInt(result.data["kinkek"][5])
             }).catch(error => {

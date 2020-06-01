@@ -86,11 +86,13 @@ class DashboardOutput(db.Model):
     name = db.Column(db.String, nullable=False)
     dashboard_id = db.Column(db.Integer, db.ForeignKey('dashboard.id'))
     dashboard = db.relationship('Dashboard')
+    channel_output_id = db.Column(db.Integer,db.ForeignKey('channel_output.id'))
+    channel_output = db.relationship('ChannelOutput')
     
 class DashboardOutputSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "name", "dashboard_id")
+        fields = ("id", "name", "dashboard_id", "channel_output_id")
 
 class DashboardHasOutput(db.Model):
     id = db.Column(db.Integer, primary_key=True)

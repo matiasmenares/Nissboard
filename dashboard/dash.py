@@ -16,6 +16,7 @@ from core.gps import Gps
 from core.analog import Analog
 from core.output import Output
 #API
+from api.dashboard import Dashboard
 from api.system import System
 from api.measure import Measure
 from api.measure_group import MeasureGroup
@@ -51,6 +52,7 @@ socketio = SocketIO(app, cors_allowed_origins="*",async_mode='threading')
 api = Api(app)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 api.add_resource(System, '/system')
+api.add_resource(Dashboard, '/dashboards') 
 api.add_resource(KinekSetting, '/settings/kinek') 
 api.add_resource(ScreenSetting, '/settings/screen') 
 api.add_resource(WaterSetting, '/settings/water')
@@ -73,8 +75,8 @@ def test_connect():
 	with thread_lock:
 		if thread is None:
 			output = socketio.start_background_task(set_output)
-			ecu = socketio.start_background_task(set_ecu)
-			internet = socketio.start_background_task(internet_on)
+			# ecu = socketio.start_background_task(set_ecu)
+			# internet = socketio.start_background_task(internet_on)
 # 			accelerometer = socketio.start_background_task(set_accelerometer)
 			gps = socketio.start_background_task(set_gps)
 
