@@ -1,17 +1,15 @@
 from flask_restful import Resource
 from flask import request, jsonify
-from model.models import ChannelOutput
-from model.models import ChannelInput
-from model.models import ChannelOutputSchema
-from model.models import Measure
-from model.models import db
+from model.models import ChannelOutput, ChannelInput, ChannelOutputSchema, Measure, MeasureSchema, db
 
 class OutputChannel(Resource):
 
 	def get(self):
 		channels = ChannelOutput.query.all()
 		channel_schema = ChannelOutputSchema(many=True)
-		return {'channels': channel_schema.dump(channels)}
+		measures = Measure.query.all()
+		measure_schema = MeasureSchema(many=True)
+		return {'channels': channel_schema.dump(channels), 'measures': measure_schema.dump(measures)}
 
 	def post(self):
 		try: 

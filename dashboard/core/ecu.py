@@ -47,9 +47,6 @@ class Ecu():
 					self.O2_Value    = self.convertToO2(dataList[9])
 					self.AF_Value    = dataList[10]
 					self.INJ_Value   = self.convertToInj(int(dataList[11]), int(dataList[12]))
-
-# 					print({'rpm': RPM_Value, 'speed': KMH_Value, 'mph': MPH_Value, 'temp': TEMP_Value, 'batt': BATT_Value, 'turbo': TURBO_Value, 'tps': TPS_Value, 'timming': TIM_Value, 'aac': AAC_Value, '02': O2_Value, 'af': AF_Value, 'injector': INJ_Value})
-
 					self.socketio.emit('ecuData', {'rpm': self.RPM_Value, 'speed': self.KMH_Value, 'mph': self.MPH_Value, 'temp': self.TEMP_Value, 'batt': self.BATT_Value, 'turbo': self.TURBO_Value, 'tps': self.TPS_Value, 'timming': self.TIM_Value, 'aac': self.AAC_Value, 'O2': self.O2_Value, 'af': self.AF_Value, 'injector': self.INJ_Value})
 					self.socketio.emit('ecuConnection', {'status': True})
 					self.setAlerts()
@@ -65,7 +62,6 @@ class Ecu():
 	def handleData(self, data, byteExpected):
 		try:
 			frameStarted = False
-# 			self.printHex(data)
 			for i in xrange(len(data)):
 				char = "".join(hex(ord(n)) for n in data[i])
 				if(char == "0xff" and frameStarted == False):
@@ -82,25 +78,6 @@ class Ecu():
 				return current_data
 		except:
 			print("An exception occurred With this HEX: ")	
-# 			self.printHex(data)
-
-	def setAlerts(self):
-		database = Database()
-		cursor = database.con.cursor()
-		row = cursor.execute('SELECT * FROM sensors WHERE name = "Water" and alert > 0 ')
-		row = row.fetchone()
-		if row != None:
-			if self.TEMP_Value > row[4]:
-				self.socketio.emit('Alerts',{'type': "error", 'text': "Temperatura alta"} )
-		database.close()
-		return True
-
-	def setRecord(self):
-		database = Database()
-		cursor = database.con.cursor()
-		now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-		cursor.execute("INSERT INTO records (id, date_record) VALUES (?,?)", (None, now))
-		database.con.commit()
 
 	def convertToMPH(self,inputData):
 		return int(round ((inputData * 2.11) * 0.621371192237334))
@@ -119,7 +96,6 @@ class Ecu():
 	
 	def convertToTurbo(self, inputData):
 		if inputData < 150:
-		
 			return round(((float(inputData) / 150.0) - 1.0),1)
 		else:
 			return round(((float(inputData) - 150.0) / 150.0),1)
