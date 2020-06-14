@@ -29,15 +29,6 @@ class Database():
 		cursorObj.execute("CREATE TABLE if not exists backgrounds(id integer PRIMARY KEY, name text, url text)")
 		cursorObj.execute("CREATE TABLE if not exists analog_channels (id integer PRIMARY KEY, name text not null, pin not null, voltage_resistance integer not null )")
 
-		cursorObj.execute("CREATE TABLE if not exists alarm_types (id integer PRIMARY KEY, name, formula text, undo_formula text, explanation text, measure_group_id integer, foreign key(measure_group_id) references measure_groups(id))")
-
-		cursorObj.execute("CREATE TABLE if not exists alarm_conditions (id integer PRIMARY KEY, name, formula text, undo_formula text, explanation text, measure_group_id integer, foreign key(measure_group_id) references measure_groups(id))")
-		cursorObj.execute("CREATE TABLE if not exists alarm_values (id integer PRIMARY KEY, name, formula text, undo_formula text, explanation text, measure_group_id integer, foreign key(measure_group_id) references measure_groups(id))")
-		
-		cursorObj.execute("CREATE TABLE if not exists alarms (id integer PRIMARY KEY, name, formula text, undo_formula text, explanation text, measure_group_id integer, foreign key(measure_group_id) references measure_groups(id))")
-
-
-
 		self.con.commit()
 		self.set_seed()
 		self.close()
@@ -55,6 +46,10 @@ class Database():
 			cursorObj.execute("INSERT INTO dashboard_output VALUES(1, 'Slot 1', '1', NULL)")
 			cursorObj.execute("INSERT INTO dashboard_output VALUES(2, 'Slot 2', '1', NULL)")
 			cursorObj.execute("INSERT INTO dashboard_output VALUES(3, 'Slot 3', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(4, 'Slot 4', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(5, 'Slot 5', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(6, 'Slot 6', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(7, 'Slot 7', '1', NULL)")
 			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM sensors').fetchall()) == 0:
 			cursorObj.execute("INSERT INTO sensors VALUES(1, 'Water', '0', 'Celcius', '0', '0')")
@@ -64,6 +59,17 @@ class Database():
 			cursorObj.execute("INSERT INTO measure_group VALUES(2, 'Pressure')")
 			cursorObj.execute("INSERT INTO measure_group VALUES(3, 'Temperature')")
 			self.con.commit()
+		if len(cursorObj.execute('SELECT * FROM condition').fetchall()) == 0:
+			cursorObj.execute("INSERT INTO condition VALUES(1, 'Greater Than', '>')")
+			cursorObj.execute("INSERT INTO condition VALUES(2, 'Greater Than or Equal to', '>=')")
+			cursorObj.execute("INSERT INTO condition VALUES(3, 'Equal to', '==')")
+			cursorObj.execute("INSERT INTO condition VALUES(4, 'Less Than or Equal to', '<=')")
+			cursorObj.execute("INSERT INTO condition VALUES(5, 'Less Than', '<')")
+
+		if len(cursorObj.execute('SELECT * FROM alarm_type').fetchall()) == 0:
+			cursorObj.execute("INSERT INTO alarm_type VALUES(1, 'warning')")
+			cursorObj.execute("INSERT INTO alarm_type VALUES(2, 'danger')")
+			cursorObj.execute("INSERT INTO alarm_type VALUES(3, 'invasive danger')")
 		if len(cursorObj.execute('SELECT * FROM measure').fetchall()) == 0:
 			#Boost
 			cursorObj.execute("INSERT INTO measure VALUES(1, 'Psi', ' * 0.001) * 14 ) - 14)', ' - 14 ) / 14.504)', 'This sensor substract 14 PSI to pressure', 1)")

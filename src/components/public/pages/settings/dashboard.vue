@@ -136,5 +136,6 @@
 	}
 	.tabs-y-scroll .v-tabs-items{
 		overflow-y: scroll !important;
+		-webkit-overflow-scrolling: touch !important;
 	}
 </style>

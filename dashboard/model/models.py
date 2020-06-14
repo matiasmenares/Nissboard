@@ -58,8 +58,8 @@ class Measure(db.Model):
 
 class MeasureSchema(ma.Schema):
     class Meta:
-        model = ChannelInput
-        fields = ("id", "analog_channel_id")
+        model = Measure
+        fields = ("id", "name")
 
 class MeasureGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -94,17 +94,52 @@ class DashboardOutputSchema(ma.Schema):
         model = ChannelInput
         fields = ("id", "name", "dashboard_id", "channel_output_id")
 
-class DashboardHasOutput(db.Model):
+class Alarm(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    dashboard_output_id = db.Column(db.Integer,db.ForeignKey('dashboard_output.id'))
-    dashboard_output = db.relationship('DashboardOutput')
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    life_second = db.Column(db.Integer, nullable=False)
+    alarm_type_id = db.Column(db.Integer,db.ForeignKey('alarm_type.id'))
+    alarm_type = db.relationship('AlarmType')
+    
+class AlarmSchema(ma.Schema):
+    class Meta:
+        model = ChannelInput
+        fields = ("id", "name", "description", "alarm_type_id")
+
+class AlarmType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    
+class AlarmTypeSchema(ma.Schema):
+    class Meta:
+        model = AlarmType
+        fields = ("id", "name")
+
+class Condition(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    condition = db.Column(db.String, nullable=False)
+
+class ConditionSchema(ma.Schema):
+    class Meta:
+        model = AlarmType
+        fields = ("id", "name", "condition")
+
+class AlarmOutput(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.String, nullable=False)
     channel_output_id = db.Column(db.Integer,db.ForeignKey('channel_output.id'))
     channel_output = db.relationship('ChannelOutput')
+    alarm_id = db.Column(db.Integer,db.ForeignKey('alarm.id'))
+    alarm = db.relationship('Alarm')
+    condition_id = db.Column(db.Integer,db.ForeignKey('condition.id'))
+    condition = db.relationship('Condition')
 
-class DashboardHasOutputSchema(ma.Schema):
+class AlarmOutputSchema(ma.Schema):
     class Meta:
-        model = DashboardHasOutput
-        fields = ("dashboard_output_id","channel_output_id")
+        model = ChannelInput
+        fields = ("id", "name")
 
 db.create_all()
 db.session.commit()

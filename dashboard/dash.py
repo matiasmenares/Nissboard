@@ -19,14 +19,17 @@ from core.output import Output
 from api.dashboard import Dashboard
 from api.system import System
 from api.measure import Measure
+
 from api.measure_group import MeasureGroup
 from api.settings.kinek_setting import KinekSetting
 from api.settings.screen_setting import ScreenSetting
-
 from api.settings.water_setting import WaterSetting
+from api.settings.alarm_type_setting import AlarmTypeSetting
 from api.settings.channels.input import InputChannel
 from api.settings.channels.analog import AnalogChannel
 from api.settings.channels.output import OutputChannel
+from api.settings.condition_setting import ConditionSetting
+from api.settings.alarm_setting import AlarmSetting
 
 from urllib.request import urlopen
 import serial
@@ -53,7 +56,10 @@ api = Api(app)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 api.add_resource(System, '/system')
 api.add_resource(Dashboard, '/dashboards') 
-api.add_resource(KinekSetting, '/settings/kinek') 
+api.add_resource(KinekSetting, '/settings/kinek')
+api.add_resource(AlarmSetting, '/settings/alarms') 
+api.add_resource(ConditionSetting, '/settings/conditions')
+api.add_resource(AlarmTypeSetting, '/settings/alarm_types')
 api.add_resource(ScreenSetting, '/settings/screen') 
 api.add_resource(WaterSetting, '/settings/water')
 api.add_resource(AnalogChannel, '/settings/channels/input/analog')
@@ -75,8 +81,8 @@ def test_connect():
 	with thread_lock:
 		if thread is None:
 			output = socketio.start_background_task(set_output)
-			# ecu = socketio.start_background_task(set_ecu)
-			# internet = socketio.start_background_task(internet_on)
+			ecu = socketio.start_background_task(set_ecu)
+			internet = socketio.start_background_task(internet_on)
 # 			accelerometer = socketio.start_background_task(set_accelerometer)
 			gps = socketio.start_background_task(set_gps)
 
