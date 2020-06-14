@@ -33,7 +33,7 @@
             </v-col>
             <v-col>
                 <v-card flat color="transparent">
-                  <v-btn class="mr-4" @click="send_to('dashboard-proton')"><v-icon>mdi-eye-outline</v-icon> View</v-btn> Checkbox Peak
+                  <v-btn class="mr-4" @click="send_to('dashboard-proton')"><v-icon>mdi-eye-outline</v-icon> Position</v-btn> <v-checkbox  :label="'Show Peak'"></v-checkbox>
                 </v-card>
             </v-col>
           </v-row>
