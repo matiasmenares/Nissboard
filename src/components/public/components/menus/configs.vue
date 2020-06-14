@@ -2,9 +2,9 @@
     <div>
         <b-row>
             <b-col>
-                <v-btn class="mr-2" @click="send_to('setting-alert')"><v-icon>mdi-alert-outline</v-icon> Alerts</v-btn>
+                <v-btn class="mr-2" @click="send_to('setting-alert-list')"><v-icon>mdi-alert-outline</v-icon> Alerts</v-btn>
 
-                <v-btn class="mr-2" @click="send_to('setting-dashboard')"><v-icon>mdi-view-dashboard-variant</v-icon> Dash</v-btn>
+                <v-btn class="mr-2" @click="send_to('setting-dashboard')"><v-icon>mdi-speedometer-slow</v-icon> Dash</v-btn>
 
                 <v-btn class="mr-2" @click="send_to('setting-channel-list')"><v-icon>mdi-current-ac</v-icon> Channel Input</v-btn>
 

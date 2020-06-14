@@ -1,6 +1,7 @@
 //Graph
 import GraphRpm from './pages/graphs/rpm.vue';
 import GraphGforce from './pages/graphs/g-force.vue';
+import GraphChannel from './pages/graphs/channel.vue';
 //Dashboard
 import DashboarCuga from './pages/dashboards/cuga.vue';
 import DashboarKinek from './pages/dashboards/kinek.vue';
@@ -13,7 +14,8 @@ import DashboarNebula from './pages/dashboards/nebula.vue';
 
 //Setting
 import SettingDashboard from './pages/settings/dashboard.vue';
-import SettingAlert from './pages/settings/alert.vue';
+import SettingAlertList from './pages/settings/alerts/list.vue';
+import SettingAlertForm from './pages/settings/alerts/form.vue';
 import SettingChannelAnalogInput from './pages/settings/channels/analogs/input.vue';
 import SettingChannelList from './pages/settings/channels/list.vue';
 import SettingChannelOutputList from './pages/settings/channels/output/list.vue';
@@ -96,14 +98,24 @@ export const PublicRoutes =
       name: 'graph-gforce',
     },
     {
+      path: '/graph/channel',
+      component: GraphChannel,
+      name: 'graph-channel',
+    },
+    {
       path: '/settings/dashboard',
       component: SettingDashboard,
       name: 'setting-dashboard',
     },
     {
-      path: '/settings/alert',
-      component: SettingAlert,
-      name: 'setting-alert',
+      path: '/settings/alert/form',
+      component: SettingAlertForm,
+      name: 'setting-alert-form',
+    },
+    {
+      path: '/settings/alert/list',
+      component: SettingAlertList,
+      name: 'setting-alert-list',
     },
     {
       path: '/settings/screen',

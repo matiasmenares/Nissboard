@@ -32,6 +32,7 @@ class Alarm(threading.Thread):
     def emit(self, alarm, alart_outputs, responses):
         self.socketio.emit("alert", {'id': alarm.id, 'name': alarm.name, 'description': self.set_alarm_description(alarm.description, alart_outputs, responses), 'alarm_type_id': alarm.alarm_type_id})
         self.second = alarm.life_second
+        print(alarm)
         self.timer = datetime.now()
         self.current_alarm_type_id = alarm.alarm_type_id
 

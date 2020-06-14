@@ -12,7 +12,7 @@
                     <div v-if="this.menu =='Main'">
                         <b-row>
                             <b-col>
-                                <v-btn class="mr-2" @click="define_menu('Dashboard')"><v-icon>mdi-view-dashboard-variant</v-icon> Dashboards</v-btn>
+                                <v-btn class="mr-2" @click="define_menu('Dashboard')"><v-icon>mdi-speedometer-slow</v-icon> Dashboards</v-btn>
                                 <v-btn class="mr-2" @click="define_menu('Graphs')"><v-icon>mdi-chart-line</v-icon> Graphs</v-btn>
                                 <v-btn class="mr-2" @click="send_to()"><v-icon>mdi-racing-helmet</v-icon> Race</v-btn>
                                 <v-btn class="mr-2" @click="send_to('g-force-gforce')"><v-icon>mdi-rotate-orbit</v-icon> G-force</v-btn>

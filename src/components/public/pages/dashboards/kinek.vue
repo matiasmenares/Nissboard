@@ -78,7 +78,7 @@
             </b-col>
         </b-row>
         <hr>
-        <b-row no-gutters class="mt-5">
+        <b-row v-if="false" no-gutters class="mt-5">
            <b-col class="text-center mt-2">
                 <h1>00:00:00 <span class="min-letter">Current Lap</span></h1>
             </b-col>
@@ -87,6 +87,32 @@
             </b-col>
            <b-col class="text-center normal-letter">
                 <h1>0<span class="min-letter"> Laps</span></h1>
+            </b-col>
+        </b-row>
+        <b-row no-gutters class="mt-5">
+           <b-col class="text-center normal-letter" v-if="channel_output[3]">
+                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1><small>Peak: </small>
+            </b-col>
+            <b-col class="text-center normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+           <b-col class="text-center normal-letter" v-if="channel_output[4]">
+                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[4]['name']}}</span></h1><small>Peak: </small>
+            </b-col>
+            <b-col class="text-center normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+           <b-col class="text-center normal-letter" v-if="channel_output[5]">
+                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[5]['name']}}</span></h1><small>Peak: </small>
+            </b-col>
+            <b-col class="text-center normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+            <b-col class="text-center normal-letter" v-if="channel_output[6]">
+                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[6]['name']}}</span></h1><small>Peak: </small>
+            </b-col>
+            <b-col class="text-center normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
         </b-row>
     </div>

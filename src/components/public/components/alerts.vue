@@ -53,17 +53,24 @@
     },
     methods:{
         set_data(){
-			this.$store.dispatch('showAlert', {type: "error" , text: "ALERTA CON EL ERROR", isModal: true}).then(() => {
-				this.dialog = true;
-				return true
-            })
-            this.sockets.subscribe('Alerts', (data) => {
-				console.log(data)
-				this.$store.dispatch('showAlert', {type: data.type , text: data.text, isModal: data.isModal}).then(() => {
-					this.dialog = true;
-					return true
-				})
-            })
+            this.sockets.subscribe('alert', (alert) => {
+				if (alert.alarm_type_id == 1){
+					this.$store.dispatch('showAlert', {type: "warning" , text: alert.description, isModal: false}).then(() => {
+						this.dialog = true;
+						return true
+					})
+				} else if(alert.alarm_type_id == 2){
+					this.$store.dispatch('showAlert', {type: "danger" , text: alert.description, isModal: false}).then(() => {
+						this.dialog = true;
+						return true
+					})
+				} else if (alert.alarm_type_id == 3){
+					this.$store.dispatch('showAlert', {type: "error" , text:  alert.description, isModal: true}).then(() => {
+						this.dialog = true;
+						return true
+					})
+				}
+			})
         }
     }
   }
