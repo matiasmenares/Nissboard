@@ -69,7 +69,7 @@
             </v-row>
         </v-tab-item>
     </v-tabs>
-  </v-card>
+    </v-card>
     <div class="mt-10" style="cursor: default;">
         <vue-touch-keyboard id="keyboard" :options="options" v-if="visible" :layout="layout" :cancel="hide" :accept="accept" :input="input" />
     </div>
@@ -78,6 +78,10 @@
 <script>
 export default {
     name: "inputs",
+    props:{
+        alarm: {default: null},
+        alarm_outputs: {default: null}
+    },
     data(){
         return{
             headers: [
@@ -119,10 +123,18 @@ export default {
         this.set_conditions()
         this.set_alarm_types()
     },
-    mounted(){
-
-    },
     methods:{
+        set_props(){
+            if(this.alarm){
+                this.form = this.alarm
+                this.alarm_outputs.map(alarm_output => {
+                    var output = this.channel_outputs.find(out => out.id == alarm_output.channel_output_id)
+                    var condition = this.conditions.find(con => con.id == alarm_output.condition_id)
+                    var measure = this.measures.find(mes => mes.id == output.measure_id)
+                    this.conditions_table.push({output: output.name, condition: condition.name+" ("+condition.condition+")", value: alarm_output.value+" ("+measure.name+")" })
+                })
+            }
+        },
         add_condition(){
             this.visible = false
             this.conditions_data.push(this.condition_form)
@@ -137,6 +149,7 @@ export default {
             this.axios.get("/settings/channels/output").then(result => {
                 this.channel_outputs = result.data.channels
                 this.measures = result.data.measures
+                this.set_props()
             }).catch(error => {
                 console.log(error);
             })
@@ -169,7 +182,7 @@ export default {
         },
         save(){
             this.axios.post("/settings/alarms",{ alarm: this.form, conditions: this.conditions_data}).then(() => {
-              this.$router.push({ name: "setting-channel-output-list"});
+              this.$router.push({ name: "setting-alert-list"});
             }).catch(error => {
               console.log(error);
             })
