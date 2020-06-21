@@ -111,7 +111,11 @@ export default {
       window.setInterval(function() {
         let self = me;
         self.getNewSeries();
-        self.$refs.realtimeChart1.updateSeries([{ data: self.data }]);
+        try {
+          self.$refs.realtimeChart1.updateSeries([{ data: self.data }]);
+        }catch(error){
+          error
+        }
       }, 1000);
 
       // every 60 seconds, we reset the data to prevent memory leaks

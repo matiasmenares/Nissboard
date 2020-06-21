@@ -91,25 +91,25 @@
         </b-row>
         <b-row no-gutters class="mt-5">
            <b-col class="text-center normal-letter" v-if="channel_output[3]">
-                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1><small>Peak: </small>
+                <h1>{{channel_output[3]['value']}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1><small>Peak: </small>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
            <b-col class="text-center normal-letter" v-if="channel_output[4]">
-                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[4]['name']}}</span></h1><small>Peak: </small>
+                <h1>{{channel_output[4]['value']}} <span class="min-letter">{{channel_output[4]['name']}}</span></h1><small>Peak: </small>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
            <b-col class="text-center normal-letter" v-if="channel_output[5]">
-                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[5]['name']}}</span></h1><small>Peak: </small>
+                <h1>{{channel_output[5]['value']}} <span class="min-letter">{{channel_output[5]['name']}}</span></h1><small>Peak: </small>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
             <b-col class="text-center normal-letter" v-if="channel_output[6]">
-                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[6]['name']}}</span></h1><small>Peak: </small>
+                <h1>{{channel_output[6]['value']}} <span class="min-letter">{{channel_output[6]['name']}}</span></h1><small>Peak: </small>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>

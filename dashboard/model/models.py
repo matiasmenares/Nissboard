@@ -105,7 +105,7 @@ class Alarm(db.Model):
 class AlarmSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "name", "description", "alarm_type_id")
+        fields = ("id", "name", "description", "alarm_type_id", "life_second")
 
 class AlarmType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -139,7 +139,7 @@ class AlarmOutput(db.Model):
 class AlarmOutputSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "name")
+        fields = ("id", "value", "channel_output_id", "alarm_id", "condition_id")
 
 db.create_all()
 db.session.commit()

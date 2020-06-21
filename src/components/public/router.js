@@ -111,6 +111,7 @@ export const PublicRoutes =
       path: '/settings/alert/form',
       component: SettingAlertForm,
       name: 'setting-alert-form',
+      props: true
     },
     {
       path: '/settings/alert/list',

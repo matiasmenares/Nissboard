@@ -45,7 +45,7 @@ export default {
             enabled: true,
             easing: "linear",
             dynamicAnimation: {
-              speed: 1000
+              speed: 500
             }
           },
           toolbar: {
@@ -61,9 +61,8 @@ export default {
         stroke: {
           curve: "smooth"
         },
-
         title: {
-          text: "Boost Live Graph (Rate 1 Hz)",
+          text: "Channel Live Graph (Refresh Rate 0.5 Hz)",
           align: "left",
             style: {
               color: '#FFFFFF'
@@ -116,11 +115,8 @@ export default {
         })
     },
     getNewSeries() {
-      this.x = this.x + 1
-      this.data.push({
-        x: this.x,
-        y: this.channel_selected.value
-      });
+      this.x = this.x + 0.5
+      this.data.push({ x: this.x, y: this.channel_selected.value });
     },
     intervals: function() {
       var me = this;
@@ -128,11 +124,11 @@ export default {
         let self = me;
         self.getNewSeries();
         try {
-            self.$refs.realtimeChart1.updateSeries([{ data: self.data }]);
+            self.$refs.realtimeChart1.updateSeries([{name: 'Live', data: self.data }, { name: 'Cashflow', data: [{x: 1, y: 2}]} ]);
         } catch (error) {
             error
         }
-      }, 900);
+      }, 500);
 
       // every 60 seconds, we reset the data to prevent memory leaks
       window.setInterval(function() {
@@ -147,7 +143,7 @@ export default {
   },
   computed:{
     channel_selected: function () {
-        return this.channel_output.find(out => out.id == this.output_selected_id)
+      return this.channel_output.find(out => out.id == this.output_selected_id)
     }
   }
 };

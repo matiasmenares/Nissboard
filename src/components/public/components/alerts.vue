@@ -60,7 +60,7 @@
 						return true
 					})
 				} else if(alert.alarm_type_id == 2){
-					this.$store.dispatch('showAlert', {type: "danger" , text: alert.description, isModal: false}).then(() => {
+					this.$store.dispatch('showAlert', {type: "error" , text: alert.description, isModal: false}).then(() => {
 						this.dialog = true;
 						return true
 					})

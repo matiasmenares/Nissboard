@@ -17,7 +17,7 @@
         </v-menu>
     </v-toolbar>
     <v-list two-line subheader class="overflow-y-auto">
-      <v-list-item v-for="item in items" :key="item.title" @click="set_channel(item.alarm)" >
+      <v-list-item v-for="item in items" :key="item.title" @click="go_to_alert(item.alarm)" >
         <v-list-item-avatar>
           <v-icon
             :class="[item.iconClass]"
@@ -36,6 +36,7 @@
   export default {
     data: () => ({
       items: [],
+      alarm_outputs: []
     }),
     mounted(){
       this.set_list();
@@ -43,6 +44,7 @@
     methods:{
         set_list(){
           this.axios.get("/settings/alarms").then(result => {
+            this.alarm_outputs = result.data.alarm_outputs
             result.data.alarms.map(alarm => {
               let alarm_type = result.data.alarm_types.find(filter => filter.id == alarm.alarm_type_id) 
               this.items.push({icon: 'mdi-alert', iconClass: 'blue white--text', alarm: alarm, alarm_type: alarm_type})
@@ -51,8 +53,9 @@
             console.log(error);
           })
         },
-        set_channel(alarm){
-          this.$router.push({ name: "setting-alert-form", params: {alarm: alarm}});
+        go_to_alert(alarm){
+          let alarm_outputs = this.alarm_outputs.filter(output => output.alarm_id == alarm.id)
+          this.$router.push({ name: "setting-alert-form", params: {alarm: alarm, alarm_outputs: alarm_outputs}});
         },
         goto_form(){
           this.$router.push({ name: "setting-alert-form"});
