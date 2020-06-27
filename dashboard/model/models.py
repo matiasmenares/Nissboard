@@ -28,13 +28,39 @@ class ChannelOutputSchema(ma.Schema):
 
 class ChannelInput(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    analog_input_id = db.Column(db.Integer, db.ForeignKey('analog_input.id'), nullable=False)
+    analog_input_id = db.Column(db.Integer, db.ForeignKey('analog_input.id'))
     analog_input = db.relationship('AnalogInput')
+    obd_input_id = db.Column(db.Integer, db.ForeignKey('obd_input.id'))
+    obd_input = db.relationship('ObdInput')
 
 class ChannelInputSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "analog_channel_id")
+        fields = ("id", "analog_input_id", "obd_input_id")
+
+class Obd(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True, nullable=False)
+    command = db.Column(db.String, unique=True, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    measure = db.relationship('Measure')
+    measure_id = db.Column(db.Integer, db.ForeignKey('measure.id'))  
+
+class ObdSchema(ma.Schema):
+    class Meta:
+        model = Obd
+        fields = ("id", "name", "description")
+
+class ObdInput(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True, nullable=False)
+    obd_id = db.Column(db.Integer, db.ForeignKey('obd.id'), nullable=False)
+    obd = db.relationship('Obd')
+
+class ObdInputSchema(ma.Schema):
+    class Meta:
+        model = ChannelInput
+        fields = ("id", "name", "description", "obd_id")
 
 class AnalogInput(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -45,7 +71,7 @@ class AnalogInput(db.Model):
 class AnalogInputSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "analog_channel_id")
+        fields = ("id", "name", "pin","analog_channel_id")
 
 class Measure(db.Model):
     id = db.Column(db.Integer, primary_key=True)

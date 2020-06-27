@@ -11,16 +11,13 @@
           </template>
           <v-list>
             <v-list-item>
-              <v-list-item-title @click="goto_form()">New Analog</v-list-item-title>
+              <v-list-item-title @click="goto_form('setting-channel-output-analog')">New Analog</v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title @click="goto_form()">New Consult</v-list-item-title>
             </v-list-item>
             <v-list-item>
-              <v-list-item-title @click="goto_form()">New OBDII</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title @click="goto_form()">New CAN</v-list-item-title>
+              <v-list-item-title @click="goto_form('setting-channel-output-obd')">New OBDII</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -62,8 +59,8 @@
         set_channel(channel){
           this.$router.push({ name: "setting-channel-analog-input", params: { analog: {id: channel.channel[1], pin: channel.channel[4], input: (channel.channel[5] == 1 ? "Voltage" : "Resistance"), name: channel.channel[3]}}});
         },
-        goto_form(){
-          this.$router.push({ name: "setting-channel-output-form"});
+        goto_form(path){
+          this.$router.push({ name: path});
         }
     }
   }

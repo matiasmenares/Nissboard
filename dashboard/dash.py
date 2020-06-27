@@ -26,6 +26,7 @@ from api.settings.screen_setting import ScreenSetting
 from api.settings.water_setting import WaterSetting
 from api.settings.alarm_type_setting import AlarmTypeSetting
 from api.settings.channels.input import InputChannel
+from api.settings.channels.obd import OBDChannel
 from api.settings.channels.analog import AnalogChannel
 from api.settings.channels.output import OutputChannel
 from api.settings.condition_setting import ConditionSetting
@@ -63,6 +64,7 @@ api.add_resource(AlarmTypeSetting, '/settings/alarm_types')
 api.add_resource(ScreenSetting, '/settings/screen') 
 api.add_resource(WaterSetting, '/settings/water')
 api.add_resource(AnalogChannel, '/settings/channels/input/analog')
+api.add_resource(OBDChannel, '/settings/channels/input/obd')
 api.add_resource(InputChannel, '/settings/channels/input')
 api.add_resource(OutputChannel, '/settings/channels/output')
 api.add_resource(Measure, '/measures')
@@ -81,10 +83,10 @@ def test_connect():
 	with thread_lock:
 		if thread is None:
 			output = socketio.start_background_task(set_output)
-			ecu = socketio.start_background_task(set_ecu)
+			# ecu = socketio.start_background_task(set_ecu)
 			internet = socketio.start_background_task(internet_on)
 # 			accelerometer = socketio.start_background_task(set_accelerometer)
-			gps = socketio.start_background_task(set_gps)
+			# gps = socketio.start_background_task(set_gps)
 
 def set_output():
 	out.start()

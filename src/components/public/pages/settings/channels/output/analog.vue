@@ -18,7 +18,7 @@
                                         <v-text-field  v-model="form.name" :counter="10" :rules="nameRules"  label="Name" required  @focus="show" data-layout="compact" autocomplete="off" />
                                     </v-col>
                                     <v-col cols="6">
-                                        <v-select v-model="form.channel_inputs_id" :items="input_value"  :rules="[v => !!v || 'Input sensor is required']" label="Input Sensor" @focus="hide" required autocomplete="off" />
+                                        <v-select v-model="form.channel_inputs_id" :items="input_value" item-text="name" item-value="id" :rules="[v => !!v || 'Input sensor is required']" label="Input Sensor" @focus="hide" required autocomplete="off" />
                                     </v-col>
                                     <v-col cols="6">
                                         <v-select v-model="form.measure_groups_id" :items="unit_groups"  :rules="[v => !!v || 'Unit Group is required']" label="Unit Group" @change="set_measures()" @focus="hide" required autocomplete="off" />
@@ -222,8 +222,7 @@ export default {
         },
         set_inputs(){
             this.axios.get("/settings/channels/input").then(result => {
-                this.input_data = result.data;
-                result.data.channels.map(input => { this.input_value.push({text: input[3], value: input[0]}) })
+                this.input_value = result.data.analog_inputs
             }).catch(error => {
               console.log(error);
             })
@@ -257,9 +256,9 @@ export default {
         "analog": {
             handler: function() {
                 try {
-                    let pin = this.input_data.channels.filter(input => this.form.channel_inputs_id == input[0]);
+                    let pin = this.input_value.find(input => this.form.channel_inputs_id == input.id)
                     let analog = null;
-                    switch (pin[0][4]) {
+                    switch (pin.pin) {
                         case "A0":
                            analog = this.analog.cero;
                             break;
@@ -271,6 +270,18 @@ export default {
                             break;
                         case "A3":
                            analog = this.analog.tree;
+                            break;
+                        case "A4":
+                           analog = this.analog.four;
+                            break;
+                        case "A5":
+                           analog = this.analog.five;
+                            break;
+                        case "A6":
+                           analog = this.analog.six;
+                            break;
+                        case "A7":
+                           analog = this.analog.seven;
                             break;
                         default:
                             break;

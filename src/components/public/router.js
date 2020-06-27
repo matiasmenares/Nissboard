@@ -17,9 +17,12 @@ import SettingDashboard from './pages/settings/dashboard.vue';
 import SettingAlertList from './pages/settings/alerts/list.vue';
 import SettingAlertForm from './pages/settings/alerts/form.vue';
 import SettingChannelAnalogInput from './pages/settings/channels/analogs/input.vue';
+import SettingChannelOBDInput from './pages/settings/channels/obd/form.vue';
 import SettingChannelList from './pages/settings/channels/list.vue';
 import SettingChannelOutputList from './pages/settings/channels/output/list.vue';
-import SettingChannelOutputForm from './pages/settings/channels/output/form.vue';
+import SettingChannelOutputAnalog from './pages/settings/channels/output/analog.vue';
+import SettingChannelOutputOBD from './pages/settings/channels/output/obd.vue';
+
 import SettingScreen from './pages/settings/screen.vue';
 
 //G-force
@@ -130,6 +133,12 @@ export const PublicRoutes =
       props: true
     },
     {
+      path: '/settings/channels/obd/input',
+      component: SettingChannelOBDInput,
+      name: 'setting-channel-obd-input',
+      props: true
+    },
+    {
       path: '/settings/channels/list',
       component: SettingChannelList,
       name: 'setting-channel-list',
@@ -140,8 +149,13 @@ export const PublicRoutes =
       name: 'setting-channel-output-list',
     },
     {
-      path: '/settings/channels/output/form',
-      component: SettingChannelOutputForm,
-      name: 'setting-channel-output-form',
+      path: '/settings/channels/output/analog',
+      component: SettingChannelOutputAnalog,
+      name: 'setting-channel-output-analog',
+    },
+    {
+      path: '/settings/channels/output/obd',
+      component: SettingChannelOutputOBD,
+      name: 'setting-channel-output-obd',
     },
   ];

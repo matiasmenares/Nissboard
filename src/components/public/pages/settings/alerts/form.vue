@@ -57,7 +57,11 @@
             </v-row>
             <v-row>
                 <v-col>
-                    <v-data-table :headers="headers" :items="conditions_table" :items-per-page="5" class="elevation-1" ></v-data-table>
+                    <v-data-table :headers="headers" :items="conditions_table" :items-per-page="5" class="elevation-2">
+                        <template v-slot:item.actions="{ item }">
+                            <v-icon small @click="delete_condition(item)">mdi-delete</v-icon>
+                        </template>
+                    </v-data-table>
                 </v-col>
             </v-row>
         </v-tab-item>
@@ -77,7 +81,7 @@
 </template>
 <script>
 export default {
-    name: "inputs",
+    name: "Alerts",
     props:{
         alarm: {default: null},
         alarm_outputs: {default: null}
@@ -85,14 +89,11 @@ export default {
     data(){
         return{
             headers: [
-                {
-                    text: 'Output Channel',
-                    align: 'start',
-                    sortable: false,
-                    value: 'output',
-                },
-                { text: 'Condition', value: 'condition' },
-                { text: 'Value', value: 'value' }
+                { text: 'Output ID',  align: 'start', sortable: false,  value: 'id', },
+                { text: 'Output Channel', value: 'output' },
+                { text: 'Condition', value: 'condition', sortable: false },
+                { text: 'Value', value: 'value' },
+                { text: 'Actions', value: 'actions', sortable: false }
             ],
             condition_form: {value: null, channel_output_id: null, condition_id: null},
             channel_outputs: [],
@@ -105,8 +106,6 @@ export default {
             layout: "normal",
             options: { useKbEvents: false, preventClickEvent: false},
             valid: true,
-            output: 0,
-            voltage: 0.0,
             nameRules: [
               v => !!v || 'Input is required',
               v => (v && v.length <= 100) || 'Input must be less than 100 characters',
@@ -116,9 +115,7 @@ export default {
             },
         }
     },
-    components:{
-    },
-    beforeMount(){
+    created(){
         this.set_outputs()
         this.set_conditions()
         this.set_alarm_types()
@@ -131,7 +128,7 @@ export default {
                     var output = this.channel_outputs.find(out => out.id == alarm_output.channel_output_id)
                     var condition = this.conditions.find(con => con.id == alarm_output.condition_id)
                     var measure = this.measures.find(mes => mes.id == output.measure_id)
-                    this.conditions_table.push({output: output.name, condition: condition.name+" ("+condition.condition+")", value: alarm_output.value+" ("+measure.name+")" })
+                    this.set_data_in_table(output, condition, measure.name, alarm_output.value)
                 })
             }
         },
@@ -140,7 +137,14 @@ export default {
             this.conditions_data.push(this.condition_form)
             let output = this.channel_outputs.find(out => out.id == this.condition_form.channel_output_id)
             let condition = this.conditions.find(con => con.id == this.condition_form.condition_id)
-            this.conditions_table.push({output: output.name, condition: condition.name+" ("+condition.condition+")", value: this.condition_form.value+" ("+this.measure_text+")" })
+            this.set_data_in_table(output, condition, this.measure_text, this.condition_form.value)
+        },
+        delete_condition(item) {
+            const index = this.conditions_table.indexOf(item)
+            confirm('Are you sure you want to delete this item?') && this.conditions_table.splice(index, 1)
+        },
+        set_data_in_table(output, condition, measure_text, condition_value){
+            this.conditions_table.push({id: output.id, output: output.name, condition: condition.name+" ("+condition.condition+")", value: condition_value+" ("+measure_text+")" , actions: "aa"})
         },
         with_measure(item){
             return item.name + " (" +item.condition+")"
@@ -149,7 +153,6 @@ export default {
             this.axios.get("/settings/channels/output").then(result => {
                 this.channel_outputs = result.data.channels
                 this.measures = result.data.measures
-                this.set_props()
             }).catch(error => {
                 console.log(error);
             })
@@ -157,6 +160,7 @@ export default {
         set_conditions(){
             this.axios.get("/settings/conditions").then(result => {
                 this.conditions = result.data.conditions
+                this.set_props()
             }).catch(error => {
                 console.log(error);
             })
@@ -187,9 +191,6 @@ export default {
               console.log(error);
             })
         }
-    },
-    watch:{
-    
     },
     computed: {
         myStyles () {

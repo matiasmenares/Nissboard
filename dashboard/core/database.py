@@ -38,6 +38,10 @@ class Database():
 
 	def set_dashboards_seed(self):
 		cursorObj = self.con.cursor()
+		if len(cursorObj.execute('SELECT * FROM obd').fetchall()) == 0:
+			cursorObj.execute("INSERT INTO obd VALUES(NULL, 'Rpm', 'RPM', 'Engine RPM', NULL)")
+			cursorObj.execute("INSERT INTO obd VALUES(NULL, 'Speed', 'SPEED', 'Vehicle Speed', NULL )")
+			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM dashboard').fetchall()) == 0:
 			cursorObj.execute("INSERT INTO dashboard VALUES(1, 'KINEK', '0', '0')")
 			cursorObj.execute("INSERT INTO dashboard VALUES(2, 'DUST', '0', '0')")

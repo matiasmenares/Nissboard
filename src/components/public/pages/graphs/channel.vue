@@ -116,7 +116,11 @@ export default {
     },
     getNewSeries() {
       this.x = this.x + 0.5
-      this.data.push({ x: this.x, y: this.channel_selected.value });
+        try {
+            this.data.push({ x: this.x, y: this.channel_selected.value });
+        } catch (error) {
+            error
+        }
     },
     intervals: function() {
       var me = this;
