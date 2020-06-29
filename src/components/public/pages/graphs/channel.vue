@@ -81,8 +81,8 @@ export default {
           }
         },
         yaxis: {
-          max: 20,
-          min: -20,
+          max: 8000,
+          min: 0,
           labels: {
             style: {
               color: '#FFFFFF'
@@ -148,7 +148,7 @@ export default {
   computed:{
     channel_selected: function () {
       return this.channel_output.find(out => out.id == this.output_selected_id)
-    }
+    },
   }
 };
 </script>

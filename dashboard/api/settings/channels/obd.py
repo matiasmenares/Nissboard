@@ -3,9 +3,7 @@ from flask import request, jsonify
 from model.models import db, Obd, ObdSchema , ObdInput, ObdInputSchema, ChannelInput
 
 class OBDChannel(Resource):
-    def __init__(self):
-        self.database = Database()
-
+ 
     def get(self):
         obd = Obd.query.all()
         obd_schema = ObdSchema(many=True)

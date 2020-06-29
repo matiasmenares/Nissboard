@@ -29,7 +29,7 @@
             <v-spacer></v-spacer>
             <div class="mx-12 text-center">
                 <v-icon :class="icons.analog.color">mdi-current-ac</v-icon>
-                <v-icon :class="icons.ecu.color">mdi-access-point-network</v-icon>
+                <v-icon :class="icons.ecu.color">mdi-chip</v-icon>
                 <v-icon :class="icons.gps.color">mdi-satellite-variant</v-icon>
                 <v-icon :class="icons.internet.color">{{icons.internet.icon}}</v-icon>
             </div>

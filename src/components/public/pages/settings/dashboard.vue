@@ -25,17 +25,24 @@
           <v-card flat color="transparent">
             <v-subheader>Slot Position Output</v-subheader>
           </v-card>
-          <v-row v-for="(output) in kinek.dashboard_outputs" :key="output.id">
-            <v-col>
-                <v-card flat color="transparent">
-                    <v-select v-model="output.channel_output_id" :items="channel_outputs"  :rules="[v => !!v || 'Output sensor is required']" :label="output.name" @change="save()" required autocomplete="off" />
-                </v-card>
-            </v-col>
-            <v-col>
-                <v-card flat color="transparent">
-                  <v-btn class="mr-4" @click="send_to('dashboard-proton')"><v-icon>mdi-eye-outline</v-icon> Position</v-btn> <v-checkbox  :label="'Show Peak'"></v-checkbox>
-                </v-card>
-            </v-col>
+          <v-row>
+            <div v-for="(output) in kinek.dashboard_outputs" :key="output.id">
+              <v-col cols="12">
+                  <v-card flat color="transparent">
+                      <v-select v-model="output.channel_output_id" :items="channel_outputs"  :rules="[v => !!v || 'Output sensor is required']" :label="output.name" @change="save()" required autocomplete="off" />
+                  </v-card>
+              </v-col>
+              <v-col cols="12">
+                  <v-col cols=4>
+                    <v-card flat color="transparent">
+                      <v-btn class="mr-4" @click="send_to('dashboard-proton')"><v-icon>mdi-eye-outline</v-icon></v-btn>
+                    </v-card>
+                  </v-col>
+                  <v-col cols=4>
+                     <v-checkbox  :label="'Show Peak'"></v-checkbox>
+                  </v-col>
+              </v-col>
+            </div>
           </v-row>
         </v-container>
       </v-tab-item>

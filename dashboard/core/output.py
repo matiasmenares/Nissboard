@@ -1,9 +1,10 @@
 import time
+import threading
 from core.analog import Analog
 from core.database import Database
 from model.models import ChannelOutput
 from core.alarm import Alarm
-import threading
+from core.obd_ecu import ObdEcu 
 
 class Output:
     def __init__(self, socketoi, serial, analog_path):
@@ -12,6 +13,7 @@ class Output:
         self.analog_data = {'A0': None, 'A1': None, 'A2': None, 'A3': None, 'A4': None}
         self.output = ChannelOutput
         self.alarm = Alarm(socketoi)
+        self.obd = ObdEcu(socketoi)
 
     def start(self):
         while True:
@@ -20,12 +22,14 @@ class Output:
             for output in self.output.query.all():
                 if output.channel_input.analog_input_id != None:
                     self.set_analog_output(output, response)
+                if output.channel_input.obd_input_id != None:
+                    self.set_obd_output(output, response)
             self.socketio.emit('channelOutput', response)
             t = threading.Thread(target=self.alarm.send, args=(response,), daemon=True)
             t.start()
-            time.sleep(0.01)
+#ANALOG
     def set_analog_output(self, output, response):
-        return response.append({'id': output.id, 'name': output.name, 'measure': output.measure.name, 'value': self.set_analog_value(output)})
+        return response.append({'id': output.id, 'name': output.name, 'measure': output.measure.name, 'value': self.set_analog_value(output), 'max_output': output.output_max_val, 'min_output': output.output_min_val})
 
     def set_analog_value(self, output):
         for pin in range(0, 7):
@@ -38,6 +42,7 @@ class Output:
             return round(eval("((("+ str(value) + output.measure.formula), 2)
         else:
             return 0.0
+
     def linear_function(self, x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
@@ -47,3 +52,10 @@ class Output:
             self.analog_data = response['data']
         else:
             self.analog_data = {'A0': None, 'A1': None, 'A2': None, 'A3': None, 'A4': None}  
+#OBD
+    def set_obd_output(self, output, response):
+        return response.append({'id': output.id, 'name': output.name, 'measure': output.measure.name, 'value': self.set_obd_value(output), 'max_output': output.output_max_val, 'min_output': output.output_min_val})
+
+    def set_obd_value(self, output):
+        response = self.obd.send(output.channel_input.obd_input.obd.command)
+        return response

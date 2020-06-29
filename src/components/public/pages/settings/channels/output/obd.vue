@@ -3,6 +3,7 @@
   <v-card>
     <v-tabs color="accent-4" left>
         <v-tab @click="hide">Básic</v-tab>
+        <v-tab @click="hide" :disabled="this.form.channel_inputs_id == null || this.form.measure_id == null">Data</v-tab>
         <v-tab @click="hide" :disabled="this.form.channel_inputs_id == null || this.form.measure_id == null">Offset</v-tab>
         <v-tab @click="hide" :disabled="this.form.channel_inputs_id == null || this.form.measure_id == null">Confirm</v-tab>
         <v-tab-item>
@@ -33,38 +34,51 @@
                     </v-row>
                 </v-form>
             </v-container>
-      </v-tab-item>
-    <v-tab-item>
-        <v-row>
-            <v-col cols="12">
-                <v-container class="py-0 mt-0">
-                    <v-row align="center">
-                        <v-col cols="12">
-                            <v-text-field  v-model="form.offset" label="Offset Formula" required  @focus="show" data-layout="normal" />
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-col>
-        </v-row>
-    </v-tab-item>
-    <v-tab-item>
-        <v-row>
-        <v-col cols="12" class="px-12">
-            <h1 class="text-center" style="font-size: 100px;">{{this.measure.name}}: {{output}} </h1>
-        </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12">
-                <v-btn block color="success" @click="save">Save</v-btn>
-            </v-col>
-        </v-row>
-    </v-tab-item>
+        </v-tab-item>
+        <v-tab-item>
+            <v-row>
+                <v-col cols="12">
+                    <v-container class="py-0 mt-0">
+                        <v-row align="center">
+                            <v-col cols="6">
+                                <v-text-field  v-model="form.output_min_val"  :label="'Output Min '+this.measure.name+' Value'" required  @focus="show"  data-layout="numeric" />
+                            </v-col>
+                            <v-col cols="6">
+                                <v-text-field  v-model="form.output_max_val" :counter="10" :rules="nameRules"  :label="'0utput Max '+this.measure.name+' Value'" required  @focus="show"  data-layout="numeric" />
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-col>
+            </v-row>
+        </v-tab-item>
+        <v-tab-item>
+            <v-row>
+                <v-col cols="12">
+                    <v-container class="py-0 mt-0">
+                        <v-row align="center">
+                            <v-col cols="12">
+                                <v-text-field  v-model="form.offset" label="Offset Formula" required  @focus="show" data-layout="normal" />
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-col>
+            </v-row>
+        </v-tab-item>
+        <v-tab-item>
+            <v-row>
+            </v-row>
+            <v-row>
+                <v-col cols="12">
+                    <v-btn block color="success" @click="save">Save</v-btn>
+                </v-col>
+            </v-row>
+        </v-tab-item>
     </v-tabs>
-  </v-card>
-    <div class="mt-10" style="cursor: default;">
-        <vue-touch-keyboard id="keyboard" :options="options" v-if="visible" :layout="layout" :cancel="hide" :accept="accept" :input="input" />
+    </v-card>
+        <div class="mt-10" style="cursor: default;">
+            <vue-touch-keyboard id="keyboard" :options="options" v-if="visible" :layout="layout" :cancel="hide" :accept="accept" :input="input" />
+        </div>
     </div>
-  </div>
 </template>
 <script>
 export default {
@@ -84,39 +98,20 @@ export default {
             ],
             input_data: null,
             input: null,
+            form_type: 2,
             form: {
                 id: null,
                 name: null,
                 input: null,
                 measure_groups_id: null,
-                input_min_val: null,
-                input_max_val: null,
                 output_min_val: null,
                 output_max_val: null,
-                offset: null
+                offset: null,
             },
             measure: {id: null, name: null, calculation: null, description: null},
             input_value: [],
             unit_groups: [],
             units: [],
-            datacollection: {
-                labels: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5],
-                datasets: [
-                    {
-                        label: 'PSI',
-                        backgroundColor: this.gradient,
-                        borderColor: '#FC2525', 
-                        pointBackgroundColor: '#FC2525', 
-                        borderWidth: 2, 
-                        pointBorderColor: '#FC2525',
-                        data: [0]
-                    }
-                ]
-            },
-            chartOptions: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
         }
     },
     beforeMount(){
@@ -126,7 +121,6 @@ export default {
     mounted(){
         if (this.analog)
             this.form = this.analog;
-        this.set_analog_sensors()
     },
     methods:{
         set_measures_group(){
@@ -158,20 +152,12 @@ export default {
                 this.datacollection.datasets[0].data.push(sum);
             }
         },
-        set_voltage(analog){
-            this.voltage = analog == null ? 0.00 : (analog * (5.0 / 1023.0)).toFixed(2)
-        },
-        set_analog_sensors(){
-            this.sockets.subscribe('analog', (data) => {
-                this.analog = data;
-            })
-        },
         accept() {
           this.hide()
         },
         set_inputs(){
             this.axios.get("/settings/channels/input").then(result => {
-                this.input_value = result.data.analog_inputs
+                this.input_value = result.data.obd_inputs
             }).catch(error => {
               console.log(error);
             })
@@ -187,13 +173,13 @@ export default {
         },
         save(){
           if(this.channel){
-            this.axios.patch("/settings/channels/output",{ channel: this.form }).then(() => {
+            this.axios.patch("/settings/channels/output",{ channel: this.form, form_type: 2 }).then(() => {
               this.$router.push({ name: "setting-channel-output-list"});
             }).catch(error => {
               console.log(error);
             })
           }else{
-            this.axios.post("/settings/channels/output",{ channel: this.form }).then(() => {
+            this.axios.post("/settings/channels/output",{ channel: this.form, form_type: 2  }).then(() => {
               this.$router.push({ name: "setting-channel-output-list"});
             }).catch(error => {
               console.log(error);

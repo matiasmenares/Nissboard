@@ -9,7 +9,7 @@ class PortSerial():
 
 	def set_port(self):
 		try:
-			self.PORT = self.serial.Serial(self.devise_path, 9600, timeout=None)
+			self.PORT = self.serial.Serial(self.devise_path, 19200, timeout=None)
 			return False
 		except:
 			self.PORT = None

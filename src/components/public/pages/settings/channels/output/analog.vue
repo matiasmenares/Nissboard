@@ -141,7 +141,8 @@ export default {
                 input_max_val: null,
                 output_min_val: null,
                 output_max_val: null,
-                offset: null
+                offset: null,
+                type: 1
             },
             measure: {id: null, name: null, calculation: null, description: null},
             input_value: [],
@@ -238,13 +239,13 @@ export default {
         },
         save(){
           if(this.channel){
-            this.axios.patch("/settings/channels/output",{ channel: this.form }).then(() => {
+            this.axios.patch("/settings/channels/output",{ channel: this.form, form_type: 1 }).then(() => {
               this.$router.push({ name: "setting-channel-output-list"});
             }).catch(error => {
               console.log(error);
             })
           }else{
-            this.axios.post("/settings/channels/output",{ channel: this.form }).then(() => {
+            this.axios.post("/settings/channels/output",{ channel: this.form, form_type: 1}).then(() => {
               this.$router.push({ name: "setting-channel-output-list"});
             }).catch(error => {
               console.log(error);

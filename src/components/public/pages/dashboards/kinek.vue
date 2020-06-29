@@ -40,38 +40,53 @@
             <v-progress-linear
                 :background-opacity="0.5"
                 :height="80"
-                :value="ecu.rpm"
-                :color="color.rpm"
+                :value="rpm_bar"
+                :color="rpm_color"
                 class="sub-block"
             ></v-progress-linear>
         </b-row>
         <b-row no-gutters class="mt-2">
-           <b-col class="text-center mt-12 normal-letter">
-                <h1>{{ecu.speed}} <span class="min-letter">KPH</span></h1>
+           <b-col class="text-center mt-12 normal-letter" v-if="channel_output[2]">
+                <h1>{{channel_output[2]['value']}} <span class="min-letter">{{channel_output[2]['name']}}</span></h1>
             </b-col>
-            <b-col class="text-center mt-1 max-letter">
-                <h1>{{ecu.rpm}} <span class="min-letter">RPM</span></h1>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
-           <b-col class="text-center mt-12  normal-letter">
-                <h1>{{ecu.temp}} <span class="min-letter">Cº</span></h1>
+            <b-col class="text-center mt-1 max-letter"  v-if="channel_output[1]">
+                <h1>{{parseInt(channel_output[1]['value'])}} <span class="min-letter">RPM</span></h1>
+            </b-col>
+            <b-col class="text-center mt-12 normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+           <b-col class="text-center mt-12  normal-letter" v-if="channel_output[3]">
+                <h1>{{channel_output[3]['value']}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1>
+            </b-col>
+            <b-col class="text-center mt-12 normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
         </b-row>
         <hr>
         <b-row no-gutters class="mt-5">
-           <b-col class="text-center normal-letter" v-if="channel_output[1]">
-                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[1]['name']}}</span></h1><small>Peak: </small>
+           <b-col class="text-center normal-letter" v-if="channel_output[4]">
+                <h1>{{parseInt(channel_output[4]['value'])}} <span class="min-letter">{{channel_output[4]['name']}}</span></h1>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
-            <b-col class="text-center normal-letter">
-                <h1>{{Math.round((((ecu.tps) * 100)/4100),2)}} % <span class="min-letter"> TPS</span></h1>
+            <b-col class="text-center normal-letter" v-if="channel_output[5]">
+                <h1>{{parseInt(channel_output[5]['value'])}} <span class="min-letter">{{channel_output[5]['name']}}</span></h1>
             </b-col>
-           <b-col class="text-center normal-letter">
-                <h1>{{ecu.batt}} <span class="min-letter">V</span></h1>
+               <b-col class="text-center normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
-           <b-col class="text-center normal-letter" v-if="channel_output[2]">
-                <h1>{{channel_output[2]['value']}} <span class="min-letter">{{channel_output[2]['name']}}</span></h1>
+           <b-col class="text-center normal-letter" v-if="channel_output[6]">
+                <h1>{{parseInt(channel_output[6]['value'])}} <span class="min-letter">{{channel_output[6]['name']}}</span></h1>
+            </b-col>
+           <b-col class="text-center normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+           <b-col class="text-center normal-letter" v-if="channel_output[7]">
+                <h1>{{parseInt(channel_output[7]['value'])}} <span class="min-letter">{{channel_output[7]['name']}}</span></h1>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
@@ -90,26 +105,26 @@
             </b-col>
         </b-row>
         <b-row no-gutters class="mt-5">
-           <b-col class="text-center normal-letter" v-if="channel_output[3]">
-                <h1>{{channel_output[3]['value']}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1><small>Peak: </small>
+           <b-col class="text-center normal-letter" v-if="channel_output[8]">
+                <h1>{{channel_output[8]['value']}} <span class="min-letter">{{channel_output[8]['name']}}</span></h1><small>Peak: </small>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
-           <b-col class="text-center normal-letter" v-if="channel_output[4]">
-                <h1>{{channel_output[4]['value']}} <span class="min-letter">{{channel_output[4]['name']}}</span></h1><small>Peak: </small>
+           <b-col class="text-center normal-letter" v-if="channel_output[9]">
+                <h1>{{channel_output[9]['value']}} <span class="min-letter">{{channel_output[9]['name']}}</span></h1><small>Peak: </small>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
-           <b-col class="text-center normal-letter" v-if="channel_output[5]">
-                <h1>{{channel_output[5]['value']}} <span class="min-letter">{{channel_output[5]['name']}}</span></h1><small>Peak: </small>
+           <b-col class="text-center normal-letter" v-if="channel_output[10]">
+                <h1>{{channel_output[6]['value']}} <span class="min-letter">{{channel_output[10]['name']}}</span></h1><small>Peak: </small>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
-            <b-col class="text-center normal-letter" v-if="channel_output[6]">
-                <h1>{{channel_output[6]['value']}} <span class="min-letter">{{channel_output[6]['name']}}</span></h1><small>Peak: </small>
+            <b-col class="text-center normal-letter" v-if="channel_output[11]">
+                <h1>{{channel_output[7]['value']}} <span class="min-letter">{{channel_output[11]['name']}}</span></h1><small>Peak: </small>
             </b-col>
             <b-col class="text-center normal-letter" v-else>
                 <h1>- -</h1>
@@ -130,8 +145,8 @@
             dash_outputs: [],
             color: {rpm: "light-blue"},
             value: 0,
-            red_line: 0,
-            yellow_line: 0
+            red_line: 6000,
+            yellow_line: 5000
         }
     },
     components: {
@@ -170,54 +185,53 @@
             }).catch(error => {
                 console.log(error);
             })
-        }
-    },
-    watch: {
-        "ecu.rpm": {
-            handler: function() {
-                this.value = (this.ecu.rpm * 100) / 9000
-                if (this.red_line > 0){
-                    if(this.ecu.rpm > this.red_line){
+        },
+        set_rpm_color(value){
+            if (this.red_line > 0){
+                if(value > this.red_line){
                     //danger
-                        this.color.rpm = "red darken-2"
-                    }else if(this.yellow_line > 0){
-                        if(this.ecu.rpm > this.yellow_line && this.ecu.rpm < this.red_line){
-                            //warning
-                            this.color.rpm = "amber"
-                        }else{
-                        //success
-                        this.color.rpm = "light-blue" 
-                         }
+                    return "red darken-2"
+                }else if(this.yellow_line > 0){
+                    if(value > this.yellow_line && value < this.red_line){
+                        //warning
+                        return "amber"
                     }else{
                         //success
-                        this.color.rpm = "light-blue" 
-                    }
-                }else if(this.yellow_line > 0){
-                    if(this.ecu.rpm > this.red_line){
-                        //warning
-                        this.color.rpm = "amber"
+                        return "light-blue" 
                     }
                 }else{
                     //success
-                    this.color.rpm = "light-blue"
+                    return "light-blue" 
                 }
-            }
-        },
-        "ecu.mph": {
-            handler: function() {
-            }
-        },
-        "ecu.coolantTemp": {
-            handler: function() {
-                if(this.ecu.coolantTemp > 120) {
-                    this.color.coolantTemp = "#FF3232"
-                } else if(this.ecu.coolantTemp > 90 && this.ecu.coolantTemp < 120) {
-                    this.color.coolantTemp = "#008000"
-                } else {
-                    this.color.coolantTemp = "#0000FF"
+            }else if(this.yellow_line > 0){
+                if(value > this.red_line){
+                    //warning
+                    return"amber"
                 }
+            }else{
+                //success
+                return "light-blue"
+            }            
+        }
+    },
+    computed:{
+        rpm_bar(){
+            if(this.channel_output[1]){
+                return (this.channel_output[1]['value'] * 100) / 8000
+            }else{
+                return 0
             }
         },
+        rpm_color(){
+            if(this.channel_output[1]){
+                return this.set_rpm_color(this.channel_output[1]['value'])
+            }else{
+                return "light-blue"
+            }
+        }
+    },
+    watch: {
+        
     }
   }
 </script>

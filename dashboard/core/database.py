@@ -39,6 +39,9 @@ class Database():
 	def set_dashboards_seed(self):
 		cursorObj = self.con.cursor()
 		if len(cursorObj.execute('SELECT * FROM obd').fetchall()) == 0:
+			cursorObj.execute("INSERT INTO obd VALUES(NULL, 'Coolant Temp', 'COOLANT_TEMP', 'Engine Coolant Temperature', NULL )")
+			cursorObj.execute("INSERT INTO obd VALUES(NULL, 'Throttle Position', 'THROTTLE_POS', 'Throttle Position Sensor', NULL )")
+			cursorObj.execute("INSERT INTO obd VALUES(NULL, 'Fuel Level', 'FUEL_LEVEL', 'Fuel Leven', NULL )")
 			cursorObj.execute("INSERT INTO obd VALUES(NULL, 'Rpm', 'RPM', 'Engine RPM', NULL)")
 			cursorObj.execute("INSERT INTO obd VALUES(NULL, 'Speed', 'SPEED', 'Vehicle Speed', NULL )")
 			self.con.commit()
@@ -47,13 +50,18 @@ class Database():
 			cursorObj.execute("INSERT INTO dashboard VALUES(2, 'DUST', '0', '0')")
 			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM dashboard_output').fetchall()) == 0:
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(1, 'Slot 1', '1', NULL)")
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(2, 'Slot 2', '1', NULL)")
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(3, 'Slot 3', '1', NULL)")
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(4, 'Slot 4', '1', NULL)")
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(5, 'Slot 5', '1', NULL)")
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(6, 'Slot 6', '1', NULL)")
-			cursorObj.execute("INSERT INTO dashboard_output VALUES(7, 'Slot 7', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'RPM', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 1', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 2', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 3', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 4', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 5', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 6', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 7', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 8', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 9', '1', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 10', '1', NULL)")
+
 			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM sensors').fetchall()) == 0:
 			cursorObj.execute("INSERT INTO sensors VALUES(1, 'Water', '0', 'Celcius', '0', '0')")
@@ -62,6 +70,7 @@ class Database():
 			cursorObj.execute("INSERT INTO measure_group VALUES(1, 'Pressure (Boost)')")
 			cursorObj.execute("INSERT INTO measure_group VALUES(2, 'Pressure')")
 			cursorObj.execute("INSERT INTO measure_group VALUES(3, 'Temperature')")
+			cursorObj.execute("INSERT INTO measure_group VALUES(4, 'RPM')")
 			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM condition').fetchall()) == 0:
 			cursorObj.execute("INSERT INTO condition VALUES(1, 'Greater Than', '>')")
@@ -88,6 +97,8 @@ class Database():
 			#Temperature
 			cursorObj.execute("INSERT INTO measure VALUES(9, 'Celcius', ' * 0.001) * 14 ))', ' - 14 ) / 14.504)', 'This sensor Measure Absolute Pressure', 3)")
 			cursorObj.execute("INSERT INTO measure VALUES(10, 'Fahrenheit', ' * 0.001) * 14 ))', ' - 14 ) / 14.504)', 'This sensor Measure Absolute Pressure', 3)")
+			#RPM
+			cursorObj.execute("INSERT INTO measure VALUES(NULL, 'Revol. Per. Min.', '))', '))', 'This sensor measure RPM', 4)")
 			self.con.commit()
 
 

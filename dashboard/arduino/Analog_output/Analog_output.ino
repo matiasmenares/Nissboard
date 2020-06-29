@@ -16,7 +16,7 @@ float buffer= 0;
 
 void setup()
 {
-  Serial.begin(9600); // start monitoring raw voltage for calibration
+  Serial.begin(19200); // start monitoring raw voltage for calibration
 }
 
 

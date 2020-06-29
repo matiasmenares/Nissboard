@@ -6,11 +6,12 @@
 
                 <v-btn class="mr-2" @click="send_to('setting-dashboard')"><v-icon>mdi-speedometer-slow</v-icon> Dash</v-btn>
 
+                <v-btn class="mr-2" @click="send_to('setting-screen')"><v-icon>mdi-led-on</v-icon> LED's</v-btn>
+
                 <v-btn class="mr-2" @click="send_to('setting-channel-list')"><v-icon>mdi-current-ac</v-icon> Channel Input</v-btn>
 
                 <v-btn class="mr-2" @click="send_to('setting-channel-output-list')"><v-icon>mdi-current-ac</v-icon> Channel Output</v-btn>
 
-                <v-btn class="mr-2" @click="send_to('dashboard-kinek')"><v-icon>mdi-wifi</v-icon> Wifi</v-btn>
             </b-col>
         </b-row>
         <b-row>
@@ -19,16 +20,18 @@
 
                 <v-btn class="mr-2" @click="send_to('dashboard-blume')"><v-icon>mdi-account</v-icon> Account</v-btn>
 
-                <v-btn class="mr-2" @click="off('shutdown')"><v-icon>mdi-power</v-icon> Shutdown</v-btn>
+                <v-btn class="mr-2" @click="off('shutdown')"><v-icon>mdi-bluetooth</v-icon> Bluetooth</v-btn>
 
-                <v-btn class="mr-2" @click="off('reboot')"><v-icon>mdi-power</v-icon> Reboot</v-btn>
+                <v-btn class="mr-2" @click="send_to('dashboard-kinek')"><v-icon>mdi-wifi</v-icon> Wifi</v-btn>
+
+                <v-btn class="mr-2" @click="off('reboot')"><v-icon>mdi-power</v-icon> ShutDown</v-btn>
             </b-col>
         </b-row>
     </div>
 </template>
 <script>
 export default {
-    name: "dashboards",
+    name: "settings",
     data(){
         return{
             sheet: false,

@@ -10,3 +10,4 @@ termcolor
 Flask-SQLAlchemy==2.1.0
 flask_marshmallow
 rpi-backlight
+obd
