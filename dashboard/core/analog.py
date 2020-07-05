@@ -50,6 +50,7 @@ class Analog():
 			self.connected = False
 			self.port_serial.close()
 			return {'response': False, 'msg': "exception"}
+
 	def search_port(self, patt, path):
 		result = []
 		for root, dirs, files in os.walk(path):
@@ -58,6 +59,7 @@ class Analog():
 					result.append(os.path.join(root, name))
 		if result:
 			self.port_serial = PortSerial(result[0], self.serial_class)
+
 	def parse_analog(self):
 		ard = self.PORT.readline().decode().replace("\r\n","")
 		analog = eval(ard)

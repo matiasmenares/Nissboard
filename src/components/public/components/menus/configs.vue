@@ -6,7 +6,7 @@
 
                 <v-btn class="mr-2" @click="send_to('setting-dashboard')"><v-icon>mdi-speedometer-slow</v-icon> Dash</v-btn>
 
-                <v-btn class="mr-2" @click="send_to('setting-screen')"><v-icon>mdi-led-on</v-icon> LED's</v-btn>
+                <v-btn class="mr-2" @click="send_to('setting-leds-list')"><v-icon>mdi-led-on</v-icon> LED's</v-btn>
 
                 <v-btn class="mr-2" @click="send_to('setting-channel-list')"><v-icon>mdi-current-ac</v-icon> Channel Input</v-btn>
 

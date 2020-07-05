@@ -167,5 +167,47 @@ class AlarmOutputSchema(ma.Schema):
         model = ChannelInput
         fields = ("id", "value", "channel_output_id", "alarm_id", "condition_id")
 
+class Color(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    hexadecimal = db.Column(db.Integer)
+    rgb = db.Column(db.Integer)
+
+class ColorSchema(ma.Schema):
+    class Meta:
+        model = ChannelInput
+        fields = ("id", "name", "hexadecimal", "rgb")
+
+
+class Led(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    brightness = db.Column(db.Integer)
+    priority = db.Column(db.Integer)
+    channel_output_id = db.Column(db.Integer,db.ForeignKey('channel_output.id'))
+    channel_output = db.relationship('ChannelOutput')
+
+class LedSchema(ma.Schema):
+    class Meta:
+        model = ChannelInput
+        fields = ("id", "name", "brigness", "priority", "channel_output_id")
+
+class LedOutput(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    led_start = db.Column(db.Integer, nullable=False)
+    color_start_id = db.Column(db.Integer, db.ForeignKey(Color.id))
+    color_start = db.relationship("Color", backref="color", uselist=False, foreign_keys=[color_start_id])
+    value_start = db.Column(db.String)
+    led_end = db.Column(db.Integer, nullable=False)
+    color_end_id = db.Column(db.Integer, db.ForeignKey(Color.id))
+    color_end = db.relationship("Color", backref="reference", uselist=False, foreign_keys=[color_end_id])
+    value_end = db.Column(db.String)
+    led_id = db.Column(db.Integer,db.ForeignKey('led.id'))
+    led = db.relationship('Led')
+
+class LedSchema(ma.Schema):
+    class Meta:
+        model = ChannelInput
+        fields = ("id", "name", "max_blink")
 db.create_all()
 db.session.commit()

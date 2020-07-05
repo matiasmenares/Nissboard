@@ -22,7 +22,8 @@ import SettingChannelList from './pages/settings/channels/list.vue';
 import SettingChannelOutputList from './pages/settings/channels/output/list.vue';
 import SettingChannelOutputAnalog from './pages/settings/channels/output/analog.vue';
 import SettingChannelOutputOBD from './pages/settings/channels/output/obd.vue';
-
+import SettingLedsList from './pages/settings/leds/list.vue';
+import SettingLedsForm from './pages/settings/leds/form.vue';
 import SettingScreen from './pages/settings/screen.vue';
 
 //G-force
@@ -157,5 +158,15 @@ export const PublicRoutes =
       path: '/settings/channels/output/obd',
       component: SettingChannelOutputOBD,
       name: 'setting-channel-output-obd',
+    },
+    {
+      path: '/settings/leds/list',
+      component: SettingLedsList,
+      name: 'setting-leds-list',
+    },
+    {
+      path: '/settings/leds/form',
+      component: SettingLedsForm,
+      name: 'setting-leds-form',
     },
   ];

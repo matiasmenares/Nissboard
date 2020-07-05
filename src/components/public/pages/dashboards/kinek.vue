@@ -59,7 +59,7 @@
                 <h1>- -</h1>
             </b-col>
            <b-col class="text-center mt-12  normal-letter" v-if="channel_output[3]">
-                <h1>{{channel_output[3]['value']}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1>
+                <h1>{{parseInt(channel_output[3]['value'])}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1>
             </b-col>
             <b-col class="text-center mt-12 normal-letter" v-else>
                 <h1>- -</h1>

@@ -10,4 +10,8 @@ termcolor
 Flask-SQLAlchemy==2.1.0
 flask_marshmallow
 rpi-backlight
-obd
+git+git://github.com/dailab/python-OBD-wifi
+rpi_ws281x
+adafruit-circuitpython-neopixel
+adafruit-blinka
+colour

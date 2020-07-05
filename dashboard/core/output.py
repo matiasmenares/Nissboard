@@ -4,6 +4,7 @@ from core.analog import Analog
 from core.database import Database
 from model.models import ChannelOutput
 from core.alarm import Alarm
+from core.led import Led
 from core.obd_ecu import ObdEcu 
 
 class Output:
@@ -14,6 +15,7 @@ class Output:
         self.output = ChannelOutput
         self.alarm = Alarm(socketoi)
         self.obd = ObdEcu(socketoi)
+        self.led = Led()
 
     def start(self):
         while True:
@@ -25,8 +27,13 @@ class Output:
                 if output.channel_input.obd_input_id != None:
                     self.set_obd_output(output, response)
             self.socketio.emit('channelOutput', response)
-            t = threading.Thread(target=self.alarm.send, args=(response,), daemon=True)
-            t.start()
+            self.externs(response)
+
+    def externs(self, response):
+            alarm = threading.Thread(target=self.alarm.send, args=(response,), daemon=True)
+            alarm.start()
+            led = threading.Thread(target=self.led.start, args=(response,), daemon=True)
+            led.start()
 #ANALOG
     def set_analog_output(self, output, response):
         return response.append({'id': output.id, 'name': output.name, 'measure': output.measure.name, 'value': self.set_analog_value(output), 'max_output': output.output_max_val, 'min_output': output.output_min_val})

@@ -31,6 +31,7 @@ from api.settings.channels.analog import AnalogChannel
 from api.settings.channels.output import OutputChannel
 from api.settings.condition_setting import ConditionSetting
 from api.settings.alarm_setting import AlarmSetting
+from api.settings.led_setting import LedSetting
 
 from urllib.request import urlopen
 import serial
@@ -59,6 +60,7 @@ api.add_resource(System, '/system')
 api.add_resource(Dashboard, '/dashboards') 
 api.add_resource(KinekSetting, '/settings/kinek')
 api.add_resource(AlarmSetting, '/settings/alarms') 
+api.add_resource(LedSetting, '/settings/leds') 
 api.add_resource(ConditionSetting, '/settings/conditions')
 api.add_resource(AlarmTypeSetting, '/settings/alarm_types')
 api.add_resource(ScreenSetting, '/settings/screen') 
