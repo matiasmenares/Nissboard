@@ -9,7 +9,70 @@
 				<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="analog.turbo.bar.value"
+						:value="speed.out"
+						:separator-step="0"
+						:min="0"
+						:max="300"
+						:transitionDuration="10"
+						gauge-color="#f8f9f9"
+						base-color="#000000"
+						:scale-interval="1000"
+						:inner-radius="80"
+						class="gauge">
+					<div class="inner-text">
+						<h1>{{speed.out}}</h1>
+						<span class="size-letter">Speed</span>
+					</div>
+				</vue-svg-gauge>
+				</b-col>
+				<b-col>
+					<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="rpm.out"
+						:separator-step="0"
+						:min="0"
+						:max="8000"
+						:transitionDuration="10"
+						gauge-color="#f8f9f9"
+						:scale-interval="20"
+						:inner-radius="80"
+						base-color="#000000"
+						class="gauge"
+					>
+					<div class="inner-text">
+					<h1>{{rpm.out}}</h1>
+					<span class="size-letter">RPM</span>
+					</div>
+					</vue-svg-gauge>
+				</b-col>
+				<b-col>
+				<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="(temp.out-30)"
+						:separator-step="0"
+						:min="0"
+						:max="130"
+						:transitionDuration="10"
+						gauge-color="#f8f9f9"
+						:scale-interval="900"
+						:inner-radius="80"
+						base-color="#000000"
+						class="gauge">
+				<div class="inner-text">
+					<h1>{{temp.out}}</h1>
+					<span class="size-letter">Temp</span>
+				</div>
+				</vue-svg-gauge>
+				</b-col>
+			</b-row>
+			<b-row no-gutters class="front lower-row">
+				<b-col style="">
+				<vue-svg-gauge
+						:start-angle="-90"
+						:end-angle="90"
+						:value="0"
 						:separator-step="0"
 						:min="0"
 						:max="1"
@@ -19,21 +82,21 @@
 						:scale-interval="1000"
 						:inner-radius="80"
 						class="gauge">
-					<div class="inner-text">
-						<h1>{{analog.turbo.bar.value}}</h1>
-						<span class="size-letter">Speed</span>
-					</div>
+				<div class="inner-text">
+					<h1>{{ecu.rpm}}</h1>
+					<span class="size-letter">RPM</span>
+				</div>
 				</vue-svg-gauge>
 				</b-col>
 				<b-col>
 					<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="analog.turbo.bar.value"
+						:value="0"
 						:separator-step="0"
+						:transitionDuration="10"
 						:min="0"
 						:max="1"
-						:transitionDuration="10"
 						gauge-color="#f8f9f9"
 						:scale-interval="20"
 						:inner-radius="80"
@@ -50,70 +113,7 @@
 				<vue-svg-gauge
 						:start-angle="-90"
 						:end-angle="90"
-						:value="analog.turbo.bar.value"
-						:separator-step="0"
-						:min="0"
-						:max="1"
-						:transitionDuration="10"
-						gauge-color="#f8f9f9"
-						:scale-interval="900"
-						:inner-radius="80"
-						base-color="#000000"
-						class="gauge">
-				<div class="inner-text">
-					<h1>{{ecu.rpm}}</h1>
-					<span class="size-letter">RPM</span>
-				</div>
-				</vue-svg-gauge>
-				</b-col>
-			</b-row>
-			<b-row no-gutters class="front lower-row">
-				<b-col style="">
-				<vue-svg-gauge
-						:start-angle="-90"
-						:end-angle="90"
-						:value="analog.turbo.bar.value"
-						:separator-step="0"
-						:min="0"
-						:max="1"
-						:transitionDuration="10"
-						gauge-color="#f8f9f9"
-						base-color="#000000"
-						:scale-interval="1000"
-						:inner-radius="80"
-						class="gauge">
-				<div class="inner-text">
-					<h1>{{ecu.rpm}}</h1>
-					<span class="size-letter">RPM</span>
-				</div>
-				</vue-svg-gauge>
-				</b-col>
-				<b-col>
-					<vue-svg-gauge
-						:start-angle="-90"
-						:end-angle="90"
-						:value="analog.turbo.bar.value"
-						:separator-step="0"
-						:transitionDuration="10"
-						:min="0"
-						:max="1"
-						gauge-color="#f8f9f9"
-						:scale-interval="20"
-						:inner-radius="80"
-						base-color="#000000"
-						class="gauge"
-					>
-					<div class="inner-text">
-					<h1>{{ecu.mph}}</h1>
-					<span class="size-letter">Speedo</span>
-					</div>
-					</vue-svg-gauge>
-				</b-col>
-				<b-col>
-				<vue-svg-gauge
-						:start-angle="-90"
-						:end-angle="90"
-						:value="analog.turbo.bar.value"
+						:value="0"
 						:separator-step="0"
 						:min="0"
 						:max="1"
@@ -135,8 +135,11 @@
 </template>
 <script>
 //   import RadialGauge from 'vue-canvas-gauges/src/RadialGauge'
+  import outputs from "../../mixins/outputs"
+
   export default {
-    name: 'Rocket',
+	name: 'Blume',
+    mixins: [outputs],
     data(){
         return{
             sheet: false,
@@ -151,30 +154,41 @@
     //   RadialGauge,
     },
     mounted(){
-
+		this.set_dash_output()
     },
     created() {
-        this.set_data()
-        this.set_analog_sensors()
 		setInterval(this.getNow, 1000);
     },
     methods: {
-        set_data(){
-            this.sockets.subscribe('ecuData', (data) => {
-                this.ecu = data;
-            })
-        },
-        set_analog_sensors(){
-            this.sockets.subscribe('analog', (data) => {
-                this.analog = data;
-            })
+		set_dash_output(){
+			this.axios.get("dashboards").then(result => {
+				this.slots = result.data.dashboard_outputs.filter(slot => slot.dashboard_id == 4 )
+			}).catch(error => {
+				console.log(error);
+			})
+		},
+		set_output(output){
+			if(!output)
+				return {out: 0, percent: 0, color: "", max_value: 0}
+			return {out: output["value"], percent: ((output['value'] * 100) / output['max_output']), color: "", max_value: output['max_output']}            
 		},
 		getNow: function() {
 			const today = new Date();
 			const time = today.getHours() + ":" + today.getMinutes()
 			this.timestamp = time;
 		}
-    },
+	},
+	computed:{
+		rpm(){
+			return this.set_output(this.channel_output[1])
+		},
+		speed(){
+			return this.set_output(this.channel_output[0])
+		},
+		temp(){
+			return this.set_output(this.channel_output[2])
+		},
+	},
     watch: {
         "ecu.rpm": {
             handler: function() {

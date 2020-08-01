@@ -11,12 +11,12 @@
                 <v-progress-linear
                     :background-opacity="0.5"
                     :height="40"
-                    :value="values.rpm"
+                    :value="rpm.percent"
                     :color="colors.rpm"
                 ></v-progress-linear>
             </b-col>
             <b-col>
-                <span class="normal-letter">{{ecu.rpm}}</span>
+                <span class="normal-letter">{{rpm.out}}</span>
             </b-col>
         </b-row>
         <b-row class="mt-1">
@@ -30,12 +30,12 @@
                 <v-progress-linear
                     :background-opacity="0.5"
                     :height="40"
-                    :value="values.speed"
+                    :value="speed.percent"
                     :color="colors.speed"
                 ></v-progress-linear>
             </b-col>
             <b-col>
-                <span class="normal-letter">{{ecu.speed}}</span> Kph
+                <span class="normal-letter">{{speed.out}}</span> Kph
             </b-col>
         </b-row>
         <b-row class="mt-1">
@@ -49,12 +49,12 @@
                 <v-progress-linear
                     :background-opacity="0.5"
                     :height="40"
-                    :value="values.turbo"
+                    :value="((boost.out * 100) /14 )"
                     :color="colors.turbo"
                 ></v-progress-linear>
             </b-col>
             <b-col>
-                <span class="normal-letter">{{analog.turbo.bar.value}}</span> Bar
+                <span class="normal-letter">{{boost.out}}</span> {{boost.measure}}
             </b-col>
         </b-row>
         <b-row class="mt-1">
@@ -68,12 +68,12 @@
                 <v-progress-linear
                     :background-opacity="0.5"
                     :height="40"
-                    :value="values.temp"
+                    :value="temp.percent"
                     :color="colors.temp"
                 ></v-progress-linear>
             </b-col>
             <b-col>
-                <span class="normal-letter">{{ecu.temp}}</span> Cº
+                <span class="normal-letter">{{temp.out}}</span> Cº
             </b-col>
         </b-row>
         <b-row class="mt-1">
@@ -87,12 +87,12 @@
                 <v-progress-linear
                     :background-opacity="0.5"
                     :height="40"
-                    :value="values.tps"
+                    :value="throttle.percent"
                     :color="colors.tps"
                 ></v-progress-linear>
             </b-col>
             <b-col>
-                <span class="normal-letter">{{Math.round((((ecu.tps) * 100)/4100),2)}} </span>%
+                <span class="normal-letter">{{throttle.out}} </span>%
             </b-col>
         </b-row>
         <b-row class="mt-1">
@@ -106,19 +106,22 @@
                 <v-progress-linear
                     :background-opacity="0.5"
                     :height="40"
-                    :value="values.batt"
+                    :value="battery.percent"
                     :color="colors.batt"
                 ></v-progress-linear>
             </b-col>
             <b-col>
-                <span class="normal-letter">{{ecu.batt}} V</span>
+                <span class="normal-letter">{{battery.out}} V</span>
             </b-col>
         </b-row>
     </div>
 </template>
 <script>
+  import outputs from "../../mixins/outputs"
+
   export default {
     name: 'Kinek',
+    mixins: [outputs],
     data(){
         return{
             sheet: false,
@@ -136,20 +139,41 @@
     mounted(){
     },
     created() {
-        this.set_data()
-        this.set_analog_sensors()
+        this.set_dash_output()
     },
     methods: {
-        set_data(){
-            this.sockets.subscribe('ecuData', (data) => {
-                this.ecu = data;
+        set_dash_output(){
+            this.axios.get("dashboards").then(result => {
+                this.slots = result.data.dashboard_outputs.filter(slot => slot.dashboard_id == 2 )
+            }).catch(error => {
+                console.log(error);
             })
         },
-        set_analog_sensors(){
-            this.sockets.subscribe('analog', (data) => {
-                this.analog = data;
-            })
+        set_output(output){
+            if(!output)
+                return {out: 0, percent: 0, color: this.dashboard.colors.safe}
+            return {out: output["value"], percent: ((output['value'] * 100) / output['max_output']), measure: output['measure'],  color: this.dashboard.colors.safe }            
+        }
+    },
+    computed:{
+        rpm(){
+            return this.set_output(this.channel_output[0])
         },
+        speed(){
+            return this.set_output(this.channel_output[1])
+        },
+        boost(){
+            return this.set_output(this.channel_output[2])
+        },
+        temp(){
+            return this.set_output(this.channel_output[3])
+        },
+        throttle(){
+            return this.set_output(this.channel_output[4])
+        },
+        battery(){
+            return this.set_output(this.channel_output[5])
+        }
     },
     watch: {
         "ecu.rpm": {

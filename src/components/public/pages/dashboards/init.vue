@@ -1,51 +1,87 @@
 <template>
       <div id="init-div">       
         <b-row no-gutters class="mt-10">
-           <b-col class="text-center max-letter">
-                <h1>{{ecu.speed}} <span class="min-letter">Kph</span></h1>
+            <b-col class="text-center max-letter" v-if="channel_output[0]">
+                <h1>{{channel_output[0]['value']}} <span class="min-letter">{{channel_output[0]['name']}}</span></h1>
             </b-col>
-            <b-col class="text-center max-letter">
-                <h1>{{ecu.rpm}} <span class="min-letter">Rpm</span></h1>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
-           <b-col class="text-center   max-letter">
-                <h1>{{ecu.temp}} <span class="min-letter">Cº</span></h1>
+            <b-col class="text-center max-letter" v-if="channel_output[1]">
+                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[1]['name']}}</span></h1>
             </b-col>
-        </b-row>
-        <hr>
-        <b-row no-gutters class="mt-5">
-           <b-col class="text-center max-letter">
-                <h1>{{ecu.turbo}} <span class="min-letter">Psi</span></h1>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
-            <b-col class="text-center max-letter">
-                <h1>{{Math.round((((ecu.tps) * 100)/4100),2)}} <span class="min-letter">% Tps</span></h1>
+            <b-col class="text-center max-letter" v-if="channel_output[2]">
+                <h1>{{channel_output[2]['value']}} <span class="min-letter">{{channel_output[2]['name']}}</span></h1>
             </b-col>
-           <b-col class="text-center max-letter">
-                <h1>{{ecu.batt}} <span class="min-letter">V</span></h1>
-            </b-col>
-           <b-col class="text-center max-letter">
-                <h1>{{ecu.timming}} <span class="min-letter">Timming</span></h1>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
         </b-row>
         <hr>
         <b-row no-gutters class="mt-5">
-           <b-col class="text-center max-letter">
-                <h1>{{ecu.O2}} <span class="min-letter">02</span></h1>
+            <b-col class="text-center max-letter" v-if="channel_output[3]">
+                <h1>{{channel_output[2]['value']}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1>
             </b-col>
-            <b-col class="text-center max-letter">
-                <h1> {{ecu.aac}}<span class="min-letter"> AAC</span></h1>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
-           <b-col class="text-center max-letter">
-                <h1>{{ecu.injector}} <span class="min-letter">Inj.</span></h1>
+            <b-col class="text-center max-letter" v-if="channel_output[4]">
+                <h1>{{channel_output[4]['value']}} <span class="min-letter">{{channel_output[4]['name']}}</span></h1>
             </b-col>
-           <b-col class="text-center max-letter">
-                <h1>{{ecu.af}} <span class="min-letter">Air/Fuel</span></h1>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+            <b-col class="text-center max-letter" v-if="channel_output[5]">
+                <h1>{{channel_output[5]['value']}} <span class="min-letter">{{channel_output[5]['name']}}</span></h1>
+            </b-col>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+            <b-col class="text-center max-letter" v-if="channel_output[6]">
+                <h1>{{channel_output[6]['value']}} <span class="min-letter">{{channel_output[6]['name']}}</span></h1>
+            </b-col>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+        </b-row>
+        <hr>
+        <b-row no-gutters class="mt-5">
+            <b-col class="text-center max-letter" v-if="channel_output[7]">
+                <h1>{{channel_output[7]['value']}} <span class="min-letter">{{channel_output[7]['name']}}</span></h1>
+            </b-col>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+            <b-col class="text-center max-letter" v-if="channel_output[8]">
+                <h1>{{channel_output[8]['value']}} <span class="min-letter">{{channel_output[8]['name']}}</span></h1>
+            </b-col>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+            <b-col class="text-center max-letter" v-if="channel_output[9]">
+                <h1>{{channel_output[9]['value']}} <span class="min-letter">{{channel_output[9]['name']}}</span></h1>
+            </b-col>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
+            </b-col>
+            <b-col class="text-center max-letter" v-if="channel_output[10]">
+                <h1>{{channel_output[10]['value']}} <span class="min-letter">{{channel_output[2]['name']}}</span></h1>
+            </b-col>
+            <b-col class="text-center  mt-12 normal-letter" v-else>
+                <h1>- -</h1>
             </b-col>
         </b-row>
     </div>
 </template>
 <script>
+  import outputs from "../../mixins/outputs"
+
   export default {
     name: 'Init',
+    mixins: [outputs],
     data(){
         return{
             sheet: false,
@@ -61,23 +97,16 @@
     mounted(){
     },
     created() {
-        this.set_data()
-        this.set_kinek()
+        this.set_dash_output()
     },
     methods: {
-        set_data(){
-            this.sockets.subscribe('ecuData', (data) => {
-                this.ecu = data;
-            })
-        },
-        set_kinek(){
-            this.axios.get("settings/kinek").then(result => {
-                this.red_line = parseInt(result.data["kinkek"][4])
-                this.yellow_line = parseInt(result.data["kinkek"][5])
+      set_dash_output(){
+            this.axios.get("dashboards").then(result => {
+                this.slots = result.data.dashboard_outputs.filter(slot => slot.dashboard_id == 3 )
             }).catch(error => {
                 console.log(error);
             })
-        }
+        },
     },
     watch: {
         "ecu.rpm": {

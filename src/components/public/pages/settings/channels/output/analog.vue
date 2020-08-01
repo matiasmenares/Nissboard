@@ -18,7 +18,7 @@
                                         <v-text-field  v-model="form.name" :counter="10" :rules="nameRules"  label="Name" required  @focus="show" data-layout="compact" autocomplete="off" />
                                     </v-col>
                                     <v-col cols="6">
-                                        <v-select v-model="form.channel_inputs_id" :items="input_value" item-text="name" item-value="id" :rules="[v => !!v || 'Input sensor is required']" label="Input Sensor" @focus="hide" required autocomplete="off" />
+                                        <v-select v-model="form.channel_inputs_id" :items="input_value" item-text="name" item-value="analog_channel.id" :rules="[v => !!v || 'Input sensor is required']" label="Input Sensor" @focus="hide" required autocomplete="off" />
                                     </v-col>
                                     <v-col cols="6">
                                         <v-select v-model="form.measure_groups_id" :items="unit_groups"  :rules="[v => !!v || 'Unit Group is required']" label="Unit Group" @change="set_measures()" @focus="hide" required autocomplete="off" />
@@ -223,7 +223,14 @@ export default {
         },
         set_inputs(){
             this.axios.get("/settings/channels/input").then(result => {
-                this.input_value = result.data.analog_inputs
+                result.data.analog_inputs.map(value =>{
+                    var input = value
+                    let analog_channel = result.data.channels.find(channel => channel.analog_input_id == value.id )
+                    console.log(analog_channel)
+                    input.analog_channel = analog_channel
+                    this.input_value.push(input)
+                })
+
             }).catch(error => {
               console.log(error);
             })
