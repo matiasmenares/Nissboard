@@ -12,9 +12,10 @@ class Alarm(threading.Thread):
         self.second = None
         self.timer = None
         self.current_alarm_type_id = None
+        self.alarm_obj = None
 
     def send(self, responses):
-        for alarm in AlarmModel.query.all():
+        for alarm in self.alarm_obj:
             alart_outputs = AlarmOutput.query.filter_by(alarm_id=alarm.id)
             if self.validate_outputs(alart_outputs, responses):
                 self.set_hierarchy(alarm, alart_outputs, responses)
@@ -61,6 +62,7 @@ class Alarm(threading.Thread):
             return self.greater_than_or_equal_to(condition, output)
         else:
             return False
+
     def set_alarm_description(self, description, outputs, responses):
         datas = description.split("#")
         if len(datas) == 1: return description

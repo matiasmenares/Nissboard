@@ -2,25 +2,31 @@ import time
 from datetime import datetime
 from core.serial import PortSerial
 from core.database import Database
-import board
-import busio
-import adafruit_adxl34x
+rasp = False
+try:
+# 	import board
+	import busio
+	import adafruit_adxl34x
+except ImportError:
+	print("import problem")
+	pass
 
 class Accelerometer():
 
 	def __init__(self, socketio):
-		self.runit = False
-		try:
-			self.socketio = socketio
-			i2c = busio.I2C(board.SCL, board.SDA)
-			ad = adafruit_adxl34x
-			self.accelerometer = ad.ADXL345(i2c)
-			self.accelerometer.data_rate = ad.DataRate.RATE_12_5_HZ
-			self.accelerometer.range = ad.Range.RANGE_4_G
-			self.runit = True
-		except:
+		if rasp:
 			self.runit = False
-			print("No Accelerometer is finded")
+			try:
+				self.socketio = socketio
+				i2c = busio.I2C(board.SCL, board.SDA)
+				ad = adafruit_adxl34x
+				self.accelerometer = ad.ADXL345(i2c)
+				self.accelerometer.data_rate = ad.DataRate.RATE_12_5_HZ
+				self.accelerometer.range = ad.Range.RANGE_4_G
+				self.runit = True
+			except:
+				self.runit = False
+				print("No Accelerometer is finded")
 	def start(self):
 		if self.runit:
 			while True:

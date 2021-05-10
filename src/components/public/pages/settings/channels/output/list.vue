@@ -50,6 +50,7 @@
         set_list(){
           this.axios.get("/settings/channels/output").then(result => {
             result.data.channels.map(channel => {
+              console.log(channel)
               this.items.push({icon: 'mdi-current-ac', iconClass: 'blue white--text', messure: "Messure: "+(channel[5] == 1 ? "Voltage" : "Resistance"), title: channel[3], subtitle: channel.name, pin: "Pin: "+channel[4], channel: channel})
             })
           }).catch(error => {

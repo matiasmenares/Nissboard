@@ -7,6 +7,7 @@ from flask_cors import CORS, cross_origin
 from flask_restful import Api
 from wifi import Cell, Scheme
 from threading import Lock
+import threading
 import os 
 #Core
 from core.ecu import Ecu
@@ -40,6 +41,40 @@ import socketio
 import struct
 import time
 import argparse
+
+
+#Async
+
+async_mode = None
+
+if async_mode is None:
+    try:
+        import eventlet
+        async_mode = 'eventlet'
+    except ImportError:
+        pass
+
+    if async_mode is None:
+        try:
+            from gevent import monkey
+            async_mode = 'gevent'
+        except ImportError:
+            pass
+
+    if async_mode is None:
+        async_mode = 'threading'
+
+    print('async_mode is ' + async_mode)
+
+# monkey patching is necessary because this application uses a background
+# thread
+if async_mode == 'eventlet':
+    import eventlet
+    eventlet.monkey_patch()
+elif async_mode == 'gevent':
+    from gevent import monkey
+    monkey.patch_all()
+
 #Arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("-e", help="Enviroments")
@@ -51,7 +86,7 @@ params = parser.parse_args()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = random.getrandbits(128)
 app.config['CORS_HEADERS'] = 'Content-Type'
-socketio = SocketIO(app, cors_allowed_origins="*",async_mode='threading')
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
 
 #API
 api = Api(app)
@@ -84,11 +119,16 @@ def test_connect():
 	global thread
 	with thread_lock:
 		if thread is None:
-			output = socketio.start_background_task(set_output)
-			# ecu = socketio.start_background_task(set_ecu)
-			internet = socketio.start_background_task(internet_on)
-# 			accelerometer = socketio.start_background_task(set_accelerometer)
-			# gps = socketio.start_background_task(set_gps)
+			internet = threading.Thread(target=internet_on, daemon=True)
+			internet.start()
+# 			output = threading.Thread(target=set_output, daemon=True)
+# 			output.start()
+# 			output = socketio.start_background_task(set_output)
+			ecu = threading.Thread(target=set_ecu, daemon=True)
+			ecu.start()
+# 			internet = socketio.start_background_task(internet_on)
+#  			accelerometer = socketio.start_background_task(set_accelerometer)
+# 			# gps = socketio.start_background_task(set_gps)
 
 def set_output():
 	out.start()
@@ -113,13 +153,15 @@ def internet_on():
 			time.sleep(1)
 #Init 1
 def main(params):
-	socketio.run(app, host= '0.0.0.0')
+	socketio.run(app, host= '0.0.0.0', debug=True)
+	
 
 if __name__ == '__main__':
 	ecu = Ecu(params.d, socketio, params.e, serial)
-	acc = Accelerometer(socketio)
-	gps = Gps(socketio, params.g, serial)
-	out = Output(socketio, serial, params.a)
+# 	acc = Accelerometer(socketio)
+# 	gps = Gps(socketio, params.g, serial)
+# 	out = Output(socketio, serial, params.a)
+
 try:
     main(params)
 except (KeyboardInterrupt, EOFError):

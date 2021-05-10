@@ -2,10 +2,11 @@ import time
 import threading
 from core.analog import Analog
 from core.database import Database
-from model.models import ChannelOutput
+from model.models import ChannelOutput, Alarm as AlarmModel, Led as LedModel
 from core.alarm import Alarm
-from core.led import Led
+# from core.led import Led
 from core.obd_ecu import ObdEcu 
+from datetime import datetime, timedelta
 
 class Output:
     def __init__(self, socketoi, serial, analog_path):
@@ -15,25 +16,46 @@ class Output:
         self.output = ChannelOutput
         self.alarm = Alarm(socketoi)
         self.obd = ObdEcu(socketoi)
-        self.led = Led()
+        self.alart_model = AlarmModel
+#         self.led = Led()
+        self.output_obs = None
+        self.timer = None
 
     def start(self):
+        self.output_obs = self.output.query.all()
+        self.alarm.alarm_obj = self.alart_model.query.all()
+#         self.led.leds = LedModel.query.all()
+        self.timer = datetime.now()
         while True:
             self.set_analog()
-            response = []
-            for output in self.output.query.all():
-                if output.channel_input.analog_input_id != None:
-                    self.set_analog_output(output, response)
-                if output.channel_input.obd_input_id != None:
-                    self.set_obd_output(output, response)
-            self.externs(response)
-            self.socketio.emit('channelOutput', response)
+            self.refresh_data()
+            self.emit_response()
+            time.sleep(0.03)
+
+    def emit_response(self):
+        response = []
+        for output in self.output_obs:
+            if output.channel_input.analog_input_id != None:
+                self.set_analog_output(output, response)
+            if output.channel_input.obd_input_id != None:
+                self.set_obd_output(output, response)
+            if output.channel_input.nissan_input_id != None:
+                self.set_obd_output(output, response)
+        self.externs(response)
+        self.socketio.emit('channelOutput', response)
+
+    def refresh_data(self):
+        if(datetime.now() > (self.timer + timedelta(seconds=3))):
+            self.timer = datetime.now()
+            self.output_obs = self.output.query.all()
+            self.alarm.alarm_obj = self.alart_model.query.all()
+#             self.led.leds = LedModel.query.all()
 
     def externs(self, response):
             alarm = threading.Thread(target=self.alarm.send, args=(response,), daemon=True)
             alarm.start()
-            led = threading.Thread(target=self.led.start, args=(response,), daemon=True)
-            led.start()
+            # led = threading.Thread(target=self.led.start, args=(response,), daemon=True)
+            # led.start()
 #ANALOG
     def set_analog_output(self, output, response):
         return response.append({'id': output.id, 'name': output.name, 'measure': output.measure.name, 'value': self.set_analog_value(output), 'max_output': output.output_max_val, 'min_output': output.output_min_val})
@@ -58,7 +80,7 @@ class Output:
         if response['response']:
             self.analog_data = response['data']
         else:
-            self.analog_data = {'A0': None, 'A1': None, 'A2': None, 'A3': None, 'A4': None}  
+            self.analog_data = {'A0': None, 'A1': None, 'A2': None, 'A3': None, 'A4': None, 'A5': None, 'A6': None, 'A7': None}
 #OBD
     def set_obd_output(self, output, response):
         return response.append({'id': output.id, 'name': output.name, 'measure': output.measure.name, 'value': self.set_obd_value(output), 'max_output': output.output_max_val, 'min_output': output.output_min_val})

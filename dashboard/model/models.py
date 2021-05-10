@@ -3,9 +3,8 @@ from flask_marshmallow import Marshmallow
 from flask import Flask
 import os 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////"+os.getcwd()+"/Database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///"+os.getcwd()+"/Database.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
@@ -32,6 +31,8 @@ class ChannelInput(db.Model):
     analog_input = db.relationship('AnalogInput')
     obd_input_id = db.Column(db.Integer, db.ForeignKey('obd_input.id'))
     obd_input = db.relationship('ObdInput')
+    nissan_input_id = db.Column(db.Integer, db.ForeignKey('nissan_input.id'))
+    nissan_input = db.relationship('NissanInput')
 
 class ChannelInputSchema(ma.Schema):
     class Meta:
@@ -61,6 +62,28 @@ class ObdInputSchema(ma.Schema):
     class Meta:
         model = ChannelInput
         fields = ("id", "name", "description", "obd_id")
+
+class NissanCmd(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True, nullable=False)
+    cmd = db.Column(db.String, unique=True, nullable=False)
+
+
+class NissanCmdSchema(ma.Schema):
+    class Meta:
+        model = ChannelInput
+        fields = ("id", "name", "cmd")
+
+class NissanInput(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True, nullable=False)
+    obd_id = db.Column(db.Integer, db.ForeignKey('nissan_cmd.id'), nullable=False)
+    obd = db.relationship('NissanCmd')
+
+class NissanInputSchema(ma.Schema):
+    class Meta:
+        model = ChannelInput
+        fields = ("id", "name", "description", "nissan_cmd_id")
 
 class AnalogInput(db.Model):
     id = db.Column(db.Integer, primary_key=True)

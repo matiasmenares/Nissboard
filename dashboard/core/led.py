@@ -1,15 +1,17 @@
 import board
-import neopixel
+# import neopixel
 from colour import Color
 import time
 from model.models import db, ColorSchema, Led as LedModel, LedSchema, LedOutput, LedSchema
 
 class Led():
     def __init__(self):
-        self.pixels = neopixel.NeoPixel(board.D18, 8)
+        # self.pixels = neopixel.NeoPixel(board.D18, 8)
+        self.pixels = [0,1,2,3,4,5,6,7,8,9]
+        self.leds = None
         self.all_on = False
     def start(self, outputs):
-        for led in LedModel.query.all():
+        for led in self.leds:
             output = self.find_output(outputs, led.channel_output_id)
             for led_output in LedOutput.query.filter_by(led_id=led.id):
                 self.on(led, led_output, output)

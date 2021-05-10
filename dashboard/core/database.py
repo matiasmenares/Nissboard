@@ -48,6 +48,9 @@ class Database():
 		if len(cursorObj.execute('SELECT * FROM dashboard').fetchall()) == 0:
 			cursorObj.execute("INSERT INTO dashboard VALUES(1, 'KINEK', '0', '0')")
 			cursorObj.execute("INSERT INTO dashboard VALUES(2, 'DUST', '0', '0')")
+			cursorObj.execute("INSERT INTO dashboard VALUES(3, 'INIT', '0', '0')")
+			cursorObj.execute("INSERT INTO dashboard VALUES(4, 'BLUME', '0', '0')")
+
 			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM dashboard_output').fetchall()) == 0:
 			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'RPM', '1', NULL)")
@@ -61,6 +64,30 @@ class Database():
 			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 8', '1', NULL)")
 			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 9', '1', NULL)")
 			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 10', '1', NULL)")
+
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'RPM', '2', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Speed ', '2', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Turbo', '2', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Coolant', '2', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'TPS', '2', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Battery', '2', NULL)")
+
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 1', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 2', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 3', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 4', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 5', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 6', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 7', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 8', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 9', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 10', '3', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Slot 11', '3', NULL)")
+
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Speed', '4', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'RPM', '4', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Coolant', '4', NULL)")
+			cursorObj.execute("INSERT INTO dashboard_output VALUES(NULL, 'Battery', '4', NULL)")
 
 			self.con.commit()
 		if len(cursorObj.execute('SELECT * FROM sensors').fetchall()) == 0:
