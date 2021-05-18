@@ -86,7 +86,7 @@ import VueSpeedometer from "vue-speedometer"
 		width: 100%;
 		position: absolute;
 		text-align: center;
-		bottom: -65px;
+		bottom: -50px;
 	}
 	.inner-text span {
 		max-width: 10px;

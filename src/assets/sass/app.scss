@@ -3,7 +3,7 @@ $color-macal:  #E4610C;
 $color-macal-transparent:  #E4610C60;
 $color-macal-var: #E74327;
 $color-grey: #707070;
-
+@import 'fonts.scss';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
 @font-face{

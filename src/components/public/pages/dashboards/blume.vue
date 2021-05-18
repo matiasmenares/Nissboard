@@ -174,7 +174,7 @@
 		},
 		getNow: function() {
 			const today = new Date();
-			const time = today.getHours() + ":" + today.getMinutes()
+			const time = today.getHours() + ":" + (today.getMinutes()<10?'0':'') + today.getMinutes()
 			this.timestamp = time;
 		}
 	},
@@ -256,7 +256,7 @@
 		width: 100%;
 		position: absolute;
 		text-align: center;
-		bottom: -65px;
+		bottom: -50px;
 	}
 	.inner-text span {
 		max-width: 10px;
@@ -265,7 +265,13 @@
 	.hours {
 		position: absolute;
 		z-index: 2;
-		margin-left: 670px;
+		right: 0px;
 		font-size: 43px;
+		background: #000;
+		padding: 0px 18px;
+		padding-top: 10px;
+		border-bottom-left-radius: 30px;
+		border: 1px solid #eee;
+		border-top: 0px;
 	}
 	</style>
