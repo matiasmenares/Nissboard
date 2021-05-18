@@ -1,23 +1,23 @@
 <template>
-    <v-footer absolute class="font-weight-medium">
+    <div class="v-footer">
             <v-bottom-sheet v-model="sheet">
                 <template v-slot:activator="{ on }">
-                    <v-btn class="ma-2" color="red" dark v-on="on">
+                    <v-btn class="ma-2 footer-btn-menu" color="red" dark v-on="on">
                         <v-icon dark>mdi-chevron-up</v-icon>
                     </v-btn>
                 </template>
-                <v-sheet dark class="px-3" height="200px">
-                    <v-btn class="mt-6" dark color="red" @click="sheet = !sheet"><v-icon>mdi-chevron-down</v-icon></v-btn>
+                <v-sheet dark class="px-3 footer-sub-menu" height="200px">
+                    <v-btn class="mt-6 footer-btn-menu" dark color="red" @click="sheet = !sheet"><v-icon>mdi-chevron-down</v-icon></v-btn>
                     <v-btn v-if="this.menu != 'Main'" class="mt-6 ml-3" dark color="red" @click="define_menu('Main')"><v-icon>mdi-chevron-left</v-icon></v-btn>
                     <div v-if="this.menu =='Main'">
                         <b-row>
                             <b-col>
-                                <v-btn class="mr-2" @click="define_menu('Dashboard')"><v-icon>mdi-speedometer-slow</v-icon> Dashboards</v-btn>
-                                <v-btn class="mr-2" @click="define_menu('Graphs')"><v-icon>mdi-chart-line</v-icon> Graphs</v-btn>
-                                <v-btn class="mr-2" @click="send_to()"><v-icon>mdi-racing-helmet</v-icon> Race</v-btn>
-                                <v-btn class="mr-2" @click="send_to('g-force-gforce')"><v-icon>mdi-rotate-orbit</v-icon> G-force</v-btn>
-                                <v-btn @click="send_to('track-list')" class="mr-2"><v-icon>mdi-go-kart-track</v-icon> Track</v-btn>
-                                <v-btn @click="define_menu('Config')"><v-icon>mdi-settings-outline</v-icon> Setting</v-btn>
+                                <v-btn class="mr-2 mb-2" @click="define_menu('Dashboard')"><v-icon>mdi-speedometer-slow</v-icon> Dashboards</v-btn>
+                                <v-btn class="mr-2 mb-2" @click="define_menu('Graphs')"><v-icon>mdi-chart-line</v-icon> Graphs</v-btn>
+                                <v-btn class="mr-2 mb-2" @click="send_to()"><v-icon>mdi-racing-helmet</v-icon> Race</v-btn>
+                                <v-btn class="mr-2 mb-2" @click="send_to('g-force-gforce')"><v-icon>mdi-rotate-orbit</v-icon> G-force</v-btn>
+                                <v-btn class="mr-2 mb-2" @click="send_to('track-list')"><v-icon>mdi-go-kart-track</v-icon> Track</v-btn>
+                                <v-btn class="mr-2 mb-2" @click="define_menu('Config')"><v-icon>mdi-settings-outline</v-icon> Setting</v-btn>
                             </b-col>
                         </b-row>
                     </div>
@@ -27,14 +27,16 @@
                 </v-sheet>
             </v-bottom-sheet>
             <v-spacer></v-spacer>
-            <div class="mx-12 text-center">
+            <div class="nissboard-logo">
+                <img src="/image/nissboard-logo.svg" style="width: 150px" /> <b>v 0.9.1</b>
+            </div>
+            <div class="text-right">
                 <v-icon :class="icons.analog.color">mdi-current-ac</v-icon>
                 <v-icon :class="icons.ecu.color">mdi-chip</v-icon>
                 <v-icon :class="icons.gps.color">mdi-satellite-variant</v-icon>
                 <v-icon :class="icons.internet.color">{{icons.internet.icon}}</v-icon>
             </div>
-            <span class="min-letter">Nissboard <small>v 0.9.1</small></span>
-        </v-footer>
+        </div>
 </template>
 <script>
 import MenuDashboard from "./menus/dashboards";
@@ -145,5 +147,45 @@ export default {
 }
 .min-letter {
   font-size: 15px;
+}
+.v-footer{
+    background-color: transparent !important;
+}
+.footer-btn-icon{
+    font-size: 40px;
+}
+.v-footer{
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+}
+.v-footer .footer-btn-menu{
+    position: absolute;
+    left: 0;
+    margin-left: 0px !important;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    padding: 30px;
+    border-top-right-radius: 42px;  
+    z-index: 9999;
+}
+.v-footer .footer-btn-menu i, .footer-sub-menu .footer-btn-menu i{
+    font-size: 40px;
+}
+.footer-sub-menu .footer-btn-menu{
+    position: absolute;
+    margin-top: -60px !important;
+    left: 0;
+    margin-left: 0px !important;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    padding: 30px;
+    border-top-right-radius: 42px;
+}
+.nissboard-logo{
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+    text-align: center;
 }
 </style>
