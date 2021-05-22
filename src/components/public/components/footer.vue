@@ -31,10 +31,10 @@
                 <img src="/image/nissboard-logo.svg" style="width: 150px" /> <b>v 0.9.1</b>
             </div>
             <div class="text-right">
-                <v-icon :class="icons.analog.color">mdi-current-ac</v-icon>
-                <v-icon :class="icons.ecu.color">mdi-chip</v-icon>
-                <v-icon :class="icons.gps.color">mdi-satellite-variant</v-icon>
-                <v-icon :class="icons.internet.color">{{icons.internet.icon}}</v-icon>
+                <v-icon :class="[icons.analog.color, 'mx-1']">mdi-current-ac</v-icon>
+                <v-icon :class="[icons.ecu.color, 'mx-1']">mdi-chip</v-icon>
+                <v-icon :class="[icons.gps.color, 'mx-1']">mdi-satellite-variant</v-icon>
+                <v-icon :class="[icons.internet.color, 'mx-1']">{{icons.internet.icon}}</v-icon>
             </div>
         </div>
 </template>
@@ -158,6 +158,7 @@ export default {
     position: fixed;
     width: 100%;
     bottom: 0px;
+    z-index: 10;
 }
 .v-footer .footer-btn-menu{
     position: absolute;

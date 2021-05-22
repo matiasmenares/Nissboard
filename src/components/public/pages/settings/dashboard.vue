@@ -9,7 +9,7 @@
       <v-tab-item>
         <v-container fluid>
           <v-row>
-            <v-col cols="12" md="4">
+            <v-col cols="12">
                 <v-card flat color="transparent">
                     <v-subheader>Yellow Shift Light RPM</v-subheader>
                     <v-card-text>
@@ -35,12 +35,12 @@
                   </v-card>
               </v-col>
               <v-col cols="12">
-                  <v-col cols=4>
+                  <v-col cols="4">
                     <v-card flat color="transparent">
                       <v-btn class="mr-4" @click="send_to('dashboard-proton')"><v-icon>mdi-eye-outline</v-icon></v-btn>
                     </v-card>
                   </v-col>
-                  <v-col cols=4>
+                  <v-col cols="4">
                      <v-checkbox  :label="'Show Peak'"></v-checkbox>
                   </v-col>
               </v-col>
