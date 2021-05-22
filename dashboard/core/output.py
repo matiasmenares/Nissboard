@@ -40,7 +40,7 @@ class Output:
             if output.channel_input.obd_input_id != None:
                 self.set_obd_output(output, response)
             if output.channel_input.nissan_input_id != None:
-                self.set_obd_output(output, response)
+                self.set_nissan_consult(output, response)
         self.externs(response)
         self.socketio.emit('channelOutput', response)
 
@@ -88,3 +88,7 @@ class Output:
     def set_obd_value(self, output):
         response = self.obd.send(output.channel_input.obd_input.obd.command)
         return response
+
+#NISSAN CONSULT
+    def set_nissan_consult(self, output):
+        pass

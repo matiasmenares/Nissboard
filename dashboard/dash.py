@@ -42,11 +42,9 @@ import struct
 import time
 import argparse
 
-
 #Async
 
 async_mode = None
-
 if async_mode is None:
     try:
         import eventlet
@@ -121,11 +119,11 @@ def test_connect():
 		if thread is None:
 			internet = threading.Thread(target=internet_on, daemon=True)
 			internet.start()
-# 			output = threading.Thread(target=set_output, daemon=True)
-# 			output.start()
-# 			output = socketio.start_background_task(set_output)
-			ecu = threading.Thread(target=set_ecu, daemon=True)
-			ecu.start()
+			output = threading.Thread(target=set_output, daemon=True)
+			output.start()
+			output = socketio.start_background_task(set_output)
+			# ecu = threading.Thread(target=set_ecu, daemon=True)
+			# ecu.start()
 # 			internet = socketio.start_background_task(internet_on)
 #  			accelerometer = socketio.start_background_task(set_accelerometer)
 # 			# gps = socketio.start_background_task(set_gps)
@@ -154,13 +152,12 @@ def internet_on():
 #Init 1
 def main(params):
 	socketio.run(app, host= '0.0.0.0', debug=True)
-	
 
 if __name__ == '__main__':
-	ecu = Ecu(params.d, socketio, params.e, serial)
+	# ecu = Ecu(params.d, socketio, params.e, serial)
 # 	acc = Accelerometer(socketio)
 # 	gps = Gps(socketio, params.g, serial)
-# 	out = Output(socketio, serial, params.a)
+	out = Output(socketio, serial, params.a)
 
 try:
     main(params)

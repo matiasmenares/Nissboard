@@ -11,10 +11,7 @@ class ObdEcu:
         self.obd = obd
 
     def initial_conn(self):
-        try:
-            self.connection = self.obd.OBD("/dev/ttys005", fast=False)
-        except:
-            print("Error Connection to OBD")
+        self.connection = obd.OBD("/dev/ttys004", fast=False)
 
     def send(self, command):
         try:
