@@ -9,6 +9,7 @@ from wifi import Cell, Scheme
 from threading import Lock
 import threading
 import os 
+import random
 #Core
 from core.ecu import Ecu
 from core.database import Database
@@ -28,6 +29,7 @@ from api.settings.water_setting import WaterSetting
 from api.settings.alarm_type_setting import AlarmTypeSetting
 from api.settings.channels.input import InputChannel
 from api.settings.channels.obd import OBDChannel
+from api.settings.channels.consult import ConsultChannel
 from api.settings.channels.analog import AnalogChannel
 from api.settings.channels.output import OutputChannel
 from api.settings.condition_setting import ConditionSetting
@@ -100,6 +102,7 @@ api.add_resource(ScreenSetting, '/settings/screen')
 api.add_resource(WaterSetting, '/settings/water')
 api.add_resource(AnalogChannel, '/settings/channels/input/analog')
 api.add_resource(OBDChannel, '/settings/channels/input/obd')
+api.add_resource(ConsultChannel, '/settings/channels/input/consult')
 api.add_resource(InputChannel, '/settings/channels/input')
 api.add_resource(OutputChannel, '/settings/channels/output')
 api.add_resource(Measure, '/measures')
@@ -122,17 +125,12 @@ def test_connect():
 			output = threading.Thread(target=set_output, daemon=True)
 			output.start()
 			output = socketio.start_background_task(set_output)
-			# ecu = threading.Thread(target=set_ecu, daemon=True)
-			# ecu.start()
 # 			internet = socketio.start_background_task(internet_on)
 #  			accelerometer = socketio.start_background_task(set_accelerometer)
 # 			# gps = socketio.start_background_task(set_gps)
 
 def set_output():
 	out.start()
-
-def set_ecu():
-	ecu.start(socketio)
 
 def set_accelerometer():
 	acc.start()
@@ -142,10 +140,11 @@ def set_gps():
 
 def internet_on():
 	while True:
+		list = ['http://apptec.cl', 'https://google.com', 'https://facebook.com', 'https://reddit.com', 'https://twitter.com']
 		try:
-			urlopen('http://apptec.cl', timeout=1)
+			urlopen(random.choice(list), timeout=3)
 			socketio.emit('InternetConnection', {'status': True})
-			time.sleep(2)
+			time.sleep(3)
 		except: 
 			socketio.emit('InternetConnection', {'status': False})
 			time.sleep(1)
@@ -154,10 +153,9 @@ def main(params):
 	socketio.run(app, host= '0.0.0.0', debug=True)
 
 if __name__ == '__main__':
-	# ecu = Ecu(params.d, socketio, params.e, serial)
 # 	acc = Accelerometer(socketio)
 # 	gps = Gps(socketio, params.g, serial)
-	out = Output(socketio, serial, params.a)
+	out = Output(socketio, serial, params.a, params.d, params.e)
 
 try:
     main(params)

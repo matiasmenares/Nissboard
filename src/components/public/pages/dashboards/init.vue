@@ -1,20 +1,20 @@
 <template>
       <div id="init-div">       
         <b-row no-gutters class="mt-10">
-            <b-col class="text-center max-letter" v-if="channel_output[0]">
-                <h1>{{channel_output[0]['value']}} <span class="min-letter">{{channel_output[0]['name']}}</span></h1>
+            <b-col class="text-center" v-if="channel_output[0]">
+                <span class="max-letter">{{channel_output[0]['value']}}</span> <span class="min-letter">{{channel_output[0]['name']}}</span>
             </b-col>
             <b-col class="text-center  mt-12 normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
-            <b-col class="text-center max-letter" v-if="channel_output[1]">
-                <h1>{{channel_output[1]['value']}} <span class="min-letter">{{channel_output[1]['name']}}</span></h1>
+            <b-col class="text-center" v-if="channel_output[1]">
+                <span class="max-letter">{{channel_output[1]['value']}}</span> <span class="min-letter">{{channel_output[1]['name']}}</span>
             </b-col>
             <b-col class="text-center  mt-12 normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
-            <b-col class="text-center max-letter" v-if="channel_output[2]">
-                <h1>{{channel_output[2]['value']}} <span class="min-letter">{{channel_output[2]['name']}}</span></h1>
+            <b-col class="text-center" v-if="channel_output[2]">
+                <span class="max-letter">{{channel_output[2]['value']}}</span> <span class="min-letter">{{channel_output[2]['name']}}</span>
             </b-col>
             <b-col class="text-center  mt-12 normal-letter" v-else>
                 <h1>- -</h1>
@@ -23,7 +23,7 @@
         <hr>
         <b-row no-gutters class="mt-5">
             <b-col class="text-center max-letter" v-if="channel_output[3]">
-                <h1>{{channel_output[2]['value']}} <span class="min-letter">{{channel_output[3]['name']}}</span></h1>
+                <span class="max-letter">{{channel_output[2]['value']}} </span><span class="min-letter">{{channel_output[3]['name']}}</span>
             </b-col>
             <b-col class="text-center  mt-12 normal-letter" v-else>
                 <h1>- -</h1>
@@ -167,7 +167,7 @@
   font-size: 20px;
 }
 .max-letter {
-  font-size: 33px;
+  font-size: 55px;
 }
 .min-letter {
   font-size: 15px;

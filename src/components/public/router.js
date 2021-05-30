@@ -18,10 +18,12 @@ import SettingAlertList from './pages/settings/alerts/list.vue';
 import SettingAlertForm from './pages/settings/alerts/form.vue';
 import SettingChannelAnalogInput from './pages/settings/channels/analogs/input.vue';
 import SettingChannelOBDInput from './pages/settings/channels/obd/form.vue';
+import SettingChannelConsultinput from './pages/settings/channels/consult/form.vue';
 import SettingChannelList from './pages/settings/channels/list.vue';
 import SettingChannelOutputList from './pages/settings/channels/output/list.vue';
 import SettingChannelOutputAnalog from './pages/settings/channels/output/analog.vue';
 import SettingChannelOutputOBD from './pages/settings/channels/output/obd.vue';
+import SettingChannelOutputConsult from './pages/settings/channels/output/consult.vue';
 import SettingLedsList from './pages/settings/leds/list.vue';
 import SettingLedsForm from './pages/settings/leds/form.vue';
 import SettingScreen from './pages/settings/screen.vue';
@@ -140,6 +142,12 @@ export const PublicRoutes =
       props: true
     },
     {
+      path: '/settings/channels/consult/input',
+      component: SettingChannelConsultinput,
+      name: 'setting-channel-consult-input',
+      props: true
+    },
+    {
       path: '/settings/channels/list',
       component: SettingChannelList,
       name: 'setting-channel-list',
@@ -158,6 +166,11 @@ export const PublicRoutes =
       path: '/settings/channels/output/obd',
       component: SettingChannelOutputOBD,
       name: 'setting-channel-output-obd',
+    },
+    {
+      path: '/settings/channels/output/consult',
+      component: SettingChannelOutputConsult,
+      name: 'setting-channel-output-consult',
     },
     {
       path: '/settings/leds/list',

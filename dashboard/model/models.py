@@ -37,7 +37,7 @@ class ChannelInput(db.Model):
 class ChannelInputSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "analog_input_id", "obd_input_id")
+        fields = ("id", "analog_input_id", "obd_input_id", 'nissan_input_id')
 
 class Obd(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,27 +63,27 @@ class ObdInputSchema(ma.Schema):
         model = ChannelInput
         fields = ("id", "name", "description", "obd_id")
 
-class NissanCmd(db.Model):
+class Consult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
-    cmd = db.Column(db.String, unique=True, nullable=False)
+    command = db.Column(db.String, unique=False, nullable=False)
+    description = db.Column(db.String, unique=False, nullable=False)
 
-
-class NissanCmdSchema(ma.Schema):
+class ConsultSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "name", "cmd")
+        fields = ("id", "name", "command", "description")
 
 class NissanInput(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
-    obd_id = db.Column(db.Integer, db.ForeignKey('nissan_cmd.id'), nullable=False)
-    obd = db.relationship('NissanCmd')
+    consult_id = db.Column(db.Integer, db.ForeignKey('consult.id'), nullable=False)
+    consult = db.relationship('Consult')
 
 class NissanInputSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "name", "description", "nissan_cmd_id")
+        fields = ("id", "name", "description", "consult_id")
 
 class AnalogInput(db.Model):
     id = db.Column(db.Integer, primary_key=True)

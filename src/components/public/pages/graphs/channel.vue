@@ -1,15 +1,17 @@
 <template>
-  <b-row class="mt-8">
-    <b-col cols="9">
-      <div class="home">
-        <apexchart ref="realtimeChart1" type="line" height="350" :options="chartOptions" :series="series1" />
-      </div>
-    </b-col>
-    <b-col cols="3">
-        <v-select v-model="output_selected_id" :items="outputs" item-text="name" item-value="id" :rules="[v => !!v || 'Alert Type is required']" label="Channel" required autocomplete="off" />
-        <h1>{{this.channel_selected.value}} <small>{{this.channel_selected.measure}}</small></h1>
-    </b-col>
-  </b-row>
+  <div id="channel-graph">
+    <b-row class="mt-8">
+      <b-col cols="9">
+        <div class="home">
+          <apexchart ref="realtimeChart1" type="line" height="350" :options="chartOptions" :series="series1" />
+        </div>
+      </b-col>
+      <b-col cols="3">
+          <v-select v-model="output_selected_id" :items="outputs" item-text="name" item-value="id" :rules="[v => !!v || 'Alert Type is required']" label="Channel" required autocomplete="off" />
+          <div class="border-box"><h1 class="margin-box">{{this.channel_selected.value}} </h1></div>
+      </b-col>
+    </b-row>
+  </div>
 </template>
 
 <script>
@@ -152,3 +154,18 @@ export default {
   }
 };
 </script>
+<style scoped>
+#channel-graph {
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+.border-box {
+  margin-top: 70px;
+  border: 2px solid #FFFF;
+}
+
+.margin-box{
+  margin-left: 40px;
+  margin-top: 10px;
+}
+</style>

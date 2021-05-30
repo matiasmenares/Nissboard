@@ -1,20 +1,29 @@
-import board
+
+# import board
 # import neopixel
 from colour import Color
 import time
 from model.models import db, ColorSchema, Led as LedModel, LedSchema, LedOutput, LedSchema
 
 class Led():
+
     def __init__(self):
         # self.pixels = neopixel.NeoPixel(board.D18, 8)
         self.pixels = [0,1,2,3,4,5,6,7,8,9]
         self.leds = None
         self.all_on = False
+        self.led_outputs = None
+
     def start(self, outputs):
         for led in self.leds:
             output = self.find_output(outputs, led.channel_output_id)
-            for led_output in LedOutput.query.filter_by(led_id=led.id):
-                self.on(led, led_output, output)
+            # for led_output in LedOutput.query.filter_by(led_id=led.id):
+            #   self.on(led, led_output, output)
+            if self.led_outputs:
+                for led_output in self.led_outputs:
+                    if led_output.led_id == led.id:
+                        pass
+                        # self.on(led, led_output, output)
 
     def find_output(self, outputs, output_id):
         for output in outputs:
@@ -35,7 +44,7 @@ class Led():
         percent = []
         led_total = self.get_led_total(led_output)
         total_percent = 100 / led_total
-        self.turn_on(result_percent, led_total, total_percent,led, led_output, output)
+        self.turn_on(result_percent, led_total, total_percent, led, led_output, output)
 
     def turn_on(self, result_percent, led_total, total_percent, led, led_output, output):
         start = Color(led_output.color_start.name)

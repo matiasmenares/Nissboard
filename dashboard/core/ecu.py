@@ -7,6 +7,7 @@ class Ecu():
 
 	def __init__(self, devise_pah, socketio, enviroment, serial_class):
 		self.PORT = None
+		self.running = False
 		self.devise_pah = devise_pah
 		self.serial_class = serial_class
 		self.port_serial = PortSerial(devise_pah, serial_class)
@@ -21,46 +22,49 @@ class Ecu():
 		self.INJ_Value = 0
 		self.TIM_Value = 0
 		self.TURBO_Value = 0
-		self.command_live_sensors = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0x5A,0x0c,0x5A,0x16,0x5A,0x0d,0x5A,0x17,0x5A,0x09,0x5A,0x1a,0x5A,0x14,0x5A,0x15,0xF0]
-		# self.command_live_sensors = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0xF0]
+		# self.command_live_sensors = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0x5A,0x0c,0x5A,0x16,0x5A,0x0d,0x5A,0x17,0x5A,0x09,0x5A,0x1a,0x5A,0x14,0x5A,0x15,0xF0]
+		self.command_live_sensors = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0d,0xF0]
 		self.command_stop = 0x30
+
+	def consume_data_test(self):
+		return {'rpm': 1000, 'speed': 10, 'mph': 10, 'temp': 70, 'batt': 10, 'tps': 50, 'timming': 10, 'aac': 10, 'O2': 10, 'af': 40, 'injector': 50}
 
 	def consume_data(self):
 		read_thread = True
 		byte_request = (len(self.command_live_sensors) - 1) / 2
 		x = 0
-# 		try
 		incomingData = self.PORT.read(20)
 		dataList = self.handleData(incomingData, int(byte_request))
 		if dataList != None:
-			# self.RPM_Value   = self.convertToRev(int(dataList[1]), int(dataList[2]))
+			self.RPM_Value   = self.convertToRev(int(dataList[1]), int(dataList[2]))
+			self.TEMP_Value  = self.convertToTemp(int(dataList[0]))
+			self.TPS_Value   = self.convertToMPH(int(dataList[3]))
+			print({'rpm': self.RPM_Value, 'temp': self.TEMP_Value, 'tps': self.TPS_Value})
+			return {'rpm': self.RPM_Value, 'temp': self.TEMP_Value, 'tps': self.TPS_Value}
+
 			# self.TEMP_Value  = self.convertToTemp(int(dataList[0]))
 			# self.MPH_Value   = self.convertToMPH(int(dataList[3]))
+			# self.KMH_Value   = self.convertToKMH(int(dataList[3]))
+			# self.RPM_Value   = self.convertToRev(int(dataList[1]), int(dataList[2]))
+			# self.BATT_Value  = self.convertToBattery(float(dataList[4]))
+			# self.TIM_Value   = self.convertToTiming(int(dataList[5]))
+			# self.TPS_Value   = self.convertToTps(int(dataList[6]))
+			# self.AAC_Value   = self.convertToAAC(int(dataList[7]))
+			# self.O2_Value    = self.convertToO2(dataList[8])
+			# self.AF_Value    = dataList[9]
+			# self.INJ_Value   = self.convertToInj(int(dataList[10]), int(dataList[11]))
 
-			self.TEMP_Value  = self.convertToTemp(int(dataList[0]))
-			self.MPH_Value   = self.convertToMPH(int(dataList[3]))
-			self.KMH_Value   = self.convertToKMH(int(dataList[3]))
-			self.RPM_Value   = self.convertToRev(int(dataList[1]), int(dataList[2]))
-			self.BATT_Value  = self.convertToBattery(float(dataList[4]))
-			self.TIM_Value   = self.convertToTiming(int(dataList[5]))
-			self.TPS_Value   = self.convertToTps(int(dataList[6]))
-			self.AAC_Value   = self.convertToAAC(int(dataList[7]))
-			self.O2_Value    = self.convertToO2(dataList[8])
-			self.AF_Value    = dataList[9]
-			self.INJ_Value   = self.convertToInj(int(dataList[10]), int(dataList[11]))
-
-			print({'rpm': self.RPM_Value, 'speed': self.KMH_Value, 'mph': self.MPH_Value, 'temp': self.TEMP_Value, 'batt': self.BATT_Value, 'tps': self.TPS_Value, 'timming': self.TIM_Value, 'aac': self.AAC_Value, 'O2': self.O2_Value, 'af': self.AF_Value, 'injector': self.INJ_Value})
-			return {'rpm': self.RPM_Value, 'speed': self.KMH_Value, 'mph': self.MPH_Value, 'temp': self.TEMP_Value, 'batt': self.BATT_Value, 'tps': self.TPS_Value, 'timming': self.TIM_Value, 'aac': self.AAC_Value, 'O2': self.O2_Value, 'af': self.AF_Value, 'injector': self.INJ_Value}
-# 		except:
-# 			# self.socketio.emit('ecuConnection', {'status': False})
-# 			self.start(self.socketio, True)
+			# print({'rpm': self.RPM_Value, 'speed': self.KMH_Value, 'mph': self.MPH_Value, 'temp': self.TEMP_Value, 'batt': self.BATT_Value, 'tps': self.TPS_Value, 'timming': self.TIM_Value, 'aac': self.AAC_Value, 'O2': self.O2_Value, 'af': self.AF_Value, 'injector': self.INJ_Value})
+			# return {'rpm': self.RPM_Value, 'speed': self.KMH_Value, 'mph': self.MPH_Value, 'temp': self.TEMP_Value, 'batt': self.BATT_Value, 'tps': self.TPS_Value, 'timming': self.TIM_Value, 'aac': self.AAC_Value, 'O2': self.O2_Value, 'af': self.AF_Value, 'injector': self.INJ_Value}
+		else:
+			None
 
 	def run(self, command=True):
 		if command:
+			self.running = True
 			print("Run command nissan consult")
+			self.socketio.emit('ecuConnection', {'status': True})
 			self.PORT.write(self.command_live_sensors)
-		while True:
-			self.consume_data()
 
 	def handleData(self, data, byteExpected):
 		try:
@@ -80,6 +84,13 @@ class Ecu():
 			if len(current_data) == byteExpected:
 				frameStarted = False
 				return current_data
+			# else:
+			# 	print("-------------")
+			# 	print(len(current_data))
+			# 	print(byteExpected)
+			# 	print(data)
+			# 	print("-------------")
+
 		except NameError as e:
 			print(f"An exception occurred: {e} ")
 			return None
@@ -138,23 +149,28 @@ class Ecu():
 		test_file = open("test.hex")
 		all_lines = test_file.readlines()
 		return all_lines[4]
-				
+
+	def start_test(self):
+		self.running = True
+
 	def start(self, socketio, new_port_instance=False):
-		self.socketio = socketio
-		self.PORT = None
-		if self.enviroment == "production":
-			self.initProduction(new_port_instance)
+		if self.running:
+			pass
 		else:
-			self.start_development()
+			self.socketio = socketio
+			self.PORT = None
+			if self.enviroment == "production":
+				self.initProduction(new_port_instance)
+			else:
+				self.start_development()
 
 	def initProduction(self, new_port_instance):
 		if new_port_instance:
 			self.port_serial.close()
 			self.port_serial = PortSerial(self.devise_pah, self.serial_class)
 		while self.port_serial.set_port():
-			print(self.command_live_sensors)
-			print("No Devise connected in "+self.devise_pah)
-			# self.socketio.emit('ecu_conection', {'status': False})
+			print("[Consult] No Devise connected in "+self.devise_pah)
+			self.socketio.emit('ecu_conection', {'status': False})
 			time.sleep(2)
 		self.PORT = self.port_serial.PORT
 		self.start_production()		
@@ -162,7 +178,7 @@ class Ecu():
 	def start_production(self):
 		READ_THREAD = False
 		try:
-			while READ_THREAD == False:
+			while READ_THREAD == False and self.running == False:
 				#Send echo -e -n '\x10' > /dev/ttys006
 				print("Try connection with Nissan Consult")
 				self.PORT.flushInput()
@@ -174,17 +190,14 @@ class Ecu():
 					print("Consult datastream Accepted")
 					self.run()
 				else:
-					print(f"Consult datastream response {str(response.hex())}")
+					print(f"[Failed] Consult datastream response {str(response.hex())}")
 					if response.hex() != "00":
 						self.stop_data_stream()
-					else:
-						self.run(False)
-
+				
 		except NameError as e:
 			print(f"Failed to connect {str(e)}")
 			time.sleep(2)
 			self.socketio.emit('ecuConnection', {'status': False})
-			self.start(self.socketio, True)
 
 	def start_development(self):
 		self.socketio = socketio
@@ -202,5 +215,5 @@ class Ecu():
 			if response.hex() == 'fe':
 				print("Command Stopped")
 				acknowledgment = False
-				self.run()
+				self.start_production()
 

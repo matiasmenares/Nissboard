@@ -134,4 +134,19 @@ class Database():
 			cursorObj.execute("INSERT INTO color VALUES(NULL, 'Yellow', '2345', '255,255,0')")
 			self.con.commit()
 
+		if len(cursorObj.execute('SELECT * FROM consult').fetchall()) == 0:
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'Temp', '0x08', 'Colant/Water Temperature')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'MPH', '0x0b', 'Speed in Miles per hours')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'KPH', '0x0b', 'Speed in kilometers per hours')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'RPM', '0x00,0x01', 'Rev. Per Minutes')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'Batery', '0x0c', 'Batery Voltage')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'Timming', '0x16', 'Timming')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'TPS', '0x0d', 'Thottle position')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'AAC', '0x17', '-')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, '02', '0x09', 'Oxigen')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'AF', '0x1a', 'Air Flow')")
+			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'Injectors', '0x14', 'Injector Timming')")
+		self.con.commit()
+
+
 

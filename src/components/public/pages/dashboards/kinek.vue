@@ -52,8 +52,8 @@
             <b-col class="text-center  mt-12 normal-letter" v-else>
                 <h1>- -</h1>
             </b-col>
-            <b-col class="text-center mt-1 max-letter"  v-if="channel_output[1]">
-                <h1>{{parseInt(channel_output[1]['value'])}} <span class="min-letter">RPM</span></h1>
+            <b-col class="text-center mt-1"  v-if="channel_output[1]">
+                <span class="max-letter">{{parseInt(channel_output[1]['value'])}}</span> <span class="min-letter">RPM</span>
             </b-col>
             <b-col class="text-center mt-12 normal-letter" v-else>
                 <h1>- -</h1>
@@ -237,15 +237,15 @@
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Chakra+Petch');
 #kinek-div {
   font-family: 'Chakra Petch', sans-serif;
+  src: url('~@/assets/fonts/Chakra-petch/ChakraPetch-Regular.ttf')  format('truetype')
 }
 .normal-letter{
   font-size: 20px;
 }
 .max-letter {
-  font-size: 40px;
+  font-size: 60px;
 }
 .min-letter {
   font-size: 15px;

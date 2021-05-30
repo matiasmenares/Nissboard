@@ -14,7 +14,7 @@
               <v-list-item-title @click="goto_form('setting-channel-output-analog')">New Analog</v-list-item-title>
             </v-list-item>
             <v-list-item>
-              <v-list-item-title @click="goto_form()">New Consult</v-list-item-title>
+              <v-list-item-title @click="goto_form('setting-channel-output-consult')">New Consult</v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title @click="goto_form('setting-channel-output-obd')">New OBDII</v-list-item-title>

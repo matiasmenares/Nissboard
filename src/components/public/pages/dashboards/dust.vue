@@ -1,5 +1,5 @@
 <template>
-    <div  class="mx-12">
+    <div id="dust-div" class="mx-12">
         <b-row class="mt-1">
             <b-col>
                 RPM
@@ -261,6 +261,9 @@
 </script>
 
 <style scoped>
+#dust-div {
+  font-family: 'Chakra Petch', sans-serif;
+}
 .normal-letter{
   font-size: 20px;
 }

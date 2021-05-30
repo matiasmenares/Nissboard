@@ -13,12 +13,17 @@ class Alarm(threading.Thread):
         self.timer = None
         self.current_alarm_type_id = None
         self.alarm_obj = None
+        self.alarm_outputs = None
 
     def send(self, responses):
         for alarm in self.alarm_obj:
-            alart_outputs = AlarmOutput.query.filter_by(alarm_id=alarm.id)
-            if self.validate_outputs(alart_outputs, responses):
-                self.set_hierarchy(alarm, alart_outputs, responses)
+            if self.alarm_outputs:
+                conditions = []
+                for alarm_output in self.alarm_outputs:
+                    if alarm_output.alarm_id == alarm.id:
+                        conditions.append(alarm_output)
+                if self.validate_outputs(conditions, responses):
+                    self.set_hierarchy(alarm, conditions, responses)
     
     def set_hierarchy(self, alarm, alart_outputs, responses):
         if self.current_alarm_type_id == None:
@@ -31,9 +36,9 @@ class Alarm(threading.Thread):
                     self.emit(alarm, alart_outputs, responses)
         
     def emit(self, alarm, alart_outputs, responses):
+        print("Emit alert!")
         self.socketio.emit("alert", {'id': alarm.id, 'name': alarm.name, 'description': self.set_alarm_description(alarm.description, alart_outputs, responses), 'alarm_type_id': alarm.alarm_type_id})
         self.second = alarm.life_second
-        print(alarm)
         self.timer = datetime.now()
         self.current_alarm_type_id = alarm.alarm_type_id
 

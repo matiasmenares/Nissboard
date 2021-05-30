@@ -16,6 +16,8 @@ class OutputChannel(Resource):
 			return self.save_analog(request.json['channel'])
 		elif request.json['form_type'] == 2:
 			return self.save_obd(request.json['channel'])
+		elif request.json['form_type'] == 3:
+			return self.save_consult(request.json['channel'])
 
 	def save_analog(self, params):
 		try: 
@@ -29,6 +31,15 @@ class OutputChannel(Resource):
 	def save_obd(self, params):
 		try: 
 			out = ChannelOutput(name=params['name'], output_min_val=params['output_min_val'], output_max_val=params['output_max_val'], measure=Measure.query.get(params['measure_id']),channel_input=ChannelInput.query.get(params['channel_inputs_id']))
+			db.session.add(out)
+			db.session.commit()
+			return {'response': True}
+		except:
+			return {'response': False}, 500
+
+	def save_consult(self, params):
+		try: 
+			out = ChannelOutput(name=params['name'], output_min_val=params['output_min_val'], output_max_val=params['output_max_val'],channel_input=ChannelInput.query.get(params['channel_inputs_id']))
 			db.session.add(out)
 			db.session.commit()
 			return {'response': True}

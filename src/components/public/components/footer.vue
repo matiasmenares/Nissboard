@@ -28,7 +28,7 @@
             </v-bottom-sheet>
             <v-spacer></v-spacer>
             <div class="nissboard-logo">
-                <img src="/image/nissboard-logo.svg" style="width: 150px" /> <b>v 0.9.1</b>
+                <img src="/image/nissboard-logo.svg" style="width: 150px" /> <b>v 0.9.2</b>
             </div>
             <div class="text-right">
                 <v-icon :class="[icons.analog.color, 'mx-1']">mdi-current-ac</v-icon>

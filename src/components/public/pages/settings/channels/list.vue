@@ -14,7 +14,7 @@
               <v-list-item-title @click="goto_channel('setting-channel-analog-input')">New Analog</v-list-item-title>
             </v-list-item>
             <v-list-item>
-              <v-list-item-title @click="goto_channel()">New Consult</v-list-item-title>
+              <v-list-item-title @click="goto_channel('setting-channel-consult-input')">New Consult</v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title @click="goto_channel('setting-channel-obd-input')">New OBDII</v-list-item-title>
@@ -59,6 +59,10 @@
                 var input = result.data.obd_inputs.find(obd => channel.obd_input_id == obd.id)
                 var obd = result.data.obds.find(obd => input.obd_id == obd.id)
                 this.items.push({type: 1, icon: 'mdi-chip', iconClass: 'blue white--text', title: channel[3], subtitle: input.name+" | Description: "+obd.description, left: "Command: "+obd.name, channel: channel})
+              }else if(channel.nissan_input_id){
+                var consult_input = result.data.nissan_inputs.find(consult => channel.nissan_input_id == consult.id)
+                var consult = result.data.consults.find(consult => consult_input.consult_id == consult.id)
+                this.items.push({type: 1, icon: 'mdi-chip', iconClass: 'blue white--text', title: channel[3], subtitle: consult_input.name+" | Description: "+consult.description, left: "Command: "+consult.name, channel: channel})
               }
             })
           }).catch(error => {

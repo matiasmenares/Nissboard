@@ -12,13 +12,13 @@
                     <v-col cols="12">
                       <v-form ref="form" v-model="valid"  >
                           <v-text-field  v-model="form.name" :counter="10" :rules="nameRules"  label="Name" required  @focus="show" data-layout="normal" />
-                          <v-select v-model="form.obd_id" :items="obd_values" item-text="name" item-value="id" :rules="[v => !!v || 'OBD value type is required']" label="OBD Input" @focus="hide" required />
+                          <v-select v-model="form.consult_id" :items="consult_values" item-text="name" item-value="id" :rules="[v => !!v || 'Consult value type is required']" label="Consult Input" @focus="hide" required />
                       </v-form>
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" v-if="this.obd_description">
-                      <p><b>Input Description:</b> {{this.obd_description}}</p>
+                    <v-col cols="12" v-if="this.consult_description">
+                      <p><b>Input Description:</b> {{this.consult_description}}</p>
                     </v-col>
                     <v-col>
                       <v-btn color="success" @click="save"> Save</v-btn>
@@ -52,21 +52,21 @@ export default {
               v => !!v || 'Name is required',
               v => (v && v.length <= 20) || 'Name must be less than 20 characters',
             ],
-            form: { obd: null, name: null, id: null },
-            obd_values: []
+            form: { consult: null, name: null, id: null },
+            consult_values: []
         }
     },
     components:{
     },
     mounted(){
-      this.set_obd_channels()
+      this.set_channels()
       if (this.analog)
         this.form = this.analog;
     },
     methods:{
-        set_obd_channels(){
-            this.axios.get("/settings/channels/input/obd").then(result => {
-              this.obd_values = result.data.obd
+        set_channels(){
+            this.axios.get("/settings/channels/input/consult").then(result => {
+              this.consult_values = result.data.consults
             }).catch(error =>{
               console.log(error)
             })
@@ -85,14 +85,14 @@ export default {
         },
         save(){
           if(this.analog){
-            this.axios.patch("/settings/channels/input/obd",{ obd: this.form }).then(result => {
+            this.axios.patch("/settings/channels/input/consult",{ consult: this.form }).then(result => {
               console.log(result);
               this.$router.push({ name: "setting-channel-list"});
             }).catch(error => {
               console.log(error);
             })
           }else{
-            this.axios.post("/settings/channels/input/obd",{ obd: this.form }).then(result => {
+            this.axios.post("/settings/channels/input/consult",{ consult: this.form }).then(result => {
               console.log(result);
               this.$router.push({ name: "setting-channel-list"});
             }).catch(error => {
@@ -102,8 +102,8 @@ export default {
         }
     },
     computed:{
-      obd_description(){
-        let desc = this.obd_values.find(obd => this.form.obd_id == obd.id)
+      consult_description(){
+        let desc = this.consult_values.find(consult => this.form.consult_id == consult.id)
         return desc ? desc.description : ''
       }
     },
