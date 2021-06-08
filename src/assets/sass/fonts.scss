@@ -1,31 +1,49 @@
 @font-face {
 	font-family: 'Roboto';
-	src: font-url('/assets/fonts/Roboto/Roboto-Light.ttf') format('truetype');
+	src: url('../fonts/Roboto/Roboto-Light.ttf') format('truetype');
 	font-weight: 300;
 }
 @font-face {
 	font-family: 'Roboto';
-	src: font-url('/assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+	src: url('../fonts/Roboto/Roboto-Regular.ttf') format('truetype');
 	font-weight: 400;
 }
 @font-face {
 	font-family: 'Roboto';
-	src: font-url('/assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+	src: url('../fonts/Roboto/Roboto-Bold.ttf') format('truetype');
 	font-weight: 500;
 }
 @font-face {
 	font-family: 'Roboto';
-	src: font-url('/assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+	src: url('../fonts/Roboto/Roboto-Bold.ttf') format('truetype');
 }
 @font-face {
 	font-family: 'Roboto';
-	src: font-url('/assets/fonts/Roboto/Roboto-Black.ttf') format('truetype');
+	src: url('../fonts/Roboto/Roboto-Black.ttf') format('truetype');
 	font-weight: bold;
 }
 @font-face {
 	font-family: 'Roboto';
-	src: font-url('/assets/fonts/Roboto/Roboto-Black.ttf') format('truetype');
+	src: url('../fonts/Roboto/Roboto-Black.ttf') format('truetype');
 	font-weight: bold;
+}
+@font-face {
+	font-family: 'ChakraPetch';
+	src: url('../fonts/ChakraPetch/ChakraPetch-Regular.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'ChakraPetch';
+	src: url('../fonts/ChakraPetch/ChakraPetch-Bold.ttf') format('truetype');
+	font-weight: 500;
+}
+@font-face {
+	font-family: 'Quantico';
+	src: url('../fonts/Quantico/Quantico-Regular.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Quantico';
+	src: url('../fonts/Quantico/Quantico-Bold.ttf') format('truetype');
+	font-weight: 500;
 }
 html, body{
 	font-family: 'Roboto', Helvetica, sans-serif !important;
@@ -34,4 +52,10 @@ html, body{
 .text-bold, b{
 	font-family: 'Roboto', Helvetica, sans-serif !important;
 	font-weight: bold;
+}
+#kinek-div {
+	font-family: 'ChakraPetch', sans-serif !important;
+}
+#init-div{
+  font-family: 'Quantico', sans-serif !important;
 }
