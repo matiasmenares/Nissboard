@@ -12,6 +12,7 @@ import HighchartsVue from 'highcharts-vue'
 import Vuex from 'vuex'
 import VueApexCharts from 'vue-apexcharts'
 import VueTouchKeyboard from "vue-touch-keyboard";
+import './assets/sass/app.scss';
 // import style from "vue-touch-keyboard/dist/vue-touch-keyboard.css";
 
 Vue.use(vuetify, {

@@ -237,10 +237,6 @@
 </script>
 
 <style scoped>
-#kinek-div {
-  font-family: 'Chakra Petch', sans-serif;
-  src: url('~@/assets/fonts/Chakra-petch/ChakraPetch-Regular.ttf')  format('truetype')
-}
 .normal-letter{
   font-size: 20px;
 }

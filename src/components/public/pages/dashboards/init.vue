@@ -159,10 +159,6 @@
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Quantico');
-#init-div {
-  font-family: 'Quantico', sans-serif;
-}
 .normal-letter{
   font-size: 20px;
 }
