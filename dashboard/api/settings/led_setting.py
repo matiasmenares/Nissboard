@@ -1,15 +1,15 @@
 from flask_restful import Resource
 from flask import request, jsonify
-from model.models import db, Color, ColorSchema, Led, LedSchema, LedOutput, LedSchema
+from model.models import db, Color, ColorSchema, Led, LedSchema, LedOutput, LedOutputSchema
 
 class LedSetting(Resource):
 
     def get(self):
         led = Led.query.all()
         led_schema = LedSchema(many=True)
-        color = Led.query.all()
-        color_schema = LedSchema(many=True)
-        return {'leds': led_schema.dump(led), 'colors': color_schema.dump(color) }
+        led_output = LedOutput.query.all()
+        led_output_schema = LedOutputSchema(many=True)
+        return {'leds': led_schema.dump(led), 'led_outputs': led_output_schema.dump(led_output) }
 
     def post(self):
         params = request.json['led']
