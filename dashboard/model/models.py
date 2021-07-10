@@ -187,7 +187,7 @@ class AlarmOutput(db.Model):
 
 class AlarmOutputSchema(ma.Schema):
     class Meta:
-        model = ChannelInput
+        model = AlarmOutput
         fields = ("id", "value", "channel_output_id", "alarm_id", "condition_id")
 
 class Color(db.Model):
@@ -198,7 +198,7 @@ class Color(db.Model):
 
 class ColorSchema(ma.Schema):
     class Meta:
-        model = ChannelInput
+        model = Color
         fields = ("id", "name", "hexadecimal", "rgb")
 
 
@@ -212,8 +212,8 @@ class Led(db.Model):
 
 class LedSchema(ma.Schema):
     class Meta:
-        model = ChannelInput
-        fields = ("id", "name", "brigness", "priority", "channel_output_id")
+        model = Led
+        fields = ("id", "name", "brightness", "priority", "channel_output_id")
 
 class LedOutput(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -228,9 +228,19 @@ class LedOutput(db.Model):
     led_id = db.Column(db.Integer,db.ForeignKey('led.id'))
     led = db.relationship('Led')
 
-class LedSchema(ma.Schema):
+class LedOutputSchema(ma.Schema):
     class Meta:
         model = ChannelInput
-        fields = ("id", "name", "max_blink")
+        fields = ("id", "led_start", "led_end", "color_start_id", "color_end_id", "value_start", "value_end", "led_id" )
+
+class VarConfig(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    var_key = db.Column(db.String, nullable=False)
+    var_value = db.Column(db.String, nullable=False)
+
+class VarConfigSchema(ma.Schema):
+    class Meta:
+        model = VarConfig
+        fields = ("id", "var_key", "var_value")
 db.create_all()
 db.session.commit()

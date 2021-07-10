@@ -14,7 +14,7 @@ class ObdEcu:
     def initial_conn(self):
         if not self.running:
             print("[OBD2] Connection Init")
-            self.connection = obd.OBD("/dev/ttys005", fast=False)
+            self.connection = obd.OBD("/dev/ttys005", fast=False, baudrate=9600)
             self.running = True
             self.socketio.emit('ecuConnection', {'status': True})
 
@@ -29,6 +29,7 @@ class ObdEcu:
             else:
                 self.running = False
                 self.initial_conn()
+                self.socketio.emit('ecuConnection', {'status': False})
                 return 0
         except Exception as ex:
             self.socketio.emit('ecuConnection', {'status': False})
