@@ -30,10 +30,17 @@ import SettingScreen from './pages/settings/screen.vue';
 
 //G-force
 import GforceGforce from './pages/g-force/gforce.vue';
+
+//Artificial Horizon
+import Ahorizon from './pages/ahorizon/artificial_horizon.vue';
+
 //Map
 import TrackMap from './pages/track/map.vue';
 import TrackList from './pages/track/list.vue';
+import TrackGps from './pages/track/gps.vue'
 
+//Timer
+import Timer from './pages/timer/timer.vue'
 
 export const PublicRoutes =
   [
@@ -181,5 +188,20 @@ export const PublicRoutes =
       path: '/settings/leds/form',
       component: SettingLedsForm,
       name: 'setting-leds-form',
+    },
+    {
+      path: '/a-horizon/a-horizon',
+      component: Ahorizon,
+      name: 'ahorizon-ahorizon',
+    },
+    {
+      path: '/track/gps',
+      component: TrackGps,
+      name: 'track-gps',
+    },
+    {
+      path: '/timer/timer',
+      component: Timer,
+      name: 'timer-timer',
     },
   ];

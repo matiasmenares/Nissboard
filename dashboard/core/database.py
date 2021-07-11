@@ -146,6 +146,13 @@ class Database():
 			cursorObj.execute("INSERT INTO consult VALUES(NULL, '02', '0x09', 'Oxigen')")
 			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'AF', '0x1a', 'Air Flow')")
 			cursorObj.execute("INSERT INTO consult VALUES(NULL, 'Injectors', '0x14', 'Injector Timming')")
+			
+		if len(cursorObj.execute('SELECT * FROM var_config').fetchall()) == 0:
+			cursorObj.execute("INSERT INTO var_config VALUES(NULL, 'show_g_force', '0')")
+			cursorObj.execute("INSERT INTO var_config VALUES(NULL, 'reset_g_force', '0')")
+			cursorObj.execute("INSERT INTO var_config VALUES(NULL, 'show_dashboard', '0')")
+			cursorObj.execute("INSERT INTO var_config VALUES(NULL, 'show_gps', '0')")
+
 		self.con.commit()
 
 
