@@ -52,7 +52,6 @@ class Accelerometer():
 			x += random.choice(list) 
 			z += random.choice(list)
 			if abs(round(x)) >= 2.0 or abs(round(z)) >= 2.0:
-				print("Mayor")
 				x = 0.0
 				z = 0.0
 			self.need_reset()

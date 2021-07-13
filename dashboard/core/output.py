@@ -50,7 +50,8 @@ class Output:
         if response:
             fl = self.flatten_list(response)
             self.externs(fl)
-            self.socketio.emit('channelOutput', fl)
+            if fl:
+                self.socketio.emit('channelOutput', fl)
 
     def refresh_data(self):
         if(datetime.now() > (self.timer + timedelta(seconds=3))):
@@ -125,10 +126,8 @@ class Output:
 
     def flatten_list(self,_2d_list):
         flat_list = []
-        # Iterate through the outer list
         for element in _2d_list:
             if type(element) is list:
-                # If the element is of type list, iterate through the sublist
                 for item in element:
                     flat_list.append(item)
             else:

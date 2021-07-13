@@ -21,6 +21,7 @@ from core.output import Output
 from api.dashboard import Dashboard
 from api.system import System
 from api.measure import Measure
+from api.var_config import VarConfig
 
 from api.measure_group import MeasureGroup
 from api.settings.kinek_setting import KinekSetting
@@ -92,6 +93,7 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode=async_mode)
 api = Api(app)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 api.add_resource(System, '/system')
+api.add_resource(VarConfig, '/var_config')
 api.add_resource(Dashboard, '/dashboards') 
 api.add_resource(KinekSetting, '/settings/kinek')
 api.add_resource(AlarmSetting, '/settings/alarms') 
@@ -122,12 +124,12 @@ def test_connect():
 		if thread is None:
 			internet = threading.Thread(target=internet_on, daemon=True)
 			internet.start()
+			internet = socketio.start_background_task(internet_on)
 			output = threading.Thread(target=set_output, daemon=True)
 			output.start()
 			output = socketio.start_background_task(set_output)
-# 			internet = socketio.start_background_task(internet_on)
-#  			accelerometer = socketio.start_background_task(set_accelerometer)
-# 			# gps = socketio.start_background_task(set_gps)
+			accelerometer = socketio.start_background_task(set_accelerometer)
+			gps = socketio.start_background_task(set_gps)
 
 def set_output():
 	out.start()
@@ -147,14 +149,14 @@ def internet_on():
 			time.sleep(3)
 		except: 
 			socketio.emit('InternetConnection', {'status': False})
-			time.sleep(1)
+			time.sleep(2)
 #Init 1
 def main(params):
 	socketio.run(app, host= '0.0.0.0', debug=True)
 
 if __name__ == '__main__':
-# 	acc = Accelerometer(socketio)
-# 	gps = Gps(socketio, params.g, serial)
+	acc = Accelerometer(socketio)
+	gps = Gps(socketio, params.g, serial)
 	out = Output(socketio, serial, params.a, params.d, params.e)
 
 try:

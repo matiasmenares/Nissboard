@@ -38,6 +38,7 @@ import Ahorizon from './pages/ahorizon/artificial_horizon.vue';
 import TrackMap from './pages/track/map.vue';
 import TrackList from './pages/track/list.vue';
 import TrackGps from './pages/track/gps.vue'
+import TrackMapGps from './pages/track/maps-gps.vue';
 
 //Timer
 import Timer from './pages/timer/timer.vue'
@@ -203,5 +204,10 @@ export const PublicRoutes =
       path: '/timer/timer',
       component: Timer,
       name: 'timer-timer',
+    },
+    {
+      path: '/track/maps-gps',
+      component: TrackMapGps,
+      name: 'map-gps',
     },
   ];
