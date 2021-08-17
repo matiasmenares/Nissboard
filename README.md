@@ -7,6 +7,8 @@
 
 ![Nissboard Gif](https://github.com/matiasmenares/Nissboard/blob/master/extras/video-readme.gif?raw=true)
 
+![Nissboard Gif](https://github.com/matiasmenares/Nissboard/blob/master/extras/gforce-image.gif?raw=true)
+
 ### Whats is Nissboard?
 
 Nissboard is a realtime dashboard for Nissan (soon for others brands) made with Raspberry pi, this project has been tested only in Nissan Skyline R34 for a while.
