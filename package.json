@@ -29,7 +29,7 @@
     "vue-speedometer": "^1.4.0",
     "vue-svg-gauge": "^1.2.1",
     "vue-touch-keyboard": "^0.3.2",
-    "vuetify": "^2.1.0",
+    "vuetify": "^2.6.10",
     "vuex": "^3.1.2"
   },
   "devDependencies": {
